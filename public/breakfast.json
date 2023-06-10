@@ -1,0 +1,32 @@
+{
+    "breakfast":
+      {
+        "id": 1,
+        "title": "Spaghetti Bolognese",
+        "description":
+        "A classic Italian pasta dish with a rich tomato and meat sauce.",
+        "image": "spaghetti.png"
+      },
+      {
+        "id": 2,
+        "title": "Spaghetti Bolognese",
+        "description":
+        "A classic Italian pasta dish with a rich tomato and meat sauce.",
+        "image": "spaghetti.png"
+      }
+      {
+          "id": 2,
+          "title": "Spaghetti Bolognese",
+          "description":
+          "A classic Italian pasta dish with a rich tomato and meat sauce.",
+          "image": "spaghetti.png"
+        }
+        {
+          "id": 2,
+          "title": "Spaghetti Bolognese",
+          "description":
+          "A classic Italian pasta dish with a rich tomato and meat sauce.",
+          "image": "spaghetti.png"
+        }
+  }
+  

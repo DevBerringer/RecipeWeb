@@ -1,0 +1,3 @@
+type SelectedType = {
+  name: string;
+};

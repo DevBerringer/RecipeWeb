@@ -69,6 +69,7 @@ function Home() {
             ))}
           />
         </div>
+        <p className="text-right">Sketches by Xiuwen Ye</p>
       </div>
     </div>
   );

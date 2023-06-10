@@ -16,7 +16,7 @@ function Footer() {
                 </a>
               </li>
               <li>
-                <a href="/contact" className="text-sm">
+                <a href="/contactUs" className="text-sm">
                   Contact Us
                 </a>
               </li>

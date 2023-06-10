@@ -6,6 +6,7 @@ import Login from '../components/login/Login';
 import NotFound from '../components/pages/NotFound';
 import Recipes from '../components/pages/Recipes';
 import Recipe from '../components/pages/Recipe';
+import Contact from '../components/pages/Contact';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
   {
     path: '/recipe/:id',
     element: <Recipe />,
+  },
+  {
+    path: '/contactUs',
+    element: <Contact />,
   },
 ]);
 

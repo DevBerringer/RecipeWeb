@@ -1,26 +1,40 @@
-interface Recipe {
-  id: number;
-  title: string;
-  description: string;
-  image: string;
-}
+import {
+  Card,
+  CardHeader,
+  CardBody,
+  CardFooter,
+  Typography,
+} from '@material-tailwind/react';
 
 interface RecipeCardProps {
-  recipe: Recipe;
+  name: string;
+  description: string;
+  cookTime: string;
 }
 
-function RecipeCard({ recipe }: RecipeCardProps) {
+export default function RecipeCard({
+  name,
+  description,
+  cookTime,
+}: RecipeCardProps) {
   return (
-    <div className="bg-white rounded-lg p-4 shadow">
-      <img
-        src={recipe.image}
-        alt={recipe.title}
-        className="w-full h-40 object-cover mb-4 rounded-lg"
-      />
-      <h2 className="text-xl font-bold mb-2">{recipe.title}</h2>
-      <p className="text-gray-700">{recipe.description}</p>
-    </div>
+    <Card className="w-96">
+      <CardHeader floated={false} className="h-80">
+        <img src="public\assets\NoFoodPicture.jpg" alt="Recipe" />
+      </CardHeader>
+      <CardBody className="text-center">
+        <Typography variant="h4" color="blue-gray" className="mb-2">
+          {name}
+        </Typography>
+        <Typography color="blue" className="font-medium" textGradient>
+          {description}
+        </Typography>
+      </CardBody>
+      <CardFooter className="flex justify-center gap-7 pt-2">
+        <Typography color="blue" className="font-medium" textGradient>
+          CookTime: {cookTime}
+        </Typography>
+      </CardFooter>
+    </Card>
   );
 }
-
-export default RecipeCard;

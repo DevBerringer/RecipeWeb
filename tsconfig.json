@@ -4,6 +4,7 @@
     "useDefineForClassFields": true,
     "lib": ["ES2020", "DOM", "DOM.Iterable"],
     "module": "ESNext",
+    "allowJs": false,
     "skipLibCheck": true,
     "allowSyntheticDefaultImports": true,
     /* Bundler mode */
@@ -24,7 +25,9 @@
     "tailwind.config.js",
     "vite.config.ts",
     ".eslintrc.cjs",
-    "src"
+    "src",
+    "../nv/dev.js",
+    "../env/qa.js"
   ],
   "references": [{ "path": "./tsconfig.node.json" }]
 }

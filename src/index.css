@@ -1,8 +1,27 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap");
 @import "react-alice-carousel/lib/alice-carousel.css";
 
-
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.App {
+    display: flex;
+    flex-direction: column;
+    font-family: roboto;
+
+    min-height: 100vh;
+}
+
+.main-container {
+    display: flex;
+    flex: auto;
+
+    min-height: 100vh;
+}
+
+.paper-container {
+    background-color: #fff; /* Set the background color to white */
+    border: 1px solid #ddd; /* Add a border to simulate paper edges */
+    padding: 15px; /* Add some padding to create space between the content and edges */
+  }

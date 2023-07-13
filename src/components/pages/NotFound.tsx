@@ -1,27 +1,23 @@
-import { isRouteErrorResponse, useRouteError } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-function NotFound() {
-  const error = useRouteError();
+export default function NotFound() {
+  const navigate = useNavigate();
 
-  const getErrorText = () => {
-    if (isRouteErrorResponse(error)) {
-      if (error.status === 404) {
-        return (
-          <div className="pt-10">
-            <h1> 404 Not Found</h1>
-            <p> Something is wrong on our end </p>
-          </div>
-        );
-      }
-    }
-    return (
-      <div>
-        <p> Something is wrong on our end </p>
-      </div>
-    );
+  const handleGoBack = () => {
+    navigate(-1); // Go back to the previous page
   };
 
-  return <>{getErrorText()}</>;
+  return (
+    <div className="flex flex-col items-center justify-center h-screen">
+      <h1 className="text-4xl font-bold mb-4">Oops!</h1>
+      <p className="text-lg">Sorry, an unexpected error has occurred.</p>
+      <button
+        type="button"
+        className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+        onClick={handleGoBack}
+      >
+        Go Back
+      </button>
+    </div>
+  );
 }
-
-export default NotFound;

@@ -1,45 +1,30 @@
-function RecipePage() {
+function Contact() {
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-4xl font-bold mb-8">Recipe Page</h1>
-      <div className="grid grid-cols-3 gap-4">
-        <div className="col-span-2">
-          <img
-            className="w-full rounded-lg mb-4"
-            src="https://example.com/recipe-image.jpg"
-            alt="Recipe"
-          />
-          <h2 className="text-2xl font-bold mb-2">Recipe Name</h2>7
-          <p className="text-gray-500">
-            Prep Time: 30 minutes | Cook Time: 1 hour
+      <div className="text-center shadow-lg bg-white py-8 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl text-lg mx-auto">
+          <h1 className="text-3xl font-bold mb-4">Contact Us</h1>
+          <p className="text-xl">
+            If you have any questions or need further information, please feel
+            free to reach out to us.
           </p>
-          <h3 className="text-xl font-bold mt-6 mb-2">Ingredients</h3>
-          <ul className="list-disc pl-6">
-            <li>Ingredient 1</li>
-            <li>Ingredient 2</li>
-            <li>Ingredient 3</li>
-            {/* Add more ingredients */}
-          </ul>
-          <h3 className="text-xl font-bold mt-6 mb-2">Instructions</h3>
-          <ol className="list-decimal pl-6">
-            <li>Step 1</li>
-            <li>Step 2</li>
-            <li>Step 3</li>
-            {/* Add more steps */}
-          </ol>
-        </div>
-        <div>
-          <h3 className="text-xl font-bold mb-2">Nutritional Information</h3>
-          <ul className="list-disc pl-6">
-            <li>Calories: 500</li>
-            <li>Protein: 20g</li>
-            <li>Fat: 10g</li>
-            {/* Add more nutritional information */}
-          </ul>
+          <p className="text-xl mt-4">
+            <strong>Email:</strong>{' '}
+            <a href="mailto:RecipeCentralSupport@RecipeCentral.com">
+              RecipeCentralSupport@RecipeCentral.com
+            </a>
+          </p>
+          <p className="text-xl mt-2">
+            <strong>Phone:</strong> <a href="tel:+17372937022">555-293-7022</a>
+          </p>
+          <p className="text-xl mt-2">
+            <strong>Office Address:</strong> 212 Fifth Avenue, New York, New
+            York, 10010
+          </p>
         </div>
       </div>
     </div>
   );
 }
 
-export default RecipePage;
+export default Contact;

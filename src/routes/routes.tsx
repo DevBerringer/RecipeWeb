@@ -1,38 +1,55 @@
 import { createBrowserRouter } from 'react-router-dom';
 import About from '../components/pages/About';
 
+import Root from './Root';
 import Home from '../components/pages/Home';
 import Login from '../components/login/Login';
 import NotFound from '../components/pages/NotFound';
 import Recipes from '../components/pages/Recipes';
 import Recipe from '../components/pages/Recipe';
 import Contact from '../components/pages/Contact';
+import Register from '../components/login/Register';
+import NewRecipe from '../components/pages/NewRecipe';
 
 const router = createBrowserRouter([
   {
     path: '/',
-    element: <Home />,
+    element: <Root />,
     errorElement: <NotFound />,
-  },
-  {
-    path: '/login',
-    element: <Login />,
-  },
-  {
-    path: '/about',
-    element: <About />,
-  },
-  {
-    path: '/recipes',
-    element: <Recipes />,
-  },
-  {
-    path: '/recipe/:id',
-    element: <Recipe />,
-  },
-  {
-    path: '/contactUs',
-    element: <Contact />,
+    children: [
+      {
+        index: true,
+        element: <Home />,
+      },
+      {
+        path: 'login',
+        element: <Login />,
+      },
+      {
+        path: 'register',
+        element: <Register />,
+      },
+      {
+        path: 'about',
+        element: <About />,
+      },
+      {
+        path: 'recipes',
+        element: <Recipes />,
+      },
+      {
+        path: 'recipes/:id',
+        element: <Recipe />,
+      },
+      {
+        path: 'newRecipe',
+        element: <NewRecipe />,
+      },
+      {
+        path: 'contactUs',
+        element: <Contact />,
+      },
+    ],
   },
 ]);
 

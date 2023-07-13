@@ -8,7 +8,7 @@ import svgr from 'vite-plugin-svgr';
 /// <reference types="vite-plugin-svgr/client" />
 import path from 'path';
 
-const isDev = process?.env?.Node_ENV?.trim() !== 'development';
+const isDev = process?.env?.NODE_ENV?.trim() !== 'development';
 
 // https://vitejs.dev/config/
 export default defineConfig({

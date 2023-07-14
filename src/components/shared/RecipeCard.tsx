@@ -18,14 +18,14 @@ export default function RecipeCard({
   cookTime,
 }: RecipeCardProps) {
   return (
-    <Card className="w-96">
+    <Card className="w-96 bg-recipecentral rounded-lg shadow-lg">
+      <Typography variant="h4" color="blue-gray" className=" text-center mb-2">
+        {name}
+      </Typography>
       <CardHeader floated={false} className="h-80">
         <img src="public\assets\NoFoodPicture.jpg" alt="Recipe" />
       </CardHeader>
       <CardBody className="text-center">
-        <Typography variant="h4" color="blue-gray" className="mb-2">
-          {name}
-        </Typography>
         <Typography color="blue" className="font-medium" textGradient>
           {description}
         </Typography>

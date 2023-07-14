@@ -1,9 +1,9 @@
 import { useState } from 'react';
 
-function NewRecipeForm1() {
+function NewRecipeForm1({}) {
   const [selectedImage, setSelectedImage] = useState(null);
   const [name, setName] = useState('');
-  const [spicyLevel, setSpicyLevel] = useState('0');
+  const [spicyLevel, setSpicyLevel] = useState(false);
   const [description, setDescription] = useState('');
   const [cookTimeMin, setCookTimeMin] = useState(0);
 
@@ -39,16 +39,21 @@ function NewRecipeForm1() {
         <label htmlFor="spicyLevel" className="block mb-1 font-semibold">
           Spicy Level: {spicyLevel}
         </label>
-        <input
-          type="range"
-          min="0"
-          max="5"
-          id="spicyLevel"
-          value={spicyLevel}
-          onChange={(e) => setSpicyLevel(e.target.value)}
-          placeholder="Enter spicy level"
-          className="w-full px-4 py-2 border border-gray-300 rounded"
-        />
+        <div className="flex items-center">
+          <input
+            checked={spicyLevel}
+            id="spicyLevel"
+            type="checkbox"
+            onChange={(e) => setSpicyLevel(e.target.checked)}
+            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+          />
+          <label
+            htmlFor="spicyLevel"
+            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
+          >
+            Checked state
+          </label>
+        </div>
       </div>
       <div className="mb-4">
         <label htmlFor="description" className="block mb-1 font-semibold">
@@ -84,17 +89,11 @@ function NewRecipeForm1() {
         <div className="flex mx-auto">
           <div>
             <input
+              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              id="file_input"
               type="file"
-              id="image"
               onChange={handleImageUpload}
-              className="absolute top-0 left-0 w-full h-full opacity-0 cursor-pointer"
             />
-            <button
-              type="button"
-              className="inline-block py-2 px-4 bg-white rounded hover:bg-recipecentral-dark text-black hover:text-white font-semibold shadow-2xl hover:shadow-lg"
-            >
-              Upload Image
-            </button>
           </div>
           <div className="flex-grow flex items-center justify-center">
             {selectedImage && (

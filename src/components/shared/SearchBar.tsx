@@ -1,17 +1,32 @@
-function SearchBar() {
+import React, { useState } from 'react';
+
+function SearchBar({ onSearch }) {
+  const [searchTerm, setSearchTerm] = useState('');
+
+  const handleSearch = () => {
+    onSearch(searchTerm);
+  };
+
+  const handleInputChange = (event) => {
+    setSearchTerm(event.target.value);
+  };
+
+  const handleKeyDown = (event) => {
+    if (event.key === 'Enter') {
+      handleSearch();
+    }
+  };
+
   return (
-    <div className="my-auto align-self-middle align-middle right-0 mr-0 text-black">
-      <label htmlFor="searchId" className="relative block">
-        <span className="sr-only">Search</span>
-        <span className="absolute inset-y-0 left-0 flex items-center pl-2" />
-        <input
-          className="placeholder:italic placeholder:text-slate-400 block bg-white w-full border border-slate-300 rounded-md py-2 pl-2 pr-3 shadow-sm focus:outline-none focus:border-sky-500 focus:ring-sky-500 focus:ring-1 sm:text-sm"
-          placeholder="Search for anything..."
-          type="text"
-          name="search"
-          id="searchId"
-        />
-      </label>
+    <div className="items-center justify-center">
+      <input
+        type="text"
+        placeholder="Search..."
+        className="px-4 py-2 border border-gray-300 rounded focus:outline-none"
+        value={searchTerm}
+        onChange={handleInputChange}
+        onKeyDown={handleKeyDown}
+      />
     </div>
   );
 }

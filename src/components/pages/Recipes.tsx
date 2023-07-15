@@ -19,6 +19,7 @@ function Recipes() {
       try {
         const fetchedData = await getRecipes();
         setData(fetchedData);
+        console.log(data);
       } catch (error) {
         // Handle error, e.g., show an error message or retry
       } finally {
@@ -40,13 +41,14 @@ function Recipes() {
       {loading ? (
         <div className="h-screen">Loading...</div>
       ) : (
-        <div>
+        <div className="flex flex-wrap justify-center">
           {data.RecipeDTOs.length > 0 ? (
             data.RecipeDTOs.map((item) => (
-              <Link to={`${item.Id}`} key={item.Id}>
+              <Link to={`${item.Id}`} key={item.Id} className="m-2">
                 <RecipeCard
+                  picture={item.Picture}
                   name={item.Name}
-                  description={item.Description}
+                  rating={item.Rating}
                   cookTime={item.CookTimeMin.toLocaleString()}
                 />
               </Link>

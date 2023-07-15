@@ -1,11 +1,8 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import RecipesContext from '../../contexts/recipesContext';
 
-function NewRecipeForm1({}) {
-  const [selectedImage, setSelectedImage] = useState(null);
-  const [name, setName] = useState('');
-  const [spicyLevel, setSpicyLevel] = useState(false);
-  const [description, setDescription] = useState('');
-  const [cookTimeMin, setCookTimeMin] = useState(0);
+function NewRecipeForm1() {
+  const recipeContext = useContext(RecipesContext);
 
   const handleImageUpload = (event) => {
     const file = event.target.files[0];
@@ -13,7 +10,7 @@ function NewRecipeForm1({}) {
 
     reader.onload = () => {
       const base64Image = reader.result;
-      setSelectedImage(base64Image);
+      recipeContext?.setSelectedImage(base64Image);
     };
 
     reader.readAsDataURL(file);
@@ -29,22 +26,22 @@ function NewRecipeForm1({}) {
         <input
           type="text"
           id="name"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
+          value={recipeContext?.name}
+          onChange={(e) => recipeContext?.setName(e.target.value)}
           placeholder="Enter recipe name"
           className="w-full px-4 py-2 border border-gray-300 rounded"
         />
       </div>
       <div className="mb-4">
         <label htmlFor="spicyLevel" className="block mb-1 font-semibold">
-          Spicy Level: {spicyLevel}
+          Spicy Level: {recipeContext?.spicyLevel}
         </label>
         <div className="flex items-center">
           <input
-            checked={spicyLevel}
+            checked={recipeContext?.spicyLevel}
             id="spicyLevel"
             type="checkbox"
-            onChange={(e) => setSpicyLevel(e.target.checked)}
+            onChange={(e) => recipeContext?.setSpicyLevel(e.target.checked)}
             className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
           />
           <label
@@ -61,11 +58,11 @@ function NewRecipeForm1({}) {
         </label>
         <textarea
           id="description"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
+          value={recipeContext?.description}
+          onChange={(e) => recipeContext?.setDescription(e.target.value)}
           placeholder="Enter recipe description"
           className="w-full px-4 py-2 border border-gray-300 rounded"
-          rows="4"
+          rows={4}
         />
       </div>
       <div className="mb-4">
@@ -75,8 +72,10 @@ function NewRecipeForm1({}) {
         <input
           type="number"
           id="cookTimeMin"
-          value={cookTimeMin}
-          onChange={(e) => setCookTimeMin(parseInt(e.target.value))}
+          value={recipeContext?.cookTimeMin}
+          onChange={(e) =>
+            recipeContext?.setCookTimeMin(parseInt(e.target.value, 10))
+          }
           placeholder="Enter cook time in minutes"
           className="w-full px-4 py-2 border border-gray-300 rounded"
         />
@@ -96,9 +95,9 @@ function NewRecipeForm1({}) {
             />
           </div>
           <div className="flex-grow flex items-center justify-center">
-            {selectedImage && (
+            {recipeContext?.selectedImage && (
               <img
-                src={selectedImage}
+                src={recipeContext?.selectedImage}
                 alt="Selected"
                 className="w-36 h-36 object-cover"
               />

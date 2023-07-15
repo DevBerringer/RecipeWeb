@@ -1,28 +1,29 @@
-import { useState } from 'react';
+import { useContext, useState } from 'react';
+import RecipesContext from '../../contexts/recipesContext';
 
 function NewRecipeForm2() {
-  const [steps, setSteps] = useState(Array(3).fill(''));
+  const recipeContext = useContext(RecipesContext);
 
   const handleStepChange = (index, value) => {
-    const updatedSteps = [...steps];
+    const updatedSteps = [...recipeContext?.steps];
     updatedSteps[index] = value;
-    setSteps(updatedSteps);
+    recipeContext?.setSteps(updatedSteps);
   };
 
   const addStep = () => {
-    setSteps([...steps, '']);
+    recipeContext?.setSteps([...recipeContext.steps, '']);
   };
 
   const removeStep = (index) => {
-    const updatedSteps = [...steps];
+    const updatedSteps = [...recipeContext?.steps];
     updatedSteps.splice(index, 1);
-    setSteps(updatedSteps);
+    recipeContext?.setSteps(updatedSteps);
   };
 
   return (
     <div className="max-w-md mx-auto p-4 bg-recipecentral shadow-lg rounded">
       <h2 className="text-2xl font-semibold mb-4">Steps:</h2>
-      {steps.map((step, index) => (
+      {recipeContext?.steps.map((step, index) => (
         <div className="mb-4" key={index}>
           <label
             htmlFor={`description-${index}`}
@@ -36,7 +37,7 @@ function NewRecipeForm2() {
             onChange={(e) => handleStepChange(index, e.target.value)}
             placeholder="Enter step"
             className="w-full px-4 py-2 border border-gray-300 rounded"
-            rows="4"
+            rows={4}
           />
           <button
             type="button"

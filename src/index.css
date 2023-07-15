@@ -24,4 +24,8 @@
     background-color: #fff; /* Set the background color to white */
     border: 1px solid #ddd; /* Add a border to simulate paper edges */
     padding: 15px; /* Add some padding to create space between the content and edges */
-  }
+}
+
+.checked {
+    color: orange;
+  }  

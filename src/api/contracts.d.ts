@@ -9,15 +9,16 @@ type RecipeResponseDto = {
 };
 
 type RecipeDTO = {
-  Id: ObjectId;
+  Id: ObjectId | null;
   Name: string;
-  SpicyLevel: number;
+  Picture: string;
+  SpicyLevel: boolean;
   Description: string;
   CookTimeMin: number;
   Ingredients: string[];
   DifOfIngredient: number | null;
   Steps: string[];
-  rating: number | null;
+  Rating: number | null;
   Comments: string[];
-  createdDate: Date;
+  CreatedDate: Date;
 };

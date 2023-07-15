@@ -1,28 +1,29 @@
-import { useState } from 'react';
+import { useContext } from 'react';
+import RecipesContext from '../../contexts/recipesContext';
 
 function NewRecipeForm2() {
-  const [ingredients, setIngredients] = useState(Array(5).fill(''));
+  const recipeContext = useContext(RecipesContext);
 
   const handleIngredientChange = (index, e) => {
-    const updatedIngredients = [...ingredients];
+    const updatedIngredients = [...recipeContext?.ingredients];
     updatedIngredients[index] = e.target.value;
-    setIngredients(updatedIngredients);
+    recipeContext?.setIngredients(updatedIngredients);
   };
 
   const handleAddIngredient = () => {
-    setIngredients([...ingredients, '']);
+    recipeContext?.setIngredients([...recipeContext?.ingredients, '']);
   };
 
   const handleRemoveIngredient = (index) => {
-    const updatedIngredients = [...ingredients];
+    const updatedIngredients = [...recipeContext?.ingredients];
     updatedIngredients.splice(index, 1);
-    setIngredients(updatedIngredients);
+    recipeContext?.setIngredients(updatedIngredients);
   };
 
   return (
     <div className="max-w-md mx-auto p-4 bg-recipecentral shadow-lg rounded">
       <h2 className="text-2xl font-semibold mb-4">Ingredients:</h2>
-      {ingredients.map((ingredient, index) => (
+      {recipeContext?.ingredients.map((ingredient, index) => (
         <div key={index} className="flex items-center mb-2">
           <input
             type="text"

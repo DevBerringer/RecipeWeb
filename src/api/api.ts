@@ -14,11 +14,14 @@ export const getRecipes = async () => {
   }
 };
 
-export const addRecipe = async (recipe: unknown) => {
+export const addRecipe = async (recipe) => {
   try {
+    console.log(recipe);
+
     const response = await recipeApi.post(
       window.$env.hosts.apis.addRecipe,
-      recipe
+      recipe,
+      { headers: { 'Content-Type': 'application/json' } }
     );
     return response.data;
   } catch (error) {

@@ -8,7 +8,7 @@
 .App {
     display: flex;
     flex-direction: column;
-    font-family: roboto;
+    font-family: 'Mynerve', cursive;;
 
     min-height: 100vh;
 }
@@ -29,3 +29,15 @@
 .checked {
     color: orange;
   }  
+
+  /* Chrome, Safari, Edge, Opera */
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+/* Firefox */
+input[type=number] {
+  -moz-appearance: textfield;
+}

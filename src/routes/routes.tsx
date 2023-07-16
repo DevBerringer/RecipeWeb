@@ -10,6 +10,7 @@ import Recipe from '../components/pages/Recipe';
 import Contact from '../components/pages/Contact';
 import Register from '../components/login/Register';
 import NewRecipe from '../components/pages/NewRecipe';
+import Categories from '../components/pages/Categories';
 
 const router = createBrowserRouter([
   {
@@ -28,6 +29,10 @@ const router = createBrowserRouter([
       {
         path: 'register',
         element: <Register />,
+      },
+      {
+        path: 'categories',
+        element: <Categories />,
       },
       {
         path: 'about',

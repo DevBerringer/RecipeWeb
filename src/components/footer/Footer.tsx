@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 function Footer() {
   return (
     <footer className="block w-full bottom-0 shadow-lg bg-recipecentral-light">
@@ -11,14 +13,10 @@ function Footer() {
           <div>
             <ul className="flex space-x-4">
               <li>
-                <a href="/about" className="text-sm">
-                  About Us
-                </a>
+                <Link to="about">About</Link>
               </li>
               <li>
-                <a href="/contactUs" className="text-sm">
-                  Contact Us
-                </a>
+                <Link to="contactUs">Contact Us</Link>
               </li>
             </ul>
           </div>

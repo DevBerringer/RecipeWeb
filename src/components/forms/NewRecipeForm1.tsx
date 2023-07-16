@@ -1,10 +1,10 @@
-import { useContext } from 'react';
-import RecipesContext from '../../contexts/recipesContext';
+import { useContext, useState } from 'react';
+import { RecipesContext } from '../../contexts/recipesContext';
 
 function NewRecipeForm1() {
   const recipeContext = useContext(RecipesContext);
 
-  const handleImageUpload = (event) => {
+  const handleImageUpload = (event: { target: { files: any[] } }) => {
     const file = event.target.files[0];
     const reader = new FileReader();
 
@@ -17,7 +17,7 @@ function NewRecipeForm1() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-recipecentral shadow-lg rounded">
+    <div className="max-w-md mx-auto p-4 bg-recipecentral shadow-lg rounded h-full">
       <h2 className="text-2xl font-semibold mb-4">New Recipe</h2>
       <div className="mb-4">
         <label htmlFor="name" className="block mb-1 font-semibold">
@@ -32,29 +32,30 @@ function NewRecipeForm1() {
           className="w-full px-4 py-2 border border-gray-300 rounded"
         />
       </div>
-      <div className="mb-4">
-        <label htmlFor="spicyLevel" className="block mb-1 font-semibold">
-          Spicy Level: {recipeContext?.spicyLevel}
-        </label>
-        <div className="flex items-center">
-          <input
-            checked={recipeContext?.spicyLevel}
-            id="spicyLevel"
-            type="checkbox"
-            onChange={(e) => recipeContext?.setSpicyLevel(e.target.checked)}
-            className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-          />
-          <label
-            htmlFor="spicyLevel"
-            className="ml-2 text-sm font-medium text-gray-900 dark:text-gray-300"
-          >
-            Checked state
-          </label>
+      <label htmlFor="Category" className="block mb-1 font-semibold">
+        Categories:
+      </label>
+      {recipeContext?.foodTypes.length !== 0 ? (
+        <div id="Category" className="mt-2">
+          {recipeContext?.foodTypes.map((category) => (
+            <span
+              key={category}
+              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+            >
+              {category}
+            </span>
+          ))}
         </div>
-      </div>
+      ) : (
+        <div id="Category" className="mt-2">
+          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+            No Category Selected
+          </span>
+        </div>
+      )}
       <div className="mb-4">
         <label htmlFor="description" className="block mb-1 font-semibold">
-          Description
+          Description:
         </label>
         <textarea
           id="description"
@@ -67,7 +68,22 @@ function NewRecipeForm1() {
       </div>
       <div className="mb-4">
         <label htmlFor="cookTimeMin" className="block mb-1 font-semibold">
-          Cook Time (min)
+          Prep Time (min):
+        </label>
+        <input
+          type="number"
+          id="cookTimeMin"
+          value={recipeContext?.prepTimeMin}
+          onChange={(e) =>
+            recipeContext?.setPrepTimeMin(parseInt(e.target.value, 10))
+          }
+          placeholder="Enter Prep time in minutes"
+          className="w-full px-4 py-2 border border-gray-300 rounded"
+        />
+      </div>
+      <div className="mb-4">
+        <label htmlFor="cookTimeMin" className="block mb-1 font-semibold">
+          Cook Time (min):
         </label>
         <input
           type="number"
@@ -83,9 +99,9 @@ function NewRecipeForm1() {
       {/* Add inputs for other fields (ingredients, difOfIngredient, steps, rating) */}
       <div className="mb-4">
         <label htmlFor="image" className="block mb-1 font-semibold">
-          Image
+          Image:
         </label>
-        <div className="flex mx-auto">
+        <div className="mx-auto items-center justify-center">
           <div>
             <input
               className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
@@ -94,12 +110,12 @@ function NewRecipeForm1() {
               onChange={handleImageUpload}
             />
           </div>
-          <div className="flex-grow flex items-center justify-center">
+          <div className="mb-4 mt-5 flex justify-center">
             {recipeContext?.selectedImage && (
               <img
                 src={recipeContext?.selectedImage}
                 alt="Selected"
-                className="w-36 h-36 object-cover"
+                className="w-44 h-44 object-cover"
               />
             )}
           </div>

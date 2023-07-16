@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import RecipesContext from '../../contexts/recipesContext';
+import { RecipesContext } from '../../contexts/recipesContext';
 
 function NewRecipeForm2() {
   const recipeContext = useContext(RecipesContext);
@@ -21,8 +21,23 @@ function NewRecipeForm2() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-recipecentral shadow-lg rounded">
+    <div className="max-w-md mx-auto p-4 bg-recipecentral shadow-lg rounded h-full">
       <h2 className="text-2xl font-semibold mb-4">Ingredients:</h2>
+      <div className="mb-4">
+        <div className="flex items-center">
+          <input
+            checked={recipeContext?.spicyLevel}
+            id="spicyLevel"
+            type="checkbox"
+            onChange={(e) => recipeContext?.setSpicyLevel(e.target.checked)}
+            className="h-4 w-4 border border-gray-300 rounded text-checkboxCustom focus:outline-none focus:ring-checkboxCustom"
+          />
+
+          <label htmlFor="spicyLevel" className="ml-2 text-sm font-medium">
+            Is this food spicy?
+          </label>
+        </div>
+      </div>
       {recipeContext?.ingredients.map((ingredient, index) => (
         <div key={index} className="flex items-center mb-2">
           <input

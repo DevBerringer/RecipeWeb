@@ -1,6 +1,8 @@
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
+import { ReactComponent as LogoSVG } from '../../assets/FCBLogo.svg';
+
 function Home() {
   const imagePaths = [
     '/assets/burgerBig.jpg',
@@ -22,13 +24,11 @@ function Home() {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="text-center mb-4">
-        <h1 className="text-4xl font-extrabold text-black">
-          <span className="drop-shadow-lg">Welcome to Family Cookbook!</span>
-        </h1>
+      <div className="text-center">
+        <LogoSVG className="w-60 h-60 mx-auto" />
       </div>
       <div className="w-full max-w-5xl mx-auto">
-        <div className="floating-carousel-container mt-5 mx-36 bg-recipecentral rounded-md shadow-md">
+        <div className="floating-carousel-container mx-36 rounded-md">
           <AliceCarousel
             touchMoveDefaultEvents
             autoPlay
@@ -39,7 +39,7 @@ function Home() {
             responsive={responsive}
             items={imagePaths.map((path, index) => (
               <div key={index} className="carousel-item">
-                <div className="mt-10 carousel-image-container">
+                <div className="carousel-image-container">
                   <img
                     src={path}
                     alt={`${index + 1}`}
@@ -50,7 +50,9 @@ function Home() {
             ))}
           />
         </div>
-        <p className=" mr-36 text-right">Sketches by Xiuwen Ye</p>
+        <p className=" mr-36 text-right">
+          Designs and Sketches by 叶秀文（Ye Xiuwen）
+        </p>
       </div>
     </div>
   );

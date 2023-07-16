@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ReactComponent as LogoSvg } from '../../assets/Logo2.svg';
+import { ReactComponent as LogoSvg } from '../../assets/FCBLogo.svg';
 
 function Logo() {
   return (
@@ -7,9 +7,9 @@ function Logo() {
       <h1 className="text-lg text-black font-semibold">
         <Link to="/" className="flex items-center">
           <span className="ml-2">
-            <LogoSvg />
+            <LogoSvg className="h-28 w-28 mr-5" />
           </span>
-          Family Cookbook
+          Home
         </Link>
       </h1>
     </div>

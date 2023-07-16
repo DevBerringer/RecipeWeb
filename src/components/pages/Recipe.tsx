@@ -1,32 +1,55 @@
+import { useState, useEffect } from 'react';
+import { UseRecipe } from '../../contexts/recipesContext';
+
 function RecipePage() {
+  const { recipe } = UseRecipe();
+  const [currentRecipe, setCurrentRecipe] = useState<RecipeDTO | null>(null);
+
+  useEffect(() => {
+    const recipeId = window.location.pathname.split('/').pop();
+    const filteredRecipe = recipe.find((r) => r.Id === recipeId);
+    setCurrentRecipe(filteredRecipe || null);
+  }, [recipe]);
+
   return (
     <div className="container mx-auto py-10">
-      <h1 className="text-4xl font-bold mb-8">Recipe Page</h1>
+      <h1 className="text-4xl font-bold">{currentRecipe?.Name}</h1>
+      <p className="text-gray-500 mb-8">
+        Created Date: {currentRecipe?.CreatedDate?.getDate()}{' '}
+      </p>
+      {[1, 2, 3, 4, 5].map((index) => (
+        <span
+          key={index}
+          className={`${
+            index <= (currentRecipe?.Rating || 0)
+              ? 'text-yellow-500'
+              : 'text-gray-300'
+          } fa fa-star`}
+        />
+      ))}
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-2">
           <img
-            className="w-full rounded-lg mb-4"
-            src="https://example.com/recipe-image.jpg"
+            src={currentRecipe?.Picture || 'public/assets/NoFoodPicture.jpg'}
             alt="Recipe"
+            className="w-full h-40 object-cover"
           />
-          <h2 className="text-2xl font-bold mb-2">Recipe Name</h2>
           <p className="text-gray-500">
-            Prep Time: 30 minutes | Cook Time: 1 hour
+            Prep Time: 30 minutes | Cook Time: {currentRecipe?.CookTimeMin}{' '}
+            minutes
           </p>
           <h3 className="text-xl font-bold mt-6 mb-2">Ingredients</h3>
-          <ul className="list-disc pl-6">
-            <li>Ingredient 1</li>
-            <li>Ingredient 2</li>
-            <li>Ingredient 3</li>
-            {/* Add more ingredients */}
-          </ul>
+          {currentRecipe?.Ingredients.map((ingredient, index) => (
+            <ul key={index} className="flex items-center mb-2">
+              <li>{ingredient}</li>
+            </ul>
+          ))}
           <h3 className="text-xl font-bold mt-6 mb-2">Instructions</h3>
-          <ol className="list-decimal pl-6">
-            <li>Step 1</li>
-            <li>Step 2</li>
-            <li>Step 3</li>
-            {/* Add more steps */}
-          </ol>
+          {currentRecipe?.Steps.map((step, index) => (
+            <ol key={index} className="list-decimal pl-6">
+              <li>{step}</li>
+            </ol>
+          ))}
         </div>
         <div>
           <h3 className="text-xl font-bold mb-2">Nutritional Information</h3>
@@ -38,8 +61,13 @@ function RecipePage() {
           </ul>
         </div>
       </div>
+      {currentRecipe?.Comments?.map((comment, index) => (
+        <ol key={index} className="list-decimal pl-6">
+          <li>{comment}</li>
+        </ol>
+      ))}
     </div>
   );
-};
+}
 
 export default RecipePage;

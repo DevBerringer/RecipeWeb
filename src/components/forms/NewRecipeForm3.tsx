@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import RecipesContext from '../../contexts/recipesContext';
+import { RecipesContext } from '../../contexts/recipesContext';
 
 function NewRecipeForm2() {
   const recipeContext = useContext(RecipesContext);
@@ -21,7 +21,7 @@ function NewRecipeForm2() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-recipecentral shadow-lg rounded">
+    <div className="max-w-md mx-auto p-4 bg-recipecentral shadow-lg rounded h-full">
       <h2 className="text-2xl font-semibold mb-4">Steps:</h2>
       {recipeContext?.steps.map((step, index) => (
         <div className="mb-4" key={index}>

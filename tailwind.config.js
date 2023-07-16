@@ -9,8 +9,9 @@ export default {
           DEFAULT: '#C7A9A2',
           dark: '#3E3A39',
         },
+        checkboxCustom: '#FF0000', // Replace with your desired color
         fontFamily: {
-          tester: 'roboto',
+          chalkduster: ['Chalkduster', 'sans-serif'],
         },
         backgroundImage: {
           brownBackground: "url('brownBackground.jpg')",

@@ -1,16 +1,81 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { UseRecipe } from '../../contexts/recipesContext';
 import CategoryCard from '../shared/CatagoryCard';
 import SearchBar from '../shared/SearchBar';
 
+import { ReactComponent as NoodleSVG } from '../../assets/NoodleCategory.svg';
+import { ReactComponent as SnackSVG } from '../../assets/SnackCategory.svg';
+import { ReactComponent as SandwichSVG } from '../../assets/SandwichCategory.svg';
+import { ReactComponent as DessertSVG } from '../../assets/DessertCategory.svg';
+import { ReactComponent as RiceSVG } from '../../assets/RiceCategory.svg';
+import { ReactComponent as WrapSVG } from '../../assets/WrapCategory.svg';
+
+function SVGNoodle() {
+  return <NoodleSVG />;
+}
+function SVGSandwich() {
+  return <SandwichSVG />;
+}
+function SVGRice() {
+  return <RiceSVG />;
+}
+function SVGWrap() {
+  return <WrapSVG />;
+}
+function SVGSnack() {
+  return <SnackSVG />;
+}
+function SVGDessert() {
+  return <DessertSVG />;
+}
+
 function Recipes() {
-  const { recipe } = UseRecipe();
   const [filter, setFilter] = useState('');
 
+  const categories = [
+    {
+      id: 0,
+      name: 'Noodle',
+      catImage: '/assets/categories/NoodleCategory.jpg',
+      childComponent: SVGNoodle,
+    },
+    {
+      id: 1,
+      name: 'Sandwich',
+      catImage: '/assets/categories/SandwichCategory.jpg',
+      childComponent: SVGSandwich,
+    },
+    {
+      id: 3,
+      name: 'Rice',
+      catImage: '/assets/categories/RiceCategory.jpg',
+      childComponent: SVGRice,
+    },
+    {
+      id: 4,
+      name: 'Wrap',
+      catImage: '/assets/categories/WrapCategory.jpg',
+      childComponent: SVGWrap,
+    },
+    {
+      id: 5,
+      name: 'Snack',
+      catImage: '/assets/categories/SnackCategory.jpg',
+      childComponent: SVGSnack,
+    },
+
+    {
+      id: 6,
+      name: 'Dessert',
+      catImage: '/assets/categories/DessertCategory.jpg',
+      childComponent: SVGDessert,
+    },
+    // Add more categories as needed
+  ];
+
   // Filter recipes based on the selected food type
-  const filteredRecipes = recipe.filter((item) =>
-    item.Name.toLowerCase().includes(filter.toLowerCase())
+  const filteredCategories = categories.filter((item) =>
+    item.name.toLowerCase().includes(filter.toLowerCase())
   );
 
   // Handle filtering change
@@ -28,10 +93,24 @@ function Recipes() {
         <SearchBar onChange={handleFilterChange} />
       </div>
       <div className="flex flex-wrap justify-center">
-        {filteredRecipes.length > 0 ? (
-          filteredRecipes.map((item) => (
-            <Link to={`${item.Id}`} key={item.Id} className="m-2">
-              <CategoryCard picture={item.Picture} name={item.Name} />
+        {filteredCategories.length > 0 ? (
+          filteredCategories.map((item) => (
+            <Link to={`${item.id}`} key={item.id} className="m-2">
+              <CategoryCard
+                catImage={item.catImage}
+                name={item.name}
+                childComponent={
+                  item.childComponent ? (
+                    item.childComponent
+                  ) : (
+                    <img
+                      src={item.catImage}
+                      alt="Login photos"
+                      className="h-40 w-40"
+                    />
+                  )
+                }
+              />
             </Link>
           ))
         ) : (

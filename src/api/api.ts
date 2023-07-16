@@ -14,10 +14,20 @@ export const getRecipes = async () => {
   }
 };
 
-export const addRecipe = async (recipe) => {
+export const addRecipe = async (recipe: {
+  Id: null;
+  Name: string;
+  Picture: null;
+  SpicyLevel: boolean;
+  Description: string; // ${window.$env.hosts.baseUrl}`,
+  CookTimeMin: number;
+  Ingredients: any[];
+  DifOfIngredient: null;
+  Steps: any[];
+  rating: null;
+  createdDate: Date;
+}) => {
   try {
-    console.log(recipe);
-
     const response = await recipeApi.post(
       window.$env.hosts.apis.addRecipe,
       recipe,

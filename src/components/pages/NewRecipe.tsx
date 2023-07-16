@@ -1,19 +1,22 @@
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 
 import { addRecipe } from '../../api/api';
-import RecipesContext from '../../contexts/recipesContext';
+import { RecipesContext } from '../../contexts/recipesContext';
 import NewRecipeForm1 from '../forms/NewRecipeForm1';
 import NewRecipeForm2 from '../forms/NewRecipeForm2';
 import NewRecipeForm3 from '../forms/NewRecipeForm3';
+import CategorySelector from '../forms/CategorySelector';
 
 function NewRecipe() {
   const [selectedImage, setSelectedImage] = useState(null);
   const [name, setName] = useState('');
   const [spicyLevel, setSpicyLevel] = useState(false);
   const [description, setDescription] = useState('');
-  const [cookTimeMin, setCookTimeMin] = useState(0);
+  const [cookTimeMin, setCookTimeMin] = useState(NaN);
+  const [prepTimeMin, setPrepTimeMin] = useState(NaN);
   const [ingredients, setIngredients] = useState(Array(5).fill(''));
   const [steps, setSteps] = useState(Array(3).fill(''));
+  const [foodTypes, setFoodTypes] = useState([]);
 
   function submitNewRecipe(event) {
     event.preventDefault();
@@ -22,10 +25,12 @@ function NewRecipe() {
     const recipe = {
       Id: null,
       Name: name,
+      FoodType: foodTypes,
       Picture: selectedImage,
       SpicyLevel: spicyLevel,
       Description: description,
       CookTimeMin: cookTimeMin,
+      PrepTimeMin: prepTimeMin,
       Ingredients: ingredients.filter((ingredient) => ingredient !== ''),
       DifOfIngredient: null,
       Steps: steps.filter((step) => step !== ''),
@@ -53,10 +58,15 @@ function NewRecipe() {
         setIngredients,
         steps,
         setSteps,
+        foodTypes,
+        setFoodTypes,
+        prepTimeMin,
+        setPrepTimeMin
       }}
     >
-      <div className="mx-auto">
-        <div className="flex">
+      <div className="relative mx-auto">
+        <CategorySelector />
+        <div className="flex flex-wrap justify-center">
           <div className="flex-1">
             <NewRecipeForm1 />
           </div>
@@ -67,7 +77,7 @@ function NewRecipe() {
             <NewRecipeForm3 />
           </div>
         </div>
-        <div className="flex justify-center">
+        <div className="flex justify-center mt-8">
           <button
             className="px-4 py-2 text-sm text-black bg-recipecentral rounded-md hover:bg-recipecentral-dark hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:bg-recipecentral-dark"
             type="submit"

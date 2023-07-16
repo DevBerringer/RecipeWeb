@@ -21,7 +21,7 @@ export default function RecipeCard({
 }: RecipeCardProps) {
   return (
     <div className="recipe-card-container h-full">
-      <Card className="w-96 bg-recipecentral rounded-lg shadow-lg">
+      <Card className="w-96 bg-recipecentral-light rounded-lg shadow-lg">
         <Typography
           variant="h4"
           color="blue-gray-700"

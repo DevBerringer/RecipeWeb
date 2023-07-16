@@ -1,22 +1,98 @@
-import { createContext } from 'react';
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useReducer,
+} from 'react';
+import { getRecipes } from '../api/api';
 
-interface RecipeContextType {
-  selectedImage: '';
-  setSelectedImage: (title: string) => Promise<void>;
-  name: '';
-  setName: (title: string) => Promise<void>;
-  spicyLevel: false;
-  setSpicyLevel: (title: boolean) => Promise<void>;
-  description: '';
-  setDescription: (title: string) => Promise<void>;
-  cookTimeMin: 0;
-  setCookTimeMin: (title: number) => Promise<void>;
-  ingredients: [];
-  setIngredients: (title: string[]) => Promise<void>;
-  steps: [];
-  setSteps: (title: string[]) => Promise<void>;
+function useRecipeSource(): {
+  recipe: RecipeDTO[];
+  setRecipe: (search: RecipeDTO[]) => void;
+  search: string;
+  setSearch: (search: string) => void;
+} {
+  type RecipeState = {
+    recipe: RecipeDTO[];
+    search: string;
+  };
+  type RecipeAction =
+    | { type: 'setRecipe'; payload: RecipeDTO[] }
+    | { type: 'setSearch'; payload: string };
+  const [{ recipe, search }, dispatch] = useReducer(
+    (state: RecipeState, action: RecipeAction) => {
+      switch (action.type) {
+        case 'setRecipe':
+          return { ...state, recipe: action.payload };
+        case 'setSearch':
+          return { ...state, search: action.payload };
+      }
+    },
+    {
+      recipe: [],
+      search: '',
+    }
+  );
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const fetchedData = await getRecipes();
+        dispatch({ type: 'setRecipe', payload: fetchedData.RecipeDTOs });
+      } catch (error) {
+        // Handle error, e.g., show an error message or retry
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  const setSearch = useCallback((search: string) => {
+    dispatch({
+      type: 'setSearch',
+      payload: search,
+    });
+  }, []);
+
+  const setRecipe = useCallback((newRecipe: RecipeDTO[]) => {
+    dispatch({
+      type: 'setRecipe',
+      payload: newRecipe,
+    });
+  }, []);
+
+  const filteredRecipe = useMemo(
+    () =>
+      recipe
+        .filter((p) => p.Name.toLowerCase().includes(search.toLowerCase()))
+        .slice(0, 20),
+    [recipe, search]
+  );
+
+  const sortedRecipe = useMemo(
+    () => [...filteredRecipe].sort((a, b) => a.Name.localeCompare(b.Name)),
+    [filteredRecipe]
+  );
+
+  return { recipe: sortedRecipe, setRecipe, search, setSearch };
 }
 
-const RecipesContext = createContext<RecipeContextType | null>(null);
+const RecipesListContext = createContext<ReturnType<typeof useRecipeSource>>(
+  {} as unknown as ReturnType<typeof useRecipeSource>
+);
 
-export default RecipesContext;
+export const RecipesContext = createContext<RecipeDTO[]>([]);
+
+export function UseRecipe() {
+  return useContext(RecipesListContext);
+}
+
+export function RecipeProvider({ children }: { children: React.ReactNode }) {
+  return (
+    <RecipesListContext.Provider value={useRecipeSource()}>
+      {children}
+    </RecipesListContext.Provider>
+  );
+}

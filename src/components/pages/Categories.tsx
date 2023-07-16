@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { UseRecipe } from '../../contexts/recipesContext';
-import RecipeCard from '../shared/RecipeCard';
+import CategoryCard from '../shared/CatagoryCard';
 import SearchBar from '../shared/SearchBar';
 
 function Recipes() {
@@ -20,35 +20,18 @@ function Recipes() {
 
   return (
     <div>
+      <h1 className=" text-center text-4xl font-extrabold text-black">
+        <span className="drop-shadow-lg">Welcome to Family Cookbook!</span>
+      </h1>
       <div className="flex justify-end mx-auto mb-4">
-        <div className="px-4 py-2 text-gray-600 text-lg">
-          Can't find what you are looking for?
-        </div>
+        <div className="px-4 py-2 text-gray-600 text-lg">Search:</div>
         <SearchBar onChange={handleFilterChange} />
-      </div>
-      <div className="flex justify-center mb-4">
-        <select
-          className="px-4 py-2 border border-gray-300 rounded"
-          value={filter}
-          onChange={handleFilterChange}
-        >
-          <option value="">All</option>
-          <option value="breakfast">Breakfast</option>
-          <option value="lunch">Lunch</option>
-          <option value="dinner">Dinner</option>
-          <option value="dessert">Dessert</option>
-        </select>
       </div>
       <div className="flex flex-wrap justify-center">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((item) => (
             <Link to={`${item.Id}`} key={item.Id} className="m-2">
-              <RecipeCard
-                picture={item.Picture}
-                name={item.Name}
-                rating={item.Rating ? item.Rating : 0}
-                cookTime={item.CookTimeMin.toLocaleString()}
-              />
+              <CategoryCard picture={item.Picture} name={item.Name} />
             </Link>
           ))
         ) : (

@@ -5,7 +5,7 @@ export default {
     extend: {
       colors: {
         recipecentral: {
-          light: '#DED9D9',
+          light: '#f6e8da',
           DEFAULT: '#C7A9A2',
           dark: '#3E3A39',
         },

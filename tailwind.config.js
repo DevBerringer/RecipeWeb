@@ -6,16 +6,10 @@ export default {
       colors: {
         recipecentral: {
           light: '#f6e8da',
-          DEFAULT: '#C7A9A2',
+          DEFAULT: '#ECD4C7',
           dark: '#3E3A39',
         },
         checkboxCustom: '#FF0000', // Replace with your desired color
-        fontFamily: {
-          chalkduster: ['Chalkduster', 'sans-serif'],
-        },
-        backgroundImage: {
-          brownBackground: "url('brownBackground.jpg')",
-        },
       },
       screens: {
         xs: '480px',

@@ -12,8 +12,8 @@ function NewRecipe() {
   const [name, setName] = useState('');
   const [spicyLevel, setSpicyLevel] = useState(false);
   const [description, setDescription] = useState('');
-  const [cookTimeMin, setCookTimeMin] = useState(NaN);
-  const [prepTimeMin, setPrepTimeMin] = useState(NaN);
+  const [cookTimeMin, setCookTimeMin] = useState(0);
+  const [prepTimeMin, setPrepTimeMin] = useState(0);
   const [ingredients, setIngredients] = useState(Array(5).fill(''));
   const [steps, setSteps] = useState(Array(3).fill(''));
   const [foodTypes, setFoodTypes] = useState([]);
@@ -38,6 +38,7 @@ function NewRecipe() {
       createdDate: new Date(),
     };
 
+    console.log(JSON.stringify(recipe));
     addRecipe(recipe);
   }
 
@@ -67,13 +68,13 @@ function NewRecipe() {
       <div className="relative mx-auto">
         <CategorySelector />
         <div className="flex flex-wrap justify-center">
-          <div className="flex-1">
+          <div className="flex-1 mt-4 mx-2 min-w-fit">
             <NewRecipeForm1 />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 mt-4 mx-2 min-w-fit">
             <NewRecipeForm2 />
           </div>
-          <div className="flex-1">
+          <div className="flex-1 mt-4 mx-2 min-w-fit">
             <NewRecipeForm3 />
           </div>
         </div>

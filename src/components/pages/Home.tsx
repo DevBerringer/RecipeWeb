@@ -23,7 +23,7 @@ function Home() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8">
+    <div className="container mx-auto px-4">
       <div className="text-center">
         <LogoSVG className="w-60 h-60 mx-auto" />
       </div>

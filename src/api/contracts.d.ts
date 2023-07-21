@@ -5,10 +5,10 @@ type SelectedType = {
 type RecipeResponseDTO = {
   Message: string;
   Success: boolean;
-  RecipeDTOs: RecipeDTO[];
+  RecipeDTOs: Recipe[];
 };
 
-type RecipeDTO = {
+type Recipe = {
   Id: ObjectId | null;
   Name: string;
   FoodTypes: string[];
@@ -20,7 +20,13 @@ type RecipeDTO = {
   Ingredients: string[];
   DifOfIngredient: number | null;
   Steps: string[];
-  Rating: number | null;
+  Rating: number[];
   Comments: string[];
   CreatedDate: Date;
+};
+
+type User = {
+  Id: objectId;
+  Email: string;
+  Username: string;
 };

@@ -1,31 +1,40 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
+import { Signin } from '../../api/api';
 
 function Login() {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState({ email: '', password: '' });
+  const [errors, setErrors] = useState({
+    username: '',
+    password: '',
+    submit: '',
+  });
 
-  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
-    setEmail(event.target.value);
-    setErrors({ ...errors, email: '' });
+  const navigate = useNavigate();
+
+  const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+    setErrors({ ...errors, username: '' });
+    setErrors({ ...errors, submit: '' });
   };
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
     setPassword(event.target.value);
     setErrors({ ...errors, password: '' });
+    setErrors({ ...errors, submit: '' });
   };
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
     // Validate form inputs
     let formIsValid = true;
-    const newErrors = { email: '', password: '' };
+    const newErrors = { username: '', password: '', submit: '' };
 
-    if (!email) {
+    if (!username) {
       formIsValid = false;
-      newErrors.email = 'Email is required';
+      newErrors.username = 'Username is required';
     }
 
     if (!password) {
@@ -35,12 +44,24 @@ function Login() {
 
     if (formIsValid) {
       // Handle login logic here
-      console.log('Email:', email);
-      console.log('Password:', password);
+      const user = {
+        username,
+        password,
+      };
 
-      // Clear input fields
-      setEmail('');
-      setPassword('');
+      const response = await Signin(user);
+
+      if (response.Message === 'Bad credentials') {
+        newErrors.submit = 'Username and password combo not found';
+        setErrors(newErrors);
+      } else {
+        // Clear input fields
+        setUsername('');
+        setPassword('');
+
+        console.log(response.Roles);
+        navigate('/');
+      }
     } else {
       setErrors(newErrors);
     }
@@ -59,24 +80,26 @@ function Login() {
           </Link>
         </p>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email input */}
+          {/* Username input */}
+          {errors.submit && (
+            <p className="text-red-500 text-xl mt-1">{errors.submit}</p>
+          )}
           <div>
-            <label htmlFor="email">Email Address</label>
+            <label htmlFor="username">Username</label>
             <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="email"
+              id="username"
+              name="username"
+              type="text"
               required
-              value={email}
-              onChange={handleEmailChange}
-              placeholder="you@example.com"
+              value={username}
+              onChange={handleUsernameChange}
+              placeholder="Welcome Back"
               className={`block w-full px-4 py-2 rounded-md bg-gray-200 border-black placeholder-gray-400 focus:ring-2 focus:ring-black focus:border-transparent ${
-                errors.email ? 'border-red-500' : ''
+                errors.username ? 'border-red-500' : ''
               }`}
             />
-            {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            {errors.username && (
+              <p className="text-red-500 text-sm mt-1">{errors.username}</p>
             )}
           </div>
 
@@ -111,7 +134,6 @@ function Login() {
           <div>
             <button
               type="submit"
-              disabled={!email || !password}
               className="w-full px-4 py-2 text-sm font-medium text-white bg-recipecentral rounded-md hover:bg-recipecentral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:bg-recipecentral-dark"
             >
               Sign in

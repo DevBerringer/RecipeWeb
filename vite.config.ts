@@ -16,6 +16,15 @@ export default defineConfig({
     outDir: 'build',
     minify: !isDev,
   },
+  server: {
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8082',
+        changeOrigin: true,
+        secure: false,
+      },
+    },
+  },
   resolve: {
     alias: {
       '@components': path.resolve(__dirname, './src/components'),

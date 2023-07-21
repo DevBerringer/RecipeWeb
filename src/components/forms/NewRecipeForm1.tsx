@@ -40,7 +40,7 @@ function NewRecipeForm1() {
           {recipeContext?.foodTypes.map((category) => (
             <span
               key={category}
-              className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+              className="inline-block bg-gray-200 rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2"
             >
               {category}
             </span>
@@ -48,7 +48,7 @@ function NewRecipeForm1() {
         </div>
       ) : (
         <div id="Category" className="mt-2">
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">
+          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2">
             No Category Selected
           </span>
         </div>
@@ -103,9 +103,15 @@ function NewRecipeForm1() {
         </label>
         <div className="mx-auto items-center justify-center">
           <div>
+            {/* <input
+              className="block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-white focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
+              id="image"
+              type="file"
+              onChange={handleImageUpload}
+            />{' '} */}
             <input
-              className="block w-full text-sm text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50 dark:text-gray-400 focus:outline-none dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400"
-              id="file_input"
+              className="block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+              id="image"
               type="file"
               onChange={handleImageUpload}
             />

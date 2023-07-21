@@ -33,7 +33,7 @@ function NewRecipeForm2() {
             className="h-4 w-4 border border-gray-300 rounded text-checkboxCustom focus:outline-none focus:ring-checkboxCustom"
           />
 
-          <label htmlFor="spicyLevel" className="ml-2 text-sm font-medium">
+          <label htmlFor="spicyLevel" className="ml-2 font-medium">
             Is this food spicy?
           </label>
         </div>
@@ -57,7 +57,7 @@ function NewRecipeForm2() {
         </div>
       ))}
       <button
-        className="px-4 py-2 text-sm text-black bg-white rounded-md hover:bg-recipecentral-dark hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:bg-recipecentral-dark"
+        className="h-12 my-auto px-4 mb-10 text-white rounded-md hover:bg-white bg-recipecentral-dark hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:bg-recipecentral-dark"
         type="button"
         onClick={handleAddIngredient}
       >

@@ -9,17 +9,17 @@ import {
 import { getRecipes } from '../api/api';
 
 function useRecipeSource(): {
-  recipe: RecipeDTO[];
-  setRecipe: (search: RecipeDTO[]) => void;
+  recipe: Recipe[];
+  setRecipe: (search: Recipe[]) => void;
   search: string;
   setSearch: (search: string) => void;
 } {
   type RecipeState = {
-    recipe: RecipeDTO[];
+    recipe: Recipe[];
     search: string;
   };
   type RecipeAction =
-    | { type: 'setRecipe'; payload: RecipeDTO[] }
+    | { type: 'setRecipe'; payload: Recipe[] }
     | { type: 'setSearch'; payload: string };
   const [{ recipe, search }, dispatch] = useReducer(
     (state: RecipeState, action: RecipeAction) => {
@@ -56,7 +56,7 @@ function useRecipeSource(): {
     });
   }, []);
 
-  const setRecipe = useCallback((newRecipe: RecipeDTO[]) => {
+  const setRecipe = useCallback((newRecipe: Recipe[]) => {
     dispatch({
       type: 'setRecipe',
       payload: newRecipe,
@@ -83,7 +83,7 @@ const RecipesListContext = createContext<ReturnType<typeof useRecipeSource>>(
   {} as unknown as ReturnType<typeof useRecipeSource>
 );
 
-export const RecipesContext = createContext<RecipeDTO[]>([]);
+export const RecipesContext = createContext<Recipe[]>([]);
 
 export function UseRecipe() {
   return useContext(RecipesListContext);

@@ -22,11 +22,7 @@ export default function RecipeCard({
   return (
     <div className="recipe-card-container h-full">
       <Card className="w-96 bg-recipecentral-light rounded-lg shadow-lg">
-        <Typography
-          variant="h4"
-          color="blue-gray-700"
-          className="text-center mb-2"
-        >
+        <Typography variant="h4" className="text-center mb-2">
           {name}
         </Typography>
         <CardHeader>

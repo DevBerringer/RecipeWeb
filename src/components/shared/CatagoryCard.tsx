@@ -10,7 +10,7 @@ export default function CategoryCard({
   childComponent: Child,
 }: CategoryCardProps) {
   return (
-    <div className="flex items-center hover:bg-recipecentral-light">
+    <div className="flex items-center hover:bg-recipecentral-light rounded-xl hover:border-opacity-30">
       <div className="mx-10 mb-10 cursor-pointer text-center">
         {Child && <Child />} {name}
       </div>

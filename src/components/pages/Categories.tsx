@@ -29,7 +29,7 @@ function SVGDessert() {
   return <DessertSVG />;
 }
 
-function Recipes() {
+function Categories() {
   const [filter, setFilter] = useState('');
 
   const categories = [
@@ -46,26 +46,26 @@ function Recipes() {
       childComponent: SVGSandwich,
     },
     {
-      id: 3,
+      id: 2,
       name: 'Rice',
       catImage: '/assets/categories/RiceCategory.jpg',
       childComponent: SVGRice,
     },
     {
-      id: 4,
+      id: 3,
       name: 'Wrap',
       catImage: '/assets/categories/WrapCategory.jpg',
       childComponent: SVGWrap,
     },
     {
-      id: 5,
+      id: 4,
       name: 'Snack',
       catImage: '/assets/categories/SnackCategory.jpg',
       childComponent: SVGSnack,
     },
 
     {
-      id: 6,
+      id: 5,
       name: 'Dessert',
       catImage: '/assets/categories/DessertCategory.jpg',
       childComponent: SVGDessert,
@@ -95,7 +95,7 @@ function Recipes() {
       <div className="flex flex-wrap justify-center">
         {filteredCategories.length > 0 ? (
           filteredCategories.map((item) => (
-            <Link to={`${item.id}`} key={item.id} className="m-2">
+            <Link to="../recipes" key={item.id} className="m-2">
               <CategoryCard
                 catImage={item.catImage}
                 name={item.name}
@@ -125,4 +125,4 @@ function Recipes() {
   );
 }
 
-export default Recipes;
+export default Categories;

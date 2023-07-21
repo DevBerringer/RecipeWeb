@@ -51,7 +51,7 @@ function NewRecipeForm2() {
       <button
         type="button"
         onClick={addStep}
-        className="bg-blue-500 text-white font-semibold py-2 px-4 rounded"
+        className="h-12 my-auto px-4 mb-10 text-white rounded-md hover:bg-white bg-recipecentral-dark hover:text-black focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:bg-recipecentral-dark"
       >
         Add Step
       </button>

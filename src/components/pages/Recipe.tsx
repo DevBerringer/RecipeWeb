@@ -3,7 +3,7 @@ import { UseRecipe } from '../../contexts/recipesContext';
 
 function RecipePage() {
   const { recipe } = UseRecipe();
-  const [currentRecipe, setCurrentRecipe] = useState<RecipeDTO | null>(null);
+  const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
 
   useEffect(() => {
     const recipeId = window.location.pathname.split('/').pop();
@@ -30,7 +30,7 @@ function RecipePage() {
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-2">
           <img
-            src={currentRecipe?.Picture || 'public/assets/NoFoodPicture.jpg'}
+            src={currentRecipe?.Picture || '/assets/NoFoodPicture.jpg'}
             alt="Recipe"
             className="w-full h-40 object-cover"
           />

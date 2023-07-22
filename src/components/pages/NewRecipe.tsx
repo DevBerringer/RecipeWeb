@@ -6,6 +6,7 @@ import NewRecipeForm1 from '../forms/NewRecipeForm1';
 import NewRecipeForm2 from '../forms/NewRecipeForm2';
 import NewRecipeForm3 from '../forms/NewRecipeForm3';
 import CategorySelector from '../forms/CategorySelector';
+import { UseAuth } from '../../contexts/authContext';
 
 function NewRecipe() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -17,25 +18,25 @@ function NewRecipe() {
   const [ingredients, setIngredients] = useState(Array(5).fill(''));
   const [steps, setSteps] = useState(Array(3).fill(''));
   const [foodTypes, setFoodTypes] = useState([]);
+  const { user } = UseAuth();
 
-  function submitNewRecipe(event) {
+  function submitNewRecipe(event: { preventDefault: () => void }) {
     event.preventDefault();
 
     // Create the recipe object
     const recipe = {
       Id: null,
       Name: name,
-      FoodType: foodTypes,
       Picture: selectedImage,
       SpicyLevel: spicyLevel,
       Description: description,
       CookTimeMin: cookTimeMin,
       PrepTimeMin: prepTimeMin,
+      FoodTypes: foodTypes,
       Ingredients: ingredients.filter((ingredient) => ingredient !== ''),
-      DifOfIngredient: null,
       Steps: steps.filter((step) => step !== ''),
-      rating: null,
-      createdDate: new Date(),
+      Rating: null,
+      CreatedBy: user?.id,
     };
 
     console.log(JSON.stringify(recipe));
@@ -62,7 +63,7 @@ function NewRecipe() {
         foodTypes,
         setFoodTypes,
         prepTimeMin,
-        setPrepTimeMin
+        setPrepTimeMin,
       }}
     >
       <div className="relative mx-auto">

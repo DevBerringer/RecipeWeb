@@ -2,8 +2,11 @@ import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
 import { ReactComponent as LogoSVG } from '../../assets/FCBLogo.svg';
+import { UseAuth } from '../../contexts/authContext';
 
 function Home() {
+  const { user } = UseAuth();
+
   const imagePaths = [
     '/assets/burgerBig.jpg',
     '/assets/sushiSnackBig.jpg',
@@ -27,16 +30,20 @@ function Home() {
       <div className="text-center">
         <LogoSVG className="w-60 h-60 mx-auto" />
       </div>
+      <p className="text-center text-lg">
+        Welcome to the Website{user ? ` ${user?.username}` : ''}!
+      </p>
       <div className="w-full max-w-5xl mx-auto">
         <div className="floating-carousel-container mx-36 rounded-md">
           <AliceCarousel
             touchMoveDefaultEvents
             autoPlay
             infinite
-            mouseTracking
-            autoPlayInterval={2000}
-            disableButtonsControls
-            responsive={responsive}
+            touchTracking={false}
+            autoPlayInterval={1000}
+            animationDuration={3000}
+            autoPlayStrategy="none"
+            disableDotsControls
             items={imagePaths.map((path, index) => (
               <div key={index} className="carousel-item">
                 <div className="carousel-image-container">
@@ -50,7 +57,7 @@ function Home() {
             ))}
           />
         </div>
-        <p className=" mr-36 text-right">
+        <p className="mr-36 text-right">
           Designs and Sketches by 叶秀文（Ye Xiuwen）
         </p>
       </div>

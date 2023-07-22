@@ -9,29 +9,30 @@ import {
 import { getUsers } from '../api/api';
 
 function useUserSource(): {
-  user: User[];
-  setUser: (search: User[]) => void;
+  users: User[];
+  setUsers: (search: User[]) => void;
   search: string;
   setSearch: (search: string) => void;
 } {
-  type UserState = {
-    user: User[];
+  type UsersState = {
+    users: User[];
     search: string;
   };
-  type UserAction =
-    | { type: 'setUser'; payload: User[] }
+  type UsersAction =
+    | { type: 'setUsers'; payload: User[] }
     | { type: 'setSearch'; payload: string };
-  const [{ user, search }, dispatch] = useReducer(
-    (state: UserState, action: UserAction) => {
+
+  const [{ users, search }, dispatch] = useReducer(
+    (state: UsersState, action: UsersAction) => {
       switch (action.type) {
-        case 'setUser':
-          return { ...state, user: action.payload };
+        case 'setUsers':
+          return { ...state, users: action.payload };
         case 'setSearch':
           return { ...state, search: action.payload };
       }
     },
     {
-      user: [],
+      users: [],
       search: '',
     }
   );
@@ -40,8 +41,7 @@ function useUserSource(): {
     const fetchData = async () => {
       try {
         const fetchedData = await getUsers();
-        console.log(JSON.stringify(fetchData));
-        dispatch({ type: 'setUser', payload: fetchedData.UserDTOs });
+        dispatch({ type: 'setUsers', payload: fetchedData.UserDTOs });
       } catch (error) {
         // Handle error, e.g., show an error message or retry
       }
@@ -57,28 +57,28 @@ function useUserSource(): {
     });
   }, []);
 
-  const setUser = useCallback((newUser: User[]) => {
+  const setUsers = useCallback((newUser: User[]) => {
     dispatch({
-      type: 'setUser',
+      type: 'setUsers',
       payload: newUser,
     });
   }, []);
 
   const filteredUser = useMemo(
     () =>
-      user
-        .filter((p) => p.Username.toLowerCase().includes(search.toLowerCase()))
+      users
+        .filter((p) => p.username.toLowerCase().includes(search.toLowerCase()))
         .slice(0, 20),
-    [user, search]
+    [users, search]
   );
 
   const sortedUser = useMemo(
     () =>
-      [...filteredUser].sort((a, b) => a.Username.localeCompare(b.Username)),
+      [...filteredUser].sort((a, b) => a.username.localeCompare(b.username)),
     [filteredUser]
   );
 
-  return { user: sortedUser, setUser, search, setSearch };
+  return { users: sortedUser, setUsers, search, setSearch };
 }
 
 const UsersListContext = createContext<ReturnType<typeof useUserSource>>(

@@ -19,6 +19,18 @@ export const Signin = async (User: { username: string; password: string }) => {
   }
 };
 
+export const SignOut = async () => {
+  try {
+    const response = await recipeApi.get(window.$env.hosts.auth.signOut, {
+      withCredentials: true,
+    });
+    return response.data;
+  } catch (error) {
+    console.error('Error Logging in:', error);
+    throw error;
+  }
+};
+
 export const Register = async (User: {
   username: string;
   email: string;
@@ -44,12 +56,11 @@ export const Register = async (User: {
 export const getAuthentication = async () => {
   try {
     const response = await recipeApi.get(window.$env.hosts.auth.check, {
-      headers: { 'Content-Type': 'application/json' },
       withCredentials: true,
     });
     return response.data;
   } catch (error) {
-    console.error('Error Logging in:', error);
+    console.error('Error Authenticating:', error);
     throw error;
   }
 };
@@ -62,7 +73,8 @@ export const getUsers = async () => {
   } catch (error) {
     console.error('Error fetching data:', error);
     throw error;
-  }0
+  }
+  0;
 };
 
 // Recipes
@@ -79,15 +91,16 @@ export const getRecipes = async () => {
 export const addRecipe = async (recipe: {
   Id: null;
   Name: string;
-  Picture: null;
+  Picture: string | null;
   SpicyLevel: boolean;
-  Description: string; // ${window.$env.hosts.baseUrl}`,
+  Description: string;
   CookTimeMin: number;
+  PrepTimeMin: number;
+  FoodTypes: string[];
   Ingredients: string[];
-  DifOfIngredient: null;
   Steps: string[];
-  rating: null;
-  createdDate: Date;
+  Rating: number[] | null;
+  CreatedBy: string | undefined;
 }) => {
   try {
     const response = await recipeApi.post(

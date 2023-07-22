@@ -1,21 +1,23 @@
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+
 import { UseRecipe } from '../../contexts/recipesContext';
 
 function RecipePage() {
   const { recipe } = UseRecipe();
   const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
+  const { id: userIdFromURL } = useParams();
 
   useEffect(() => {
-    const recipeId = window.location.pathname.split('/').pop();
-    const filteredRecipe = recipe.find((r) => r.Id === recipeId);
+    const filteredRecipe = recipe.find((r) => r.Id === userIdFromURL);
     setCurrentRecipe(filteredRecipe || null);
-  }, [recipe]);
+  }, [recipe, userIdFromURL]);
 
   return (
     <div className="container mx-auto py-10">
       <h1 className="text-4xl font-bold">{currentRecipe?.Name}</h1>
       <p className="text-gray-500 mb-8">
-        Created Date: {currentRecipe?.CreatedDate?.getDate()}{' '}
+        Created Date: {currentRecipe?.CreatedDate}{' '}
       </p>
       {[1, 2, 3, 4, 5].map((index) => (
         <span

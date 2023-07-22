@@ -1,8 +1,10 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Signin } from '../../api/api';
+import { UseAuth } from '../../contexts/authContext';
 
 function Login() {
+  const { setUser } = UseAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({
@@ -58,8 +60,7 @@ function Login() {
         // Clear input fields
         setUsername('');
         setPassword('');
-
-        console.log(response.Roles);
+        setUser(response)
         navigate('/');
       }
     } else {

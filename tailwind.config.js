@@ -6,7 +6,7 @@ export default {
       colors: {
         recipecentral: {
           light: '#f6e8da',
-          DEFAULT: '#ECD4C7',
+          DEFAULT: '#C7A9A2',
           dark: '#3E3A39',
         },
         checkboxCustom: '#FF0000', // Replace with your desired color

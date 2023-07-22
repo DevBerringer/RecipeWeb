@@ -11,6 +11,7 @@ import Contact from '../components/pages/Contact';
 import Register from '../components/login/Register';
 import NewRecipe from '../components/pages/NewRecipe';
 import Categories from '../components/pages/Categories';
+import UserPage from '../components/pages/UserPage';
 
 const router = createBrowserRouter([
   {
@@ -31,12 +32,12 @@ const router = createBrowserRouter([
         element: <Register />,
       },
       {
-        path: 'categories',
-        element: <Categories />,
+        path: 'user/:id',
+        element: <UserPage />,
       },
       {
-        path: 'about',
-        element: <About />,
+        path: 'categories',
+        element: <Categories />,
       },
       {
         path: 'recipes',
@@ -53,6 +54,10 @@ const router = createBrowserRouter([
       {
         path: 'contactUs',
         element: <Contact />,
+      },
+      {
+        path: 'about',
+        element: <About />,
       },
     ],
   },

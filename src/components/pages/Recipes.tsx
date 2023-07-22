@@ -42,7 +42,7 @@ function Recipes() {
       <div className="flex flex-wrap justify-center">
         {filteredRecipes.length > 0 ? (
           filteredRecipes.map((item) => (
-            <Link to={`${item.Id}`} key={item.Id} className="m-2">
+            <Link to={`${item.Id}`} key={item.Id} className="m-2 my-5">
               <RecipeCard
                 picture={item.Picture}
                 name={item.Name}

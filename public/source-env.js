@@ -4,6 +4,7 @@ window.$env = {
         baseUrl: 'localhost:8082',
         auth: {
             login: '/api/auth/signin',
+            signOut: '/api/auth/signOut',
             register: '/api/auth/signup',
             check: '/api/test/user'
         },

@@ -9,24 +9,24 @@ type RecipeResponseDTO = {
 };
 
 type Recipe = {
-  Id: ObjectId | null;
+  Id: string | null;
   Name: string;
-  FoodTypes: string[];
   Picture: string;
   SpicyLevel: boolean;
   Description: string;
   CookTimeMin: number;
   PrepTimeMin: number;
   Ingredients: string[];
-  DifOfIngredient: number | null;
+  FoodTypes: string[];
   Steps: string[];
   Rating: number[];
   Comments: string[];
-  CreatedDate: Date;
+  CreatedBy: string;
 };
 
 type User = {
-  Id: objectId;
-  Email: string;
-  Username: string;
+  id: string;
+  email: string;
+  username: string;
+  roles: string[];
 };

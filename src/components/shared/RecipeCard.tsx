@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/img-redundant-alt */
 import {
   Card,
   CardHeader,
@@ -20,34 +21,22 @@ export default function RecipeCard({
   cookTime,
 }: RecipeCardProps) {
   return (
-    <div className="recipe-card-container h-full">
-      <Card className="w-96 bg-recipecentral-light rounded-lg shadow-lg">
-        <Typography variant="h4" className="text-center mb-2">
-          {name}
-        </Typography>
-        <CardHeader>
-          <img
-            src={picture || 'public/assets/NoFoodPicture.jpg'}
-            alt="Recipe"
-            className="w-full h-40 object-cover"
-          />
-        </CardHeader>
-        <CardBody className="text-center">
-          {[1, 2, 3, 4, 5].map((index) => (
-            <span
-              key={index}
-              className={`${
-                index <= rating ? 'text-yellow-500' : 'text-gray-300'
-              } fa fa-star`}
-            />
-          ))}
-        </CardBody>
-        <CardFooter className="flex justify-center items-center gap-7 pt-2">
-          <Typography color="blue" className="font-medium">
-            CookTime: {cookTime}
-          </Typography>
-        </CardFooter>
-      </Card>
+    <div className="w-full md:w-64 lg:w-72 shadow shadow-slate-400 rounded-lg flex flex-col justify-between cursor-pointer transition-transform group hover:shadow-slate-400 transform hover:scale-105">
+      <div className="">
+        <img
+          src={picture || 'assets/NoFoodPicture.jpg'}
+          alt="No picture Uploaded"
+          className="w-full h-48 object-cover rounded-t-lg"
+        />
+        <h2 className="p-4">{name}</h2>
+        <p className="p-4">CookTime: {cookTime}</p>
+      </div>
+      <button
+        type="button"
+        className="p-4 font-semibold text-lg m-4 border-2 border-recipecentral group-hover:bg-recipecentral group-hover:border-black transition duration-150 ease-in"
+      >
+        View Recipe
+      </button>
     </div>
   );
 }

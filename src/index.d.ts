@@ -8,6 +8,7 @@ declare global {
         baseUrl: string;
         auth: {
           login: string;
+          signOut: string;
           register: string;
           check: string;
         };

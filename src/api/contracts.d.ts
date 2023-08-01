@@ -22,11 +22,27 @@ type Recipe = {
   Rating: number[];
   Comments: string[];
   CreatedBy: string;
+  CreatedDate: Date;
 };
 
 type User = {
+  Id: string;
+  Email: string;
+  Username: string;
+  ImagePath: string;
+  Description: string;
+  Groups: Group[];
+  Roles: string[];
+};
+
+type UserUpdate = {
+  Id: string;
+  ImagePath: string;
+  Description: string;
+};
+
+type Group = {
   id: string;
-  email: string;
-  username: string;
-  roles: string[];
+  owner: User;
+  members: User[];
 };

@@ -1,5 +1,5 @@
 import { useContext } from 'react';
-import { RecipesContext } from '../../contexts/recipesContext';
+import { RecipesContext } from '../../../contexts/recipesContext';
 
 function NewRecipeForm2() {
   const recipeContext = useContext(RecipesContext);

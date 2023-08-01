@@ -14,47 +14,44 @@ function RecipePage() {
   }, [recipe, userIdFromURL]);
 
   return (
-    <div className="container mx-auto py-10">
+    <div className="container mx-auto py-10 text-lg">
       <h1 className="text-4xl font-bold">{currentRecipe?.Name}</h1>
-      <p className="text-gray-500 mb-8">
-        Created Date: {currentRecipe?.CreatedDate}{' '}
+      <p className="mb-8 text-gray-500">
+        Created Date:{' '}
+        {new Date(currentRecipe?.CreatedDate).toLocaleDateString()}
       </p>
-      {[1, 2, 3, 4, 5].map((index) => (
-        <span
-          key={index}
-          className={`${
-            index <= (currentRecipe?.Rating || 0)
-              ? 'text-yellow-500'
-              : 'text-gray-300'
-          } fa fa-star`}
-        />
-      ))}
       <div className="grid grid-cols-3 gap-4">
         <div className="col-span-2">
           <img
-            src={currentRecipe?.Picture || '/assets/NoFoodPicture.jpg'}
+            src={currentRecipe?.Picture || '/assets/noFood.jpg'}
             alt="Recipe"
-            className="w-full h-40 object-cover"
+            className="h-80 w-5/6 object-cover"
           />
-          <p className="text-gray-500">
+          <p className="mt-2">
             Prep Time: 30 minutes | Cook Time: {currentRecipe?.CookTimeMin}{' '}
             minutes
           </p>
-          <h3 className="text-xl font-bold mt-6 mb-2">Ingredients</h3>
-          {currentRecipe?.Ingredients.map((ingredient, index) => (
-            <ul key={index} className="flex items-center mb-2">
-              <li>{ingredient}</li>
-            </ul>
-          ))}
-          <h3 className="text-xl font-bold mt-6 mb-2">Instructions</h3>
-          {currentRecipe?.Steps.map((step, index) => (
-            <ol key={index} className="list-decimal pl-6">
-              <li>{step}</li>
-            </ol>
-          ))}
+          <div className="grid grid-cols-8 gap-4">
+            <div className="col-span-3">
+              <h3 className="mb-2 mt-6 text-xl font-bold">Ingredients</h3>
+              {currentRecipe?.Ingredients.map((ingredient, index) => (
+                <ol key={index} className="mb-1 list-disc pl-4">
+                  <li>{ingredient}</li>
+                </ol>
+              ))}
+            </div>
+            <div className="col-span-5">
+              <h3 className="mb-2 mt-6 text-xl font-bold">Instructions</h3>
+              {currentRecipe?.Steps.map((step, index) => (
+                <ol key={index} className="mb-2 list-decimal pl-4">
+                  <li>{step}</li>
+                </ol>
+              ))}
+            </div>
+          </div>
         </div>
         <div>
-          <h3 className="text-xl font-bold mb-2">Nutritional Information</h3>
+          <h3 className="mb-2 text-xl font-bold">Nutritional Information</h3>
           <ul className="list-disc pl-6">
             <li>Calories: 500</li>
             <li>Protein: 20g</li>

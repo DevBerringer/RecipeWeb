@@ -15,8 +15,8 @@ export default function Root() {
           <Navbar />
           {/* all the other elements */}
           <RecipeProvider>
-            <div className="bg-recipecentral text-base text-md main-container mt-28 mb-0 pb-10 justify-center">
-              <div className="container mt-10 mb-auto mx-4 md:mx-10 lg:mx-20 xl:mx-40 px-4 py-8 paper-container shadow-xl rounded-2xl">
+            <div className="text-md main-container mb-0 mt-28 justify-center bg-recipecentral pb-10 text-base">
+              <div className="paper-container container mx-4 mb-auto mt-10 rounded-2xl px-4 py-8 shadow-xl md:mx-10 lg:mx-20 xl:mx-40">
                 <main id="detail">
                   <Outlet />
                 </main>

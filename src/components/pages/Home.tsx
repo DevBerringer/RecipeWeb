@@ -1,13 +1,15 @@
 import AliceCarousel from 'react-alice-carousel';
 import 'react-alice-carousel/lib/alice-carousel.css';
 
-import { ReactComponent as LogoSVG } from '../../assets/FCBLogo.svg';
+import { ReactComponent as LogoSVG } from '../../assets/LOGO/FCBLogo.svg';
 import { UseAuth } from '../../contexts/authContext';
+import ButtonDropdowns from '../shared/ButtonDropdowns';
 
 function Home() {
   const { user } = UseAuth();
 
   const imagePaths = [
+    '/assets/stickSoup.jpg',
     '/assets/burgerBig.jpg',
     '/assets/sushiSnackBig.jpg',
     '/assets/drinksBig.jpg',
@@ -27,40 +29,43 @@ function Home() {
 
   return (
     <div className="container mx-auto px-4">
-      <div className="text-center">
-        <LogoSVG className="w-60 h-60 mx-auto" />
+      <div className="flex flex-col items-center">
+        <div className="inline-block justify-center">
+          <LogoSVG className="h-48 w-48" />
+        </div>
+        <div className="mx-52 w-full max-w-5xl pt-5">
+          <ButtonDropdowns /> {/* Use the ButtonDropdowns component here */}
+        </div>
       </div>
-      <p className="text-center text-lg">
-        Welcome to the Website{user ? ` ${user?.username}` : ''}!
-      </p>
-      <div className="w-full max-w-5xl mx-auto">
-        <div className="floating-carousel-container mx-36 rounded-md">
+      <div className="mx-auto mt-2 max-w-2xl">
+        <div className="floating-carousel-container pt-8 drop-shadow-xl">
           <AliceCarousel
             touchMoveDefaultEvents
             autoPlay
             infinite
             touchTracking={false}
-            autoPlayInterval={1000}
-            animationDuration={3000}
+            autoPlayInterval={1500}
+            animationDuration={1500}
             autoPlayStrategy="none"
+            disableButtonsControls
             disableDotsControls
             items={imagePaths.map((path, index) => (
               <div key={index} className="carousel-item">
-                <div className="carousel-image-container">
+                <div className="carousel-image-container shadow-black drop-shadow-xl">
                   <img
                     src={path}
                     alt={`${index + 1}`}
-                    className="object-cover"
+                    className="mx-auto h-[450px] object-cover py-3"
                   />
                 </div>
               </div>
             ))}
           />
         </div>
-        <p className="mr-36 text-right">
-          Designs and Sketches by 叶秀文（Ye Xiuwen）
-        </p>
       </div>
+      <p className="pt-10 text-center">
+        Designs and Sketches by 叶秀文（Ye Xiuwen）
+      </p>
     </div>
   );
 }

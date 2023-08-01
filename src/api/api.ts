@@ -74,13 +74,43 @@ export const getUsers = async () => {
     console.error('Error fetching data:', error);
     throw error;
   }
-  0;
+};
+
+export const updateProfile = async (userUpdate: {
+  Id: string | undefined;
+  ImagePath: string | null;
+  Description: string;
+}) => {
+  try {
+    const response = await recipeApi.post(
+      window.$env.hosts.apis.updateUser,
+      userUpdate,
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      }
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error adding recipe:', error);
+    throw error;
+  }
 };
 
 // Recipes
 export const getRecipes = async () => {
   try {
     const response = await recipeApi.get(window.$env.hosts.apis.recipes);
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching data:', error);
+    throw error;
+  }
+};
+
+export const getCategories = async () => {
+  try {
+    const response = await recipeApi.get(window.$env.hosts.apis.categories);
     return response.data;
   } catch (error) {
     console.error('Error fetching data:', error);

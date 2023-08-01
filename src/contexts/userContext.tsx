@@ -13,6 +13,7 @@ function useUserSource(): {
   setUsers: (search: User[]) => void;
   search: string;
   setSearch: (search: string) => void;
+  refetchUsersData: () => void; // Step 1: Add the refetchUsersData function
 } {
   type UsersState = {
     users: User[];
@@ -29,6 +30,8 @@ function useUserSource(): {
           return { ...state, users: action.payload };
         case 'setSearch':
           return { ...state, search: action.payload };
+        default:
+          return state; // Add a default case to handle any unknown actions
       }
     },
     {
@@ -37,18 +40,18 @@ function useUserSource(): {
     }
   );
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const fetchedData = await getUsers();
-        dispatch({ type: 'setUsers', payload: fetchedData.UserDTOs });
-      } catch (error) {
-        // Handle error, e.g., show an error message or retry
-      }
-    };
-
-    fetchData();
+  const fetchData = useCallback(async () => {
+    try {
+      const fetchedData = await getUsers();
+      dispatch({ type: 'setUsers', payload: fetchedData.UserDTOs });
+    } catch (error) {
+      // Handle error, e.g., show an error message or retry
+    }
   }, []);
+
+  useEffect(() => {
+    fetchData();
+  }, [fetchData]);
 
   const setSearch = useCallback((search: string) => {
     dispatch({
@@ -64,21 +67,25 @@ function useUserSource(): {
     });
   }, []);
 
+  const refetchUsersData = useCallback(() => {
+    fetchData(); // Step 1: Implement the refetchUsersData function by calling fetchData
+  }, [fetchData]); // Step 1: Make sure to include fetchData in the dependencies
+
   const filteredUser = useMemo(
     () =>
       users
-        .filter((p) => p.username.toLowerCase().includes(search.toLowerCase()))
+        .filter((p) => p.Username.toLowerCase().includes(search.toLowerCase()))
         .slice(0, 20),
     [users, search]
   );
 
   const sortedUser = useMemo(
     () =>
-      [...filteredUser].sort((a, b) => a.username.localeCompare(b.username)),
+      [...filteredUser].sort((a, b) => a.Username.localeCompare(b.Username)),
     [filteredUser]
   );
 
-  return { users: sortedUser, setUsers, search, setSearch };
+  return { users: sortedUser, setUsers, search, setSearch, refetchUsersData }; // Step 2: Include the refetchUsersData in the returned object
 }
 
 const UsersListContext = createContext<ReturnType<typeof useUserSource>>(

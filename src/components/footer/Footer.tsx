@@ -2,9 +2,9 @@ import { Link } from 'react-router-dom';
 
 function Footer() {
   return (
-    <footer className="block w-full bottom-0 shadow-lg bg-recipecentral-light">
-      <div className="container mx-auto py-4 px-6">
-        <div className="flex justify-between items-center">
+    <footer className="bottom-0 block w-full bg-recipecentral-light shadow-lg">
+      <div className="container mx-auto px-6 py-4">
+        <div className="flex items-center justify-between">
           <div>
             <p className="text-sm">
               &copy; {new Date().getFullYear()} B and M Apps

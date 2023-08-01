@@ -1,5 +1,5 @@
 import { useContext, useState } from 'react';
-import { RecipesContext } from '../../contexts/recipesContext';
+import { RecipesContext } from '../../../contexts/recipesContext';
 
 function NewRecipeForm1() {
   const recipeContext = useContext(RecipesContext);
@@ -17,10 +17,10 @@ function NewRecipeForm1() {
   };
 
   return (
-    <div className="max-w-md mx-auto p-4 bg-recipecentral shadow-lg rounded h-full">
-      <h2 className="text-2xl font-semibold mb-4">New Recipe</h2>
+    <div className="mx-auto h-full max-w-md rounded bg-recipecentral p-4 shadow-lg">
+      <h2 className="mb-4 text-2xl font-semibold">New Recipe</h2>
       <div className="mb-4">
-        <label htmlFor="name" className="block mb-1 font-semibold">
+        <label htmlFor="name" className="mb-1 block font-semibold">
           Name
         </label>
         <input
@@ -29,10 +29,10 @@ function NewRecipeForm1() {
           value={recipeContext?.name}
           onChange={(e) => recipeContext?.setName(e.target.value)}
           placeholder="Enter recipe name"
-          className="w-full px-4 py-2 border border-gray-300 rounded"
+          className="w-full rounded border border-gray-300 px-4 py-2"
         />
       </div>
-      <label htmlFor="Category" className="block mb-1 font-semibold">
+      <label htmlFor="Category" className="mb-1 block font-semibold">
         Categories:
       </label>
       {recipeContext?.foodTypes.length !== 0 ? (
@@ -40,7 +40,7 @@ function NewRecipeForm1() {
           {recipeContext?.foodTypes.map((category) => (
             <span
               key={category}
-              className="inline-block bg-gray-200 rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2"
+              className="mb-2 mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 font-semibold text-gray-700"
             >
               {category}
             </span>
@@ -48,13 +48,13 @@ function NewRecipeForm1() {
         </div>
       ) : (
         <div id="Category" className="mt-2">
-          <span className="inline-block bg-gray-200 rounded-full px-3 py-1 font-semibold text-gray-700 mr-2 mb-2">
+          <span className="mb-2 mr-2 inline-block rounded-full bg-gray-200 px-3 py-1 font-semibold text-gray-700">
             No Category Selected
           </span>
         </div>
       )}
       <div className="mb-4">
-        <label htmlFor="description" className="block mb-1 font-semibold">
+        <label htmlFor="description" className="mb-1 block font-semibold">
           Description:
         </label>
         <textarea
@@ -62,12 +62,12 @@ function NewRecipeForm1() {
           value={recipeContext?.description}
           onChange={(e) => recipeContext?.setDescription(e.target.value)}
           placeholder="Enter recipe description"
-          className="w-full px-4 py-2 border border-gray-300 rounded"
+          className="w-full rounded border border-gray-300 px-4 py-2"
           rows={4}
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="cookTimeMin" className="block mb-1 font-semibold">
+        <label htmlFor="cookTimeMin" className="mb-1 block font-semibold">
           Prep Time (min):
         </label>
         <input
@@ -78,11 +78,11 @@ function NewRecipeForm1() {
             recipeContext?.setPrepTimeMin(parseInt(e.target.value, 10))
           }
           placeholder="Enter Prep time in minutes"
-          className="w-full px-4 py-2 border border-gray-300 rounded"
+          className="w-full rounded border border-gray-300 px-4 py-2"
         />
       </div>
       <div className="mb-4">
-        <label htmlFor="cookTimeMin" className="block mb-1 font-semibold">
+        <label htmlFor="cookTimeMin" className="mb-1 block font-semibold">
           Cook Time (min):
         </label>
         <input
@@ -93,12 +93,12 @@ function NewRecipeForm1() {
             recipeContext?.setCookTimeMin(parseInt(e.target.value, 10))
           }
           placeholder="Enter cook time in minutes"
-          className="w-full px-4 py-2 border border-gray-300 rounded"
+          className="w-full rounded border border-gray-300 px-4 py-2"
         />
       </div>
       {/* Add inputs for other fields (ingredients, difOfIngredient, steps, rating) */}
       <div className="mb-4">
-        <label htmlFor="image" className="block mb-1 font-semibold">
+        <label htmlFor="image" className="mb-1 block font-semibold">
           Image:
         </label>
         <div className="mx-auto items-center justify-center">
@@ -110,7 +110,7 @@ function NewRecipeForm1() {
               onChange={handleImageUpload}
             />{' '} */}
             <input
-              className="block w-full text-gray-900 border border-gray-300 rounded-lg cursor-pointer bg-gray-50"
+              className="block w-full cursor-pointer rounded-lg border border-gray-300 bg-gray-50 text-gray-900"
               id="image"
               type="file"
               onChange={handleImageUpload}
@@ -121,7 +121,7 @@ function NewRecipeForm1() {
               <img
                 src={recipeContext?.selectedImage}
                 alt="Selected"
-                className="w-44 h-44 object-cover"
+                className="h-44 w-44 object-cover"
               />
             )}
           </div>

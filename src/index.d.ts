@@ -14,10 +14,38 @@ declare global {
         };
         apis: {
           users: string;
+          updateUser: string;
           recipes: string;
           addRecipe: string;
+          categories: string;
         };
       };
     };
   }
 }
+
+export type CategoriesData = {
+  id: string;
+  RegionCategories: Regions[];
+  FoodCategories: Meals[];
+  MealCategories: Foods[];
+};
+
+export type Regions = {
+  id: string;
+  name: string;
+  dishes: string[];
+  imgPath: string;
+};
+
+export type Meals = {
+  id: string;
+  name: string;
+  imgPath: string;
+};
+
+export type Foods = {
+  id: string;
+  name: string;
+  imgPath: string;
+};

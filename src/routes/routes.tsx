@@ -5,13 +5,13 @@ import Root from './Root';
 import Home from '../components/pages/Home';
 import Login from '../components/login/Login';
 import NotFound from '../components/pages/NotFound';
-import Recipes from '../components/pages/Recipes';
-import Recipe from '../components/pages/Recipe';
+import Recipes from '../components/recipes/Recipes';
+import Recipe from '../components/recipes/Recipe';
 import Contact from '../components/pages/Contact';
 import Register from '../components/login/Register';
-import NewRecipe from '../components/pages/NewRecipe';
-import Categories from '../components/pages/Categories';
-import UserPage from '../components/pages/UserPage';
+import NewRecipe from '../components/recipes/forms/NewRecipe';
+import Categories from '../components/recipes/Categories';
+import UserPage from '../components/UserPage/UserPage';
 
 const router = createBrowserRouter([
   {

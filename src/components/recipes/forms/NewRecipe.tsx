@@ -1,12 +1,12 @@
 import { useState } from 'react';
 
-import { addRecipe } from '../../api/api';
-import { RecipesContext } from '../../contexts/recipesContext';
-import NewRecipeForm1 from '../forms/NewRecipeForm1';
-import NewRecipeForm2 from '../forms/NewRecipeForm2';
-import NewRecipeForm3 from '../forms/NewRecipeForm3';
-import CategorySelector from '../forms/CategorySelector';
-import { UseAuth } from '../../contexts/authContext';
+import { addRecipe } from '../../../api/api';
+import { RecipesContext } from '../../../contexts/recipesContext';
+import NewRecipeForm1 from './NewRecipeForm1';
+import NewRecipeForm2 from './NewRecipeForm2';
+import NewRecipeForm3 from './NewRecipeForm3';
+import CategorySelector from './CategorySelector';
+import { UseAuth } from '../../../contexts/authContext';
 
 function NewRecipe() {
   const [selectedImage, setSelectedImage] = useState(null);
@@ -36,10 +36,9 @@ function NewRecipe() {
       Ingredients: ingredients.filter((ingredient) => ingredient !== ''),
       Steps: steps.filter((step) => step !== ''),
       Rating: null,
-      CreatedBy: user?.id,
+      CreatedBy: user?.Id,
     };
 
-    console.log(JSON.stringify(recipe));
     addRecipe(recipe);
   }
 
@@ -69,19 +68,19 @@ function NewRecipe() {
       <div className="relative mx-auto">
         <CategorySelector />
         <div className="flex flex-wrap justify-center">
-          <div className="flex-1 mt-4 mx-2 min-w-fit">
+          <div className="mx-2 mt-4 min-w-fit flex-1">
             <NewRecipeForm1 />
           </div>
-          <div className="flex-1 mt-4 mx-2 min-w-fit">
+          <div className="mx-2 mt-4 min-w-fit flex-1">
             <NewRecipeForm2 />
           </div>
-          <div className="flex-1 mt-4 mx-2 min-w-fit">
+          <div className="mx-2 mt-4 min-w-fit flex-1">
             <NewRecipeForm3 />
           </div>
         </div>
-        <div className="flex justify-center mt-8">
+        <div className="mt-8 flex justify-center">
           <button
-            className="px-4 py-2 text-sm text-black bg-recipecentral rounded-md hover:bg-recipecentral-dark hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:bg-recipecentral-dark"
+            className="rounded-md bg-recipecentral px-4 py-2 text-sm text-black hover:bg-recipecentral-dark hover:text-white focus:outline-none focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
             type="submit"
             onClick={submitNewRecipe}
           >

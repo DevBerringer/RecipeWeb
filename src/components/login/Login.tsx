@@ -4,7 +4,7 @@ import { Signin } from '../../api/api';
 import { UseAuth } from '../../contexts/authContext';
 
 function Login() {
-  const { setUser } = UseAuth();
+  const { refetchUserData } = UseAuth();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({
@@ -60,7 +60,7 @@ function Login() {
         // Clear input fields
         setUsername('');
         setPassword('');
-        setUser(response)
+        refetchUserData();
         navigate('/');
       }
     } else {
@@ -69,8 +69,8 @@ function Login() {
   };
 
   return (
-    <div className="bg-white py-8 px-4 sm:px-6 lg:px-10 flex">
-      <div className="flex flex-col justify-center w-full max-w-lg space-y-6 pr-2">
+    <div className="flex bg-white px-4 py-8 sm:px-6 lg:px-10">
+      <div className="flex w-full max-w-lg flex-col justify-center space-y-6 pr-2">
         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
           Login
         </h2>
@@ -83,7 +83,7 @@ function Login() {
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Username input */}
           {errors.submit && (
-            <p className="text-red-500 text-xl mt-1">{errors.submit}</p>
+            <p className="mt-1 text-xl text-red-500">{errors.submit}</p>
           )}
           <div>
             <label htmlFor="username">Username</label>
@@ -95,12 +95,12 @@ function Login() {
               value={username}
               onChange={handleUsernameChange}
               placeholder="Welcome Back"
-              className={`block w-full px-4 py-2 rounded-md bg-gray-200 border-black placeholder-gray-400 focus:ring-2 focus:ring-black focus:border-transparent ${
+              className={`block w-full rounded-md border-black bg-gray-200 px-4 py-2 placeholder-gray-400 focus:border-transparent focus:ring-2 focus:ring-black ${
                 errors.username ? 'border-red-500' : ''
               }`}
             />
             {errors.username && (
-              <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.username}</p>
             )}
           </div>
 
@@ -116,12 +116,12 @@ function Login() {
               value={password}
               onChange={handlePasswordChange}
               placeholder="Enter 8 Charters or more"
-              className={`block w-full px-4 py-2 rounded-md bg-gray-200 border-gray-300 placeholder-gray-400 focus:ring-2 focus:ring-indigo-600 focus:border-transparent ${
+              className={`block w-full rounded-md border-gray-300 bg-gray-200 px-4 py-2 placeholder-gray-400 focus:border-transparent focus:ring-2 focus:ring-indigo-600 ${
                 errors.password ? 'border-red-500' : ''
               }`}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
             )}
             <Link
               to="forgotPassword"
@@ -135,18 +135,18 @@ function Login() {
           <div>
             <button
               type="submit"
-              className="w-full px-4 py-2 text-sm font-medium text-white bg-recipecentral rounded-md hover:bg-recipecentral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:bg-recipecentral-dark"
+              className="w-full rounded-md bg-recipecentral px-4 py-2 text-sm font-medium text-white hover:bg-recipecentral-dark focus:outline-none focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
             >
               Sign in
             </button>
           </div>
         </form>
       </div>
-      <div className="flex-grow flex items-center justify-center">
+      <div className="flex flex-grow items-center justify-center">
         <img
           src="/assets/foodCollection.jpg"
           alt="Login photos"
-          className="object-cover max-h-[32rem]"
+          className="max-h-[32rem] object-cover"
         />
       </div>
     </div>

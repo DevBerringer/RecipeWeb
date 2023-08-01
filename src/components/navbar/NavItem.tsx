@@ -6,10 +6,10 @@ interface NavItemProps {
 function NavItem({ href, text }: NavItemProps) {
   return (
     <a
-      className="px-3 py-2 flex items-center text-xl font-bold leading-snug text-black hover:opacity-75"
+      className="flex items-center px-3 py-2 text-xl font-bold leading-snug text-black hover:opacity-75"
       href={href}
     >
-      <div className="my-auto align-self-middle align-middle right-0 mr-0 text-black">
+      <div className="align-self-middle right-0 my-auto mr-0 align-middle text-black">
         {text}
       </div>
     </a>

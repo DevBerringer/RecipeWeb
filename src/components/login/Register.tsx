@@ -111,14 +111,14 @@ function RegisterForm() {
   };
 
   return (
-    <div className="bg-white py-8 px-4 sm:px-6 lg:px-10 flex">
-      <div className="flex flex-col justify-center w-full max-w-lg space-y-6 mr-2">
+    <div className="flex bg-white px-4 py-8 sm:px-6 lg:px-10">
+      <div className="mr-2 flex w-full max-w-lg flex-col justify-center space-y-6">
         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
           Register
         </h2>
         <form onSubmit={handleSubmit} className="space-y-6">
           {errors.submit && (
-            <p className="text-red-500 text-xl mt-1">{errors.submit}</p>
+            <p className="mt-1 text-xl text-red-500">{errors.submit}</p>
           )}
           {/* Email input */}
           <div>
@@ -131,13 +131,13 @@ function RegisterForm() {
               value={email}
               onChange={handleEmailChange}
               placeholder="you@example.com"
-              className={`block w-full px-4 py-2 rounded-md bg-gray-100 border 
+              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
               ${
                 errors.email ? 'border-red-500 outline-none' : 'border-gray-300'
               } placeholder-gray-400`}
             />
             {errors.email && (
-              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.email}</p>
             )}
           </div>
           <div>
@@ -149,7 +149,7 @@ function RegisterForm() {
               value={username}
               onChange={handleUsernameChange}
               placeholder="Enter Username"
-              className={`block w-full px-4 py-2 rounded-md bg-gray-100 border 
+              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
               ${
                 errors.username
                   ? 'border-red-500 outline-none'
@@ -157,7 +157,7 @@ function RegisterForm() {
               } placeholder-gray-400`}
             />
             {errors.username && (
-              <p className="text-red-500 text-sm mt-1">{errors.username}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.username}</p>
             )}
           </div>
           {/* Password input */}
@@ -170,7 +170,7 @@ function RegisterForm() {
               value={password}
               onChange={handlePasswordChange}
               placeholder="Enter 8 Charters or more"
-              className={`block w-full px-4 py-2 rounded-md bg-gray-100 border 
+              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
               ${
                 errors.password
                   ? 'border-red-500 outline-none'
@@ -178,7 +178,7 @@ function RegisterForm() {
               } placeholder-gray-400`}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
             )}
           </div>
           <div>
@@ -190,7 +190,7 @@ function RegisterForm() {
               value={confirmPassword}
               onChange={handleConPasswordChange}
               placeholder="Enter 8 Charters or more"
-              className={`block w-full px-4 py-2 rounded-md bg-gray-100 border 
+              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
               ${
                 errors.password
                   ? 'border-red-500 outline-none'
@@ -198,7 +198,7 @@ function RegisterForm() {
               } placeholder-gray-400`}
             />
             {errors.password && (
-              <p className="text-red-500 text-sm mt-1">{errors.password}</p>
+              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
             )}
           </div>
 
@@ -206,18 +206,18 @@ function RegisterForm() {
           <div>
             <button
               type="submit"
-              className="w-full px-4 py-2 text-xl font-medium text-white bg-recipecentral rounded-md hover:bg-recipecentral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:bg-recipecentral-dark"
+              className="w-full rounded-md bg-recipecentral px-4 py-2 text-xl font-medium text-white hover:bg-recipecentral-dark focus:outline-none focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
             >
               Sign up!
             </button>
           </div>
         </form>
       </div>
-      <div className="flex-grow flex items-center justify-center">
+      <div className="flex flex-grow items-center justify-center">
         <img
           src="/assets/register.jpg"
           alt="register"
-          className="object-cover max-h-[32rem]"
+          className="max-h-[32rem] object-cover"
         />
       </div>
     </div>

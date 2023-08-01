@@ -16,7 +16,7 @@ export default function ProfileNav() {
   const navigate = useNavigate();
 
   async function handleProfileClick() {
-    navigate(`/user/${user?.id}`);
+    navigate(`/user/${user?.Id}`);
   }
 
   async function logout() {
@@ -32,18 +32,21 @@ export default function ProfileNav() {
   }
 
   return (
-    <div className="">
+    <div>
       <Menu as="div" className="relative inline-block text-left">
         <div>
-          <Menu.Button className="">
+          <Menu.Button className="rounded-lg px-5 py-2 hover:outline hover:outline-recipecentral">
             <div className="py-auto flex">
-              <div
-                className="w-12 h-12 bg-cover bg-black bg-center rounded-full"
-                style={{
-                  backgroundImage: `url('profile-picture-url')`,
-                }}
-              />
-              <div className="mt-3 ml-3">{user?.username}</div>
+              {user?.ImagePath ? (
+                <img
+                  className="h-12 w-16 rounded-2xl bg-cover bg-center"
+                  src={user.ImagePath}
+                  alt="test"
+                />
+              ) : (
+                <div className=" h-12 w-16 rounded-2xl bg-black bg-cover bg-center" />
+              )}
+              <div className="ml-3 mt-3">{user?.Username}</div>
             </div>
           </Menu.Button>
         </div>

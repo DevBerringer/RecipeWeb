@@ -3,15 +3,15 @@ import { ReactComponent as Croissant } from '../../assets/croissant.svg';
 function About() {
   return (
     <div className="container mx-auto px-4 py-8">
-      <div className="text-center mb-4">
+      <div className="mb-4 text-center">
         <h1 className="text-4xl font-extrabold">
           <span className="drop-shadow-lg"> About Family Cookbook</span>
         </h1>
       </div>
-      <div className="text-center bg-white py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-7xl mx-auto">
+      <div className="bg-white px-4 py-8 text-center sm:px-6 lg:px-8">
+        <div className="mx-auto max-w-7xl">
           <div className="text-center">
-            <Croissant className="max-h-[32rem] mx-auto" />
+            <Croissant className="mx-auto max-h-[32rem]" />
             <p className="mt-4 text-lg text-gray-500">
               Welcome to our recipe sharing community! We are passionate about
               food and believe that sharing delicious recipes can bring people

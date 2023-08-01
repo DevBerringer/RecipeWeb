@@ -28,6 +28,8 @@ function useRecipeSource(): {
           return { ...state, recipe: action.payload };
         case 'setSearch':
           return { ...state, search: action.payload };
+        default:
+          return { ...state };
       }
     },
     {
@@ -40,6 +42,7 @@ function useRecipeSource(): {
     const fetchData = async () => {
       try {
         const fetchedData = await getRecipes();
+        console.log(fetchData);
         dispatch({ type: 'setRecipe', payload: fetchedData.RecipeDTOs });
       } catch (error) {
         // Handle error, e.g., show an error message or retry

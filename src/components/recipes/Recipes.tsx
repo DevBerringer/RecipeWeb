@@ -47,15 +47,15 @@ function Recipes() {
 
   return (
     <div>
-      <div className="flex justify-end mx-auto mb-4">
-        <div className="px-4 py-2 text-gray-600 text-lg">
+      <div className="mx-auto mb-4 flex justify-end">
+        <div className="px-4 py-2 text-lg text-gray-600">
           Can't find what you are looking for?
         </div>
         <SearchBar onChange={handleFilterChange} />
       </div>
-      <div className="flex justify-center mb-4">
+      <div className="mb-4 flex justify-center">
         <select
-          className="px-4 py-2 border border-gray-300 rounded"
+          className="rounded border border-gray-300 px-4 py-2"
           value={filter}
           onChange={handleFilterChange}
         >
@@ -66,11 +66,11 @@ function Recipes() {
           <option value="dessert">Dessert</option>
         </select>
       </div>
-      <div className="flex flex-wrap justify-center">
+      <div className="grid w-full grid-cols-1 justify-center xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {currentItems.length > 0 ? (
           currentItems.map((item) => (
             <Link to={`${item.Id}`} key={item.Id} className="m-2 my-5">
-              <div className="w-full md:w-1/2 lg:w-1/4 xl:w-1/5 min-w-[256px]">
+              <div className="h-full w-full min-w-[256p]">
                 <RecipeCard
                   picture={item.Picture}
                   name={item.Name}
@@ -81,21 +81,23 @@ function Recipes() {
             </Link>
           ))
         ) : (
-          <div className="flex items-center justify-center my-4 max-h-[350px] max-w-[350px]">
+          <div className="my-4 flex max-h-[350px] max-w-[350px] items-center justify-center">
             <Lottie animationData={loadingAnimation} />
           </div>
         )}
       </div>
-      <div className="flex justify-center my-4">
+      <div className="my-4 flex justify-center">
         <button
-          className="px-4 py-2 mr-2 bg-blue-500 text-white rounded disabled:opacity-50"
+          type="button"
+          className="mr-2 rounded bg-recipecentral px-4 py-2 disabled:opacity-50"
           onClick={prevPage}
           disabled={currentPage === 1}
         >
           Previous
         </button>
         <button
-          className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+          type="button"
+          className="rounded bg-recipecentral px-4 py-2 disabled:opacity-50"
           onClick={nextPage}
           disabled={currentPage === totalPages}
         >

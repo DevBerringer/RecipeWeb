@@ -10,7 +10,7 @@ import Recipe from '../components/recipes/Recipe';
 import Contact from '../components/pages/Contact';
 import Register from '../components/login/Register';
 import NewRecipe from '../components/recipes/forms/NewRecipe';
-import Categories from '../components/recipes/Categories';
+import Categories from '../components/recipes/categories/Categories';
 import UserPage from '../components/UserPage/UserPage';
 
 const router = createBrowserRouter([

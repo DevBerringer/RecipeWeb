@@ -12,7 +12,7 @@ export default function RecipeCard({
   cookTime,
 }: RecipeCardProps) {
   return (
-    <div className="group flex w-full transform cursor-pointer flex-col justify-between rounded-lg shadow shadow-slate-400 transition-transform hover:scale-105 hover:shadow-slate-400 md:w-64 lg:w-72">
+    <div className="group flex h-full w-full transform cursor-pointer flex-col justify-between rounded-lg shadow shadow-slate-400 transition-transform hover:scale-105 hover:shadow-slate-400">
       <div className="">
         <img
           src={picture || 'assets/noFood.jpg'}

@@ -69,7 +69,7 @@ function Recipes() {
       <div className="grid w-full grid-cols-1 justify-center xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
         {currentItems.length > 0 ? (
           currentItems.map((item) => (
-            <Link to={`${item.Id}`} key={item.Id} className="m-2 my-5">
+            <Link to={`recipe/${item.Id}`} key={item.Id} className="m-2 my-5">
               <div className="h-full w-full min-w-[256p]">
                 <RecipeCard
                   picture={item.Picture}

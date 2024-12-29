@@ -43,32 +43,31 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
       {filteredRecipes.length > 0 ? (
         filteredRecipes.map((item) => (
           <div key={item.Id}>
-            <div className="mt-10 h-[1px] w-full bg-gray-300" />
+            <div className="h-[1px] w-full bg-gray-300" />
             <Link
               to={`${`../../recipes/${item.Id}`}`}
               key={item.Id}
               className="m-2 my-5"
             >
-              <div className="grid grid-cols-8 gap-4">
-                <div className="col-span-4">
-                  <RecipeCardProfile
-                    key={item.Id}
-                    picture={item.Picture}
-                    name={item.Name}
-                  />
-                </div>
+              <div className="grid w-full grid-cols-4 gap-4">
                 <div className="col-span-4 flex max-h-[400px] max-w-lg flex-col justify-between pt-10 text-lg">
-                  <div className="overflow-hidden">{item.Description}</div>
+                  <div>
+                    <p className="text-2xl font-bold">{item.Description}</p>
+                  </div>
                   <div className="pt-3">
                     Categories: {item.FoodTypes.join(', ')}
                   </div>{' '}
-                  <div className="pt-3">PrepTime: {item.PrepTimeMin} min.</div>
-                  <div className="pt-3">CookTime: {item.CookTimeMin} min.</div>
-                  <div className="text-right">
-                    <span className="text-gray-500">Created Date: </span>
-                    {new Date(item.CreatedDate).toLocaleDateString()}
+                  <div className=" pt-3 text-right">
+                    PrepTime: {item.PrepTimeMin} min.
+                  </div>
+                  <div className="pt-3 text-right">
+                    CookTime: {item.CookTimeMin} min.
                   </div>
                 </div>
+              </div>
+              <div className="text-right">
+                <span className="text-gray-500">Created Date: </span>
+                {new Date(item.CreatedDate).toLocaleDateString()}
               </div>
             </Link>
           </div>

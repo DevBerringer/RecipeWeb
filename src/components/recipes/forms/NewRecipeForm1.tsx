@@ -39,8 +39,8 @@ function NewRecipeForm1() {
           <input
             type="number"
             id="name"
-            value={recipeContext?.name}
-            onChange={(e) => recipeContext?.setName(e.target.value)}
+            value={recipeContext?.serves}
+            onChange={(e) => recipeContext?.setServes(e.target.value)}
             placeholder="How many people does this serve?"
             className="mx-auto w-full rounded border border-gray-300 px-4 py-2"
           />
@@ -52,7 +52,9 @@ function NewRecipeForm1() {
           <input
             type="number"
             id="cookTimeMin"
-            value={recipeContext?.prepTimeMin}
+            value={
+              recipeContext?.prepTimeMin == 0 ? '' : recipeContext?.prepTimeMin
+            }
             onChange={(e) =>
               recipeContext?.setPrepTimeMin(parseInt(e.target.value, 10))
             }
@@ -67,7 +69,9 @@ function NewRecipeForm1() {
           <input
             type="number"
             id="cookTimeMin"
-            value={recipeContext?.cookTimeMin}
+            value={
+              recipeContext?.cookTimeMin == 0 ? '' : recipeContext?.cookTimeMin
+            }
             onChange={(e) =>
               recipeContext?.setCookTimeMin(parseInt(e.target.value, 10))
             }

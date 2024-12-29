@@ -1,3 +1,4 @@
+import { useContext, useEffect, useState } from 'react';
 import { Foods, Meals, Regions } from '../../..';
 import CategoryCard from '../categories/CategoryCard';
 
@@ -27,7 +28,7 @@ function CategoriesListNewRecipe({ categoryList }: CategoriesListProps) {
         categoryList.map((item) => (
           <div
             key={item.id}
-            className={`m-2 h-[185px] w-[164px] cursor-pointer rounded-xl ${
+            className={`m-2 h-[120px] w-[120px] cursor-pointer rounded-xl ${
               coloredCategories.has(item.id) ? 'bg-recipecentral' : ''
             }`}
             onClick={() => handleCategoryClick(item.id)}

@@ -29,7 +29,7 @@ export default function CategoryCard({ name, imgPath }: CategoryCardProps) {
         isClicked ? 'underline' : ''
       }`}
     >
-      <div className="h-[164px] w-[164px]">
+      <div className="h-[100px] w-[100px]">
         {imgPath !== '' ? (
           <img src={imgPath} alt="no Pic" />
         ) : (

@@ -57,7 +57,7 @@ function CategorySelector() {
               <button
                 type="button"
                 key={region.name}
-                className={`m-2 h-24 w-36 rounded-lg border px-4 py-2 text-lg hover:bg-recipecentral-light ${
+                className={`m-2 h-15 w-36 rounded-lg border px-4 py-2 text-lg hover:bg-recipecentral-light ${
                   isClicked[region.name] ? 'bg-recipecentral underline' : ''
                 }`}
                 onClick={() => {

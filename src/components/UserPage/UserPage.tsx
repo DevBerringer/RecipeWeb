@@ -58,6 +58,7 @@ function UserPage() {
               ? `${currentProfile?.Username}'s Cookbook`
               : 'Your Cookbook'}
           </h1>
+
           <RecipeProfileList
             createdByFilter={currentProfile ? currentProfile.Id : ''}
           />

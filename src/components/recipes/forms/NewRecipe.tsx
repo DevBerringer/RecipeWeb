@@ -82,39 +82,32 @@ function NewRecipe() {
       }}
     >
       <div className="relative mx-auto">
-        <div className="flex justify-center">
-          <div className="px-4 pb-8 pt-4 text-5xl font-semibold">
-            New Recipe
-          </div>
-        </div>
-        <div className="mt-20">{stepsComponents[currentStep]}</div>
         {currentStep > 0 && (
           <button
-            className="absolute left-0 top-20 ml-4 mt-4 rounded-md bg-recipecentral px-4 py-2 text-black hover:bg-recipecentral-dark hover:text-white focus:outline-none focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="fixed left-0 top-1/2 min-h-full w-16 -translate-y-1/2 transform bg-recipecentral text-black hover:bg-recipecentral-dark hover:text-white focus:outline-none rounded-r-lg focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
             type="button"
             onClick={handlePreviousStep}
           >
             Previous
           </button>
         )}
+        <div>{stepsComponents[currentStep]}</div>
         {currentStep < stepsComponents.length - 1 ? (
           <button
-            className="absolute right-0 top-20 mr-4 mt-4 rounded-md bg-recipecentral px-4 py-2 text-black hover:bg-recipecentral-dark hover:text-white focus:outline-none focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
+            className="fixed right-0 top-1/2 min-h-full w-16 -translate-y-1/2 transform bg-transparent text-black hover:bg-recipecentral-dark hover:text-white focus:outline-none rounded-l-lg focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
             type="button"
             onClick={handleNextStep}
           >
             Next
           </button>
         ) : (
-          <div className="mt-8 flex justify-center">
-            <button
-              className="absolute right-0 top-20 mr-4 mt-4 rounded-md bg-recipecentral px-4 py-2 text-black hover:bg-recipecentral-dark hover:text-white focus:outline-none focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
-              type="submit"
-              onClick={submitNewRecipe}
-            >
-              Submit New Recipe!
-            </button>
-          </div>
+          <button
+            className="absolute right-0 top-20 mt-4 rounded-md bg-recipecentral px-4 py-2 text-black hover:bg-recipecentral-dark hover:text-white focus:outline-none focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
+            type="submit"
+            onClick={submitNewRecipe}
+          >
+            Submit!
+          </button>
         )}
       </div>
     </RecipesContext.Provider>

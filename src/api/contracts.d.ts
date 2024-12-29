@@ -11,6 +11,7 @@ type RecipeResponseDTO = {
 type Recipe = {
   Id: string | null;
   Name: string;
+  Serves: string;
   Picture: string;
   SpicyLevel: boolean;
   Description: string;

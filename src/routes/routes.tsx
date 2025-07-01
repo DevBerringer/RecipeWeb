@@ -1,17 +1,17 @@
 import { createBrowserRouter } from 'react-router-dom';
-import About from '../components/pages/About';
 
 import Root from './Root';
 import Home from '../components/pages/Home';
-import Login from '../components/login/Login';
-import NotFound from '../components/pages/NotFound';
-import Recipes from '../components/recipes/Recipes';
-import Recipe from '../components/recipes/Recipe';
-import Contact from '../components/pages/Contact';
-import Register from '../components/login/Register';
-import NewRecipe from '../components/recipes/forms/NewRecipe';
-import Categories from '../components/recipes/Categories';
-import UserPage from '../components/UserPage/UserPage';
+import Login from '../components/pages/login/Login';
+import Register from '../components/pages/login/Register';
+import UserPage from '../components/pages/UserPage/UserPage';
+import Contact from '../components/static/Contact';
+import NotFound from '../components/static/NotFound';
+import About from '../components/static/About';
+import Recipes from '../components/pages/recipes/Recipes';
+import Recipe from '../components/pages/recipes/Recipe';
+import NewRecipe from '../components/pages/recipes/forms/NewRecipe';
+import PreviewRecipe from '../components/pages/recipes/forms/PreviewRecipe';
 
 const router = createBrowserRouter([
   {
@@ -36,20 +36,20 @@ const router = createBrowserRouter([
         element: <UserPage />,
       },
       {
-        path: 'categories',
-        element: <Categories />,
-      },
-      {
-        path: 'recipes',
+        path: 'recipes/*',
         element: <Recipes />,
       },
       {
-        path: 'recipes/:id',
+        path: 'recipes/recipe/:id',
         element: <Recipe />,
       },
       {
         path: 'newRecipe',
         element: <NewRecipe />,
+      },
+      {
+        path: 'newRecipe/Preview',
+        element: <PreviewRecipe />,
       },
       {
         path: 'contactUs',

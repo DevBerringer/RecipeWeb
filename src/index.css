@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800;900&display=swap');
-@import 'react-alice-carousel/lib/alice-carousel.css';
 
 @tailwind base;
 @tailwind components;
@@ -25,6 +24,47 @@
   border: 1px solid #ddd; /* Add a border to simulate paper edges */
   padding: 48px; /* Add some padding to create space between the content and edges */
 }
+
+/* Add transition animation for sliding in */
+.step-container {
+  position: relative;
+  overflow: hidden;
+}
+
+/* Adjust the duration to make it slower */
+.slide-in-right {
+  animation: slideInRight 1s ease-out;  /* 1s for slower, 'ease-out' for smoother */
+}
+
+.slide-in-left {
+  animation: slideInLeft 1s ease-out;  /* 1s for slower, 'ease-out' for smoother */
+}
+
+/* Define the slide-in right animation */
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* Define the slide-in left animation */
+@keyframes slideInLeft {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+
 
 /* color variables */
 :root {

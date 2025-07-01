@@ -12,10 +12,9 @@ export type Meals = Category;
 
 export type Foods = Category;
 
-export type CategoriesData = {
+export type CategoriesDataMealFood = {
   MealCategories: Meals[];
   FoodCategories: Foods[];
-  // Add other category types if present in your API response
 };
 
 type CategoriesContextType = {

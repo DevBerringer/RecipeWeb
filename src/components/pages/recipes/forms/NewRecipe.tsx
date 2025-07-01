@@ -6,7 +6,7 @@ import MealSelector from './MealSelector';
 import CuisineSelector from './CuisineSelector';
 import {
   Category,
-  CategoriesData,
+  CategoriesDataMealFood,
   Foods,
   Meals,
 } from '../../../../contexts/CategoriesContext'; // Adjust path based on where these types are truly defined if not in CategoriesContext
@@ -22,7 +22,7 @@ function NewRecipe() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const data: CategoriesData = await getCategories();
+        const data: CategoriesDataMealFood = await getCategories();
         setCategories(data);
       } catch (error) {
         console.error('Error fetching categories:', error);

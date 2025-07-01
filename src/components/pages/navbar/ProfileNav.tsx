@@ -1,15 +1,15 @@
 import { Fragment } from 'react';
 
 import { Menu, Transition } from '@headlessui/react';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
-import { ReactComponent as ProfileIcon } from '../../assets/ProfileIcon.svg';
-import { ReactComponent as GroupIcon } from '../../assets/groupIcon.svg';
-import { ReactComponent as LogoutIcon } from '../../assets/logoutIcon.svg';
+import { ReactComponent as ProfileIcon } from '../../../assets/ProfileIcon.svg';
+import { ReactComponent as GroupIcon } from '../../../assets/groupIcon.svg';
+import { ReactComponent as LogoutIcon } from '../../../assets/logoutIcon.svg';
 
-import { SignOut } from '../../api/api';
+import { SignOut } from '../../../api/api';
 
-import { UseAuth } from '../../contexts/authContext';
+import { UseAuth } from '../../../contexts/authContext';
 
 export default function ProfileNav() {
   const { user, setUser } = UseAuth();
@@ -23,7 +23,6 @@ export default function ProfileNav() {
     const response = await SignOut();
 
     if (response.message === 'User Logged Out successfully!') {
-      console.log('here');
       setUser(null);
       navigate('/');
     } else {

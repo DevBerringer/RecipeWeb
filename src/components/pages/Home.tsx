@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { ReactComponent as LogoSVG } from '../../assets/LOGO/FCBLogo.svg';
 import { UseAuth } from '../../contexts/authContext';
 import ButtonDropdowns from '../shared/ButtonDropdowns';
@@ -19,14 +20,15 @@ function Home() {
     '/assets/spicyNoodle.jpg',
   ];
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="container mx-auto px-4">
       <div className="flex flex-col items-center">
         <div className="inline-block justify-center">
           <LogoSVG className="h-48 w-48" />
-        </div>
-        <div className="mx-52 w-full max-w-5xl pt-5">
-          <ButtonDropdowns /> {/* Use the ButtonDropdowns component here */}
         </div>
       </div>
       <div className="mx-auto mt-2 max-w-2xl">

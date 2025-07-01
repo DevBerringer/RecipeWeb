@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Lottie from 'lottie-react';
-import loadingAnimation from '../../assets/cookingPotAnimation.json';
-import { UseRecipe } from '../../contexts/recipesContext';
+import loadingAnimation from '../../../assets/cookingPotAnimation.json';
+import { UseRecipe } from '../../../contexts/recipesContext';
 import RecipeCard from './RecipeCard';
-import SearchBar from '../shared/SearchBar';
+import SearchBar from '../../shared/SearchBar';
 
 function Recipes() {
   const { recipe } = UseRecipe();
@@ -45,6 +45,10 @@ function Recipes() {
     }
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div>
       <div className="mx-auto mb-4 flex justify-end">
@@ -66,44 +70,53 @@ function Recipes() {
           <option value="dessert">Dessert</option>
         </select>
       </div>
-      <div className="grid w-full grid-cols-1 justify-center xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+      <div className="relative w-full">
         {currentItems.length > 0 ? (
-          currentItems.map((item) => (
-            <Link to={`recipe/${item.Id}`} key={item.Id} className="m-2 my-5">
-              <div className="h-full w-full min-w-[256p]">
-                <RecipeCard
-                  picture={item.Picture}
-                  name={item.Name}
-                  prepTime={item.PrepTimeMin}
-                  cookTime={item.CookTimeMin}
-                />
-              </div>
-            </Link>
-          ))
+          <div className="grid grid-cols-1 justify-center xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+            {currentItems.map((item) => (
+              <Link to={`recipe/${item.Id}`} key={item.Id} className="m-2 my-5">
+                <div className="h-full w-full min-w-[256px]">
+                  <RecipeCard
+                    picture={item.Picture}
+                    name={item.Name}
+                    prepTime={item.PrepTimeMin}
+                    cookTime={item.CookTimeMin}
+                  />
+                </div>
+              </Link>
+            ))}
+          </div>
         ) : (
-          <div className="my-4 flex max-h-[350px] max-w-[350px] items-center justify-center">
-            <Lottie animationData={loadingAnimation} />
+          <div className="left-0 flex h-full w-full items-center justify-center pt-20">
+            <Lottie
+              className="max-h-[350px] max-w-[350px]"
+              animationData={loadingAnimation}
+            />
           </div>
         )}
       </div>
-      <div className="my-4 flex justify-center">
-        <button
-          type="button"
-          className="mr-2 rounded bg-recipecentral px-4 py-2 disabled:opacity-50"
-          onClick={prevPage}
-          disabled={currentPage === 1}
-        >
-          Previous
-        </button>
-        <button
-          type="button"
-          className="rounded bg-recipecentral px-4 py-2 disabled:opacity-50"
-          onClick={nextPage}
-          disabled={currentPage === totalPages}
-        >
-          Next
-        </button>
-      </div>
+      {currentItems.length > 0 ? (
+        <div className="my-4 flex justify-center">
+          <button
+            type="button"
+            className="mr-2 rounded bg-recipecentral px-4 py-2 disabled:opacity-50"
+            onClick={prevPage}
+            disabled={currentPage === 1}
+          >
+            Previous
+          </button>
+          <button
+            type="button"
+            className="rounded bg-recipecentral px-4 py-2 disabled:opacity-50"
+            onClick={nextPage}
+            disabled={currentPage === totalPages}
+          >
+            Next
+          </button>
+        </div>
+      ) : (
+        <div />
+      )}
     </div>
   );
 }

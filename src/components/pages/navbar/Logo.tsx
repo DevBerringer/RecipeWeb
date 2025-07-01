@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { ReactComponent as LogoSvg } from '../../assets/LOGO/FCBLogo.svg';
+import { ReactComponent as LogoSvg } from '../../../assets/LOGO/FCBLogo.svg';
 
 function Logo() {
   return (

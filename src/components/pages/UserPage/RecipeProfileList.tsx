@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { UseRecipe } from '../../contexts/recipesContext';
+import { UseRecipe } from '../../../contexts/recipesContext';
 import RecipeCardProfile from './RecipeCardProfile';
 
 interface RecipeProfileListProps {

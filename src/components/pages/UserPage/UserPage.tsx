@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-import { UseUser } from '../../contexts/userContext';
-import { UseAuth } from '../../contexts/authContext';
+import { UseUser } from '../../../contexts/userContext';
+import { UseAuth } from '../../../contexts/authContext';
 import RecipeProfileList from './RecipeProfileList';
-import { UseRecipe } from '../../contexts/recipesContext';
+import { UseRecipe } from '../../../contexts/recipesContext';
 import EditProfileModal from './EditProfileModal';
 
 function UserPage() {
@@ -46,13 +46,17 @@ function UserPage() {
     return null;
   };
 
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
   return (
     <div className="container mx-auto py-10">
       <div className="grid grid-cols-6 gap-4">
         <div className="col-span-4">
           <h1
             key={currentProfile?.Username}
-            className="text-4xl font-bold pb-2"
+            className="pb-2 text-4xl font-bold"
           >
             {currentProfile?.Username !== user?.Username
               ? `${currentProfile?.Username}'s Cookbook`
@@ -63,18 +67,18 @@ function UserPage() {
             createdByFilter={currentProfile ? currentProfile.Id : ''}
           />
         </div>
-        <div className="col-span-2 flex px-20 flex-col items-center justify-start">
+        <div className="col-span-2 flex flex-col items-center justify-start px-20">
           {currentProfile?.ImagePath ? (
             <img
-              className="w-64 h-48 bg-cover bg-center rounded-2xl"
+              className="h-48 w-64 rounded-2xl bg-cover bg-center"
               src={currentProfile.ImagePath}
               alt="test"
             />
           ) : (
-            <div className="w-48 h-36 bg-cover bg-black bg-center rounded-2xl" />
+            <div className="h-36 w-48 rounded-2xl bg-black bg-cover bg-center" />
           )}
-          <div className="text-center w-full">
-            <div className="text-2xl pt-2">{currentProfile?.Username}</div>
+          <div className="w-full text-center">
+            <div className="pt-2 text-2xl">{currentProfile?.Username}</div>
             <div>
               {currentProfile?.Username !== user?.Username ? (
                 ''

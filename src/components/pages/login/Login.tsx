@@ -1,7 +1,7 @@
 import { useState, ChangeEvent, FormEvent } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Signin } from '../../api/api';
-import { UseAuth } from '../../contexts/authContext';
+import { Signin } from '../../../api/api';
+import { UseAuth } from '../../../contexts/authContext';
 
 function Login() {
   const { refetchUserData } = UseAuth();

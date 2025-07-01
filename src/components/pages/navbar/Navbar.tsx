@@ -1,23 +1,24 @@
 import { Link } from 'react-router-dom';
 import Logo from './Logo';
 
-import { UseAuth } from '../../contexts/authContext';
+import { UseAuth } from '../../../contexts/authContext';
 import ProfileNav from './ProfileNav';
 
 function Navbar() {
   const { user } = UseAuth();
 
   const links = [
-    { to: 'recipes/Breakfast', label: 'Breakfast' },
-    { to: 'recipes/Lunch', label: 'Lunch' },
-    { to: 'recipes/Dinner', label: 'Dinner' },
-    { to: 'recipes/Dessert', label: 'Dessert' },
-    { to: 'recipes/Snack', label: 'Snack' },
+    { to: 'recipes/Breakfast', label: 'Breakfasts' },
+    { to: 'recipes/Lunch', label: 'Lunches' },
+    { to: 'recipes/Dinner', label: 'Dinners' },
+    { to: 'recipes/Dessert', label: 'Desserts' },
+    { to: 'recipes/Snack', label: 'Snacks' },
+    { to: 'recipes/Drink', label: 'Drinks' },
     { to: 'recipes', label: 'All Recipes' },
   ];
 
   return (
-    <nav className=" fixed left-0 right-0 top-0 z-50 bg-white text-lg shadow-lg">
+    <nav className="handWritten fixed left-0 right-0 top-0 z-50 bg-white text-lg shadow-lg">
       <div className="container mx-auto flex items-center justify-between px-4 py-4">
         <Logo />
         <div className="flex items-center">

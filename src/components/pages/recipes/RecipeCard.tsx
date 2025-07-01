@@ -25,7 +25,7 @@ export default function RecipeCard({
       </div>
       <button
         type="button"
-        className="m-4 border-2 border-recipecentral p-4 text-lg font-semibold transition duration-150 ease-in group-hover:border-black group-hover:bg-recipecentral"
+        className="m-4 rounded-3xl p-4 text-lg font-semibold transition duration-150 ease-in group-hover:border-black group-hover:bg-recipecentral"
       >
         View Recipe
       </button>

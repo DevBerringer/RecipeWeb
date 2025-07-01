@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { UseUser } from '../../contexts/userContext';
-import { UseAuth } from '../../contexts/authContext';
-import { updateProfile } from '../../api/api';
+import { UseUser } from '../../../contexts/userContext';
+import { UseAuth } from '../../../contexts/authContext';
+import { updateProfile } from '../../../api/api';
 
 interface EditProfileModalProps {
   onClose: () => void;

@@ -5,7 +5,7 @@ import NewRecipeForm from './NewRecipeForm';
 import MealSelector from './MealSelector';
 import CuisineSelector from './CuisineSelector';
 // Assuming CategoriesData, Category, Meal, Food are defined here or in a linked types file
-import { CategoriesData, Category, Meal, Food } from '../../../../types'; // Adjust path if needed
+import { CategoriesData, Foods, Meals } from '../../../../index'; // Adjust path if needed
 import FoodTypeSelector from './FoodTypeSelector';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
 
@@ -46,8 +46,8 @@ function NewRecipe() {
   };
 
   // Correctly type the mapped array to Category[]
-  const mealCategoriesAsCategory: Category[] =
-    categories?.MealCategories.map((meal: Meal) => ({
+  const mealCategoriesAsCategory: Foods[] =
+    categories?.MealCategories.map((meal: Meals) => ({
       id: meal.id,
       name: meal.name,
       imgPath: meal.imgPath || '/default-image.png',
@@ -66,7 +66,7 @@ function NewRecipe() {
       // Ensure FoodCategories are mapped to Category[] if Food is not directly assignable to Category
       // If Food extends Category and FoodTypeSelector expects Category[], this cast is fine.
       // If not, you might need a similar map function as for mealCategoriesAsCategory.
-      foodCategories={categories?.FoodCategories as Category[] || []}
+      foodCategories={categories?.FoodCategories as Foods[] || []}
       onFoodTypeSelect={logInfo}
     />,
     <NewRecipeForm key="newRecipeForm" />,

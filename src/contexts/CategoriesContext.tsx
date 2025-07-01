@@ -8,7 +8,6 @@ export type Category = {
   imagePath: string;
 };
 
-
 type CategoriesContextType = {
   categories: CategoriesData | null;
   loading: boolean;

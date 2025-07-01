@@ -1,17 +1,30 @@
 import axios from 'axios';
 
-const recipeApi = axios.create({
-  baseURL: `http://${window.$env.hosts.baseUrl}`,
-});
+// Function to get the axios instance with the current config
+const getRecipeApi = () => {
+  if (!window.$env) {
+    throw new Error(
+      'window.$env is not defined. Check your index.html script block.'
+    );
+  }
+
+  return axios.create({
+    baseURL: `http://${window.$env.hosts.baseUrl}`,
+  });
+};
 
 // Security
 
 export const Signin = async (User: { username: string; password: string }) => {
   try {
-    const response = await recipeApi.post(window.$env.hosts.auth.login, User, {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
-    });
+    const response = await getRecipeApi().post(
+      window.$env.hosts.auth.login,
+      User,
+      {
+        headers: { 'Content-Type': 'application/json' },
+        withCredentials: true,
+      }
+    );
     return response.data;
   } catch (error) {
     console.error('Error Logging in:', error);
@@ -21,12 +34,12 @@ export const Signin = async (User: { username: string; password: string }) => {
 
 export const SignOut = async () => {
   try {
-    const response = await recipeApi.get(window.$env.hosts.auth.signOut, {
+    const response = await getRecipeApi().get(window.$env.hosts.auth.signOut, {
       withCredentials: true,
     });
     return response.data;
   } catch (error) {
-    console.error('Error Logging in:', error);
+    console.error('Error Signing out:', error);
     throw error;
   }
 };
@@ -38,7 +51,7 @@ export const Register = async (User: {
   roles: string[];
 }) => {
   try {
-    const response = await recipeApi.post(
+    const response = await getRecipeApi().post(
       window.$env.hosts.auth.register,
       User,
       {
@@ -47,7 +60,7 @@ export const Register = async (User: {
     );
     return response.data;
   } catch (error) {
-    console.error('Error Registering recipe:', error);
+    console.error('Error Registering:', error);
     throw error;
   }
 };
@@ -55,7 +68,7 @@ export const Register = async (User: {
 // Auth
 export const getAuthentication = async () => {
   try {
-    const response = await recipeApi.get(window.$env.hosts.auth.check, {
+    const response = await getRecipeApi().get(window.$env.hosts.auth.check, {
       withCredentials: true,
     });
     return response.data;
@@ -68,10 +81,10 @@ export const getAuthentication = async () => {
 // Users
 export const getUsers = async () => {
   try {
-    const response = await recipeApi.get(window.$env.hosts.apis.users);
+    const response = await getRecipeApi().get(window.$env.hosts.apis.users);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching users:', error);
     throw error;
   }
 };
@@ -82,7 +95,7 @@ export const updateProfile = async (userUpdate: {
   Description: string;
 }) => {
   try {
-    const response = await recipeApi.post(
+    const response = await getRecipeApi().post(
       window.$env.hosts.apis.updateUser,
       userUpdate,
       {
@@ -92,7 +105,7 @@ export const updateProfile = async (userUpdate: {
     );
     return response.data;
   } catch (error) {
-    console.error('Error adding recipe:', error);
+    console.error('Error updating profile:', error);
     throw error;
   }
 };
@@ -100,20 +113,22 @@ export const updateProfile = async (userUpdate: {
 // Recipes
 export const getRecipes = async () => {
   try {
-    const response = await recipeApi.get(window.$env.hosts.apis.recipes);
+    const response = await getRecipeApi().get(window.$env.hosts.apis.recipes);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching recipes:', error);
     throw error;
   }
 };
 
 export const getCategories = async () => {
   try {
-    const response = await recipeApi.get(window.$env.hosts.apis.categories);
+    const response = await getRecipeApi().get(
+      window.$env.hosts.apis.categories
+    );
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching categories:', error);
     throw error;
   }
 };
@@ -133,7 +148,7 @@ export const addRecipe = async (recipe: {
   CreatedBy: string | undefined;
 }) => {
   try {
-    const response = await recipeApi.post(
+    const response = await getRecipeApi().post(
       window.$env.hosts.apis.addRecipe,
       recipe,
       {

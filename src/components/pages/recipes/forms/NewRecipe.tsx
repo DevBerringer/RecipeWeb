@@ -4,7 +4,6 @@ import { getCategories } from '../../../../api/api';
 import NewRecipeForm from './NewRecipeForm';
 import MealSelector from './MealSelector';
 import CuisineSelector from './CuisineSelector';
-// Import Category type from CategoriesContext
 import {
   Category,
   CategoriesData,

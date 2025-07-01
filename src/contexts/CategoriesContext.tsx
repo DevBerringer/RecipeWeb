@@ -8,6 +8,16 @@ export type Category = {
   imagePath: string;
 };
 
+export type Meals = Category;
+
+export type Foods = Category;
+
+export type CategoriesData = {
+  MealCategories: Meals[];
+  FoodCategories: Foods[];
+  // Add other category types if present in your API response
+};
+
 type CategoriesContextType = {
   categories: CategoriesData | null;
   loading: boolean;

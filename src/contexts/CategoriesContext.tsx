@@ -14,9 +14,10 @@ export type Foods = Category;
 
 // Renamed from CategoriesDataMealFood to CategoriesData for consistency
 export type CategoriesData = {
-  MealCategories: Meals[];
-  FoodCategories: Foods[];
-  // If you have other category types from your API, add them here
+  id: string;
+  RegionCategories: Regions[];
+  FoodCategories: Meals[];
+  MealCategories: Foods[];
 };
 
 type CategoriesContextType = {

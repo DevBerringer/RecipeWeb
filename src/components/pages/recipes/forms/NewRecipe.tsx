@@ -4,13 +4,8 @@ import { getCategories } from '../../../../api/api';
 import NewRecipeForm from './NewRecipeForm';
 import MealSelector from './MealSelector';
 import CuisineSelector from './CuisineSelector';
-import {
-  Category,
-  CategoriesDataMealFood,
-  Foods,
-  Meals,
-} from '../../../../contexts/CategoriesContext'; // Adjust path based on where these types are truly defined if not in CategoriesContext
-
+// Corrected import path and types from CategoriesContext.tsx
+import { CategoriesData, Category, Foods, Meals } from '../../../../contexts/CategoriesContext';
 import FoodTypeSelector from './FoodTypeSelector';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
 
@@ -22,7 +17,7 @@ function NewRecipe() {
   useEffect(() => {
     const fetchCategories = async () => {
       try {
-        const data: CategoriesDataMealFood = await getCategories();
+        const data: CategoriesData = await getCategories();
         setCategories(data);
       } catch (error) {
         console.error('Error fetching categories:', error);
@@ -55,7 +50,7 @@ function NewRecipe() {
     categories?.MealCategories.map((meal: Meals) => ({
       id: meal.id,
       name: meal.name,
-      imagePath: meal.imagePath || '/default-image.png', // Ensure this matches the property name in your actual Meals type
+      imagePath: meal.imagePath || '/default-image.png',
     })) || [];
 
   // Map FoodCategories to Category[] to ensure type compatibility
@@ -63,19 +58,20 @@ function NewRecipe() {
     categories?.FoodCategories.map((food: Foods) => ({
       id: food.id,
       name: food.name,
-      imagePath: food.imagePath || '/default-image.png', // Ensure this matches the property name in your actual Foods type
+      imagePath: food.imagePath || '/default-image.png',
     })) || [];
+
 
   const stepsComponents = [
     <CuisineSelector key="cuisineSelector" onSelectCuisine={logInfo} />,
     <MealSelector
       key="mealSelector"
-      mealCategories={mealCategoriesForSelector} // Use the mapped array
+      mealCategories={mealCategoriesForSelector}
       onSelectMealType={logInfo}
     />,
     <FoodTypeSelector
       key="foodTypeSelector"
-      foodCategories={foodCategoriesForSelector} // Use the mapped array
+      foodCategories={foodCategoriesForSelector}
       onFoodTypeSelect={logInfo}
     />,
     <NewRecipeForm key="newRecipeForm" />,

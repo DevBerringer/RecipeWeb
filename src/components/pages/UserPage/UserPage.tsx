@@ -4,11 +4,9 @@ import { useParams } from 'react-router-dom';
 import { UseUser } from '../../../contexts/userContext';
 import { UseAuth } from '../../../contexts/authContext';
 import RecipeProfileList from './RecipeProfileList';
-import { UseRecipe } from '../../../contexts/recipesContext';
 import EditProfileModal from './EditProfileModal';
 
 function UserPage() {
-  const { recipe } = UseRecipe();
   const { user, refetchUserData } = UseAuth();
   const { users, refetchUsersData } = UseUser();
   const { id: userIdFromURL } = useParams();

@@ -2,17 +2,16 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getCategories } from '../../../../api/api';
 import NewRecipeForm from './NewRecipeForm';
-import { UseAuth } from '../../../../contexts/authContext';
 import MealSelector from './MealSelector';
 import CuisineSelector from './CuisineSelector';
-import { CategoriesData } from '../../../..';
+// Corrected import path and types from CategoriesContext.tsx
+import { CategoriesData, Category, Foods, Meals } from '../../../../contexts/CategoriesContext';
 import FoodTypeSelector from './FoodTypeSelector';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
 
 function NewRecipe() {
   const [currentStep, setCurrentStep] = useState(0);
   const [categories, setCategories] = useState<CategoriesData | null>(null);
-  const { user } = UseAuth();
   const { recipeDraft, setRecipeDraft } = useRecipeDraft();
 
   useEffect(() => {
@@ -46,19 +45,36 @@ function NewRecipe() {
     console.log(recipeDraft);
   };
 
+  // Map MealCategories to Category[] to ensure type compatibility
+  const mealCategoriesForSelector: Category[] =
+    categories?.MealCategories.map((meal: Meals) => ({
+      id: meal.id,
+      name: meal.name,
+      imagePath: meal.imagePath || '/default-image.png',
+    })) || [];
+
+  // Map FoodCategories to Category[] to ensure type compatibility
+  const foodCategoriesForSelector: Category[] =
+    categories?.FoodCategories.map((food: Foods) => ({
+      id: food.id,
+      name: food.name,
+      imagePath: food.imagePath || '/default-image.png',
+    })) || [];
+
+
   const stepsComponents = [
     <CuisineSelector key="cuisineSelector" onSelectCuisine={logInfo} />,
     <MealSelector
       key="mealSelector"
-      mealCategories={categories?.MealCategories || []}
+      mealCategories={mealCategoriesForSelector}
       onSelectMealType={logInfo}
     />,
     <FoodTypeSelector
       key="foodTypeSelector"
-      foodCategories={categories?.FoodCategories || []}
+      foodCategories={foodCategoriesForSelector}
       onFoodTypeSelect={logInfo}
     />,
-    <NewRecipeForm key="newRecipeForm" onNext={logInfo} />,
+    <NewRecipeForm key="newRecipeForm" />,
   ];
 
   return (
@@ -93,7 +109,7 @@ function NewRecipe() {
           <button
             onClick={handleNextStep}
             type="button"
-            className="rounded-xl border  bg-white px-6 py-3 text-xl font-semibold text-stone-600 shadow-inner transition-colors duration-200 hover:bg-recipecentral-light focus:outline-none"
+            className="rounded-xl border bg-white px-6 py-3 text-xl font-semibold text-stone-600 shadow-inner transition-colors duration-200 hover:bg-recipecentral-light focus:outline-none"
           >
             Next →
           </button>

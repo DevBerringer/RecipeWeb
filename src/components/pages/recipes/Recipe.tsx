@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { UseRecipe } from '../../../contexts/recipesContext';

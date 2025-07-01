@@ -1,12 +1,8 @@
 import { useEffect } from 'react';
 import { ReactComponent as LogoSVG } from '../../assets/LOGO/FCBLogo.svg';
-import { UseAuth } from '../../contexts/authContext';
-import ButtonDropdowns from '../shared/ButtonDropdowns';
 import CustomCarousel from '../shared/CustomCarousel';
 
 function Home() {
-  const { user } = UseAuth();
-
   const imagePaths = [
     '/assets/stickSoup.jpg',
     '/assets/burgerBig.jpg',
@@ -32,7 +28,7 @@ function Home() {
         </div>
       </div>
       <div className="mx-auto mt-2 max-w-2xl">
-        <CustomCarousel imagePaths={imagePaths} />{' '}
+        <CustomCarousel images={imagePaths} />
       </div>
       <p className="pt-10 text-center">
         Designs and Sketches by 叶秀文（Ye Xiuwen）

@@ -3,8 +3,8 @@ import { Fragment } from 'react';
 import { Menu, Transition } from '@headlessui/react';
 import { useNavigate } from 'react-router-dom';
 
-import { ReactComponent as ProfileIcon } from '../../../assets/ProfileIcon.svg';
-import { ReactComponent as GroupIcon } from '../../../assets/groupIcon.svg';
+import { ReactComponent as ProfileIcon } from '../../../assets/profileicon.svg';
+import { ReactComponent as GroupIcon } from '../../../assets/groupicon.svg';
 import { ReactComponent as LogoutIcon } from '../../../assets/logoutIcon.svg';
 
 import { SignOut } from '../../../api/api';

@@ -1,7 +1,6 @@
-import { useState } from 'react';
+import { useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { UseRecipe } from '../../../contexts/recipesContext';
-import RecipeCardProfile from './RecipeCardProfile';
 
 interface RecipeProfileListProps {
   createdByFilter: string | null;
@@ -18,8 +17,8 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
       item.Name.toLowerCase().includes(filter.toLowerCase())
   );
 
-  // Handle filtering change for recipe name
-  const handleFilterChange = (e) => {
+  // Handle filtering change for recipe name with typed event
+  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
     setFilter(e.target.value);
   };
 
@@ -45,8 +44,7 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
           <div key={item.Id}>
             <div className="h-[1px] w-full bg-gray-300" />
             <Link
-              to={`${`../../recipes/${item.Id}`}`}
-              key={item.Id}
+              to={`../../recipes/${item.Id}`}
               className="m-2 my-5"
             >
               <div className="grid w-full grid-cols-4 gap-4">

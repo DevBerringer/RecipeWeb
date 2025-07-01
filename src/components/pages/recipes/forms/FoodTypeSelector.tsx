@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
-import CategoryCard from './CategoryCard';
+import CategoryCard from '../componenets/CategoryCard';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
-import { Category } from '../../../../contexts/CategoriesContext'; // 👈 import Category type
+import { Category } from '../../../../contexts/CategoriesContext';
 
 type FoodTypeSelectorProps = {
   foodCategories: Category[];
   onFoodTypeSelect: (category: string) => void;
 };
 
-function FoodTypeSelector({ foodCategories, onFoodTypeSelect }: FoodTypeSelectorProps) {
+function FoodTypeSelector({
+  foodCategories,
+  onFoodTypeSelect,
+}: FoodTypeSelectorProps) {
   const { recipeDraft, setRecipeDraft } = useRecipeDraft();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [loadedImages, setLoadedImages] = useState(new Set<string>());
@@ -60,13 +63,17 @@ function FoodTypeSelector({ foodCategories, onFoodTypeSelect }: FoodTypeSelector
     <div className="flex justify-center">
       <div className="flex flex-col items-center">
         {/* Vegetarian + Spicy Selectors */}
-        <div className="grid grid-cols-2 gap-16 mb-12">
+        <div className="mb-12 grid grid-cols-2 gap-16">
           <div>
-            <h2 className="mb-6 text-4xl font-semibold text-gray-800">Is this Vegetarian?</h2>
+            <h2 className="mb-6 text-4xl font-semibold text-gray-800">
+              Is this Vegetarian?
+            </h2>
             <div className="flex gap-4">
               <button
                 className={`flex cursor-pointer items-center justify-center gap-2 rounded-xl p-4 shadow-lg ${
-                  recipeDraft.isVegetarian === true ? 'bg-recipecentral' : 'bg-recipecentral-light'
+                  recipeDraft.isVegetarian === true
+                    ? 'bg-recipecentral'
+                    : 'bg-recipecentral-light'
                 } transform transition-all hover:scale-105 hover:shadow-xl`}
                 onClick={() => toggleIsVegetarian(true)}
               >
@@ -74,7 +81,9 @@ function FoodTypeSelector({ foodCategories, onFoodTypeSelect }: FoodTypeSelector
               </button>
               <button
                 className={`flex cursor-pointer items-center justify-center gap-2 rounded-xl p-4 shadow-lg ${
-                  recipeDraft.isVegetarian === false ? 'bg-recipecentral' : 'bg-recipecentral-light'
+                  recipeDraft.isVegetarian === false
+                    ? 'bg-recipecentral'
+                    : 'bg-recipecentral-light'
                 } transform transition-all hover:scale-105 hover:shadow-xl`}
                 onClick={() => toggleIsVegetarian(false)}
               >
@@ -84,11 +93,15 @@ function FoodTypeSelector({ foodCategories, onFoodTypeSelect }: FoodTypeSelector
           </div>
 
           <div>
-            <h2 className="mb-6 text-4xl font-semibold text-gray-800">Is this Spicy?</h2>
+            <h2 className="mb-6 text-4xl font-semibold text-gray-800">
+              Is this Spicy?
+            </h2>
             <div className="flex gap-4">
               <button
                 className={`flex cursor-pointer items-center justify-center gap-2 rounded-xl p-4 shadow-lg ${
-                  recipeDraft.isSpicy === true ? 'bg-recipecentral' : 'bg-recipecentral-light'
+                  recipeDraft.isSpicy === true
+                    ? 'bg-recipecentral'
+                    : 'bg-recipecentral-light'
                 } transform transition-all hover:scale-105 hover:shadow-xl`}
                 onClick={() => toggleIsSpicy(true)}
               >
@@ -96,7 +109,9 @@ function FoodTypeSelector({ foodCategories, onFoodTypeSelect }: FoodTypeSelector
               </button>
               <button
                 className={`flex cursor-pointer items-center justify-center gap-2 rounded-xl p-4 shadow-lg ${
-                  recipeDraft.isSpicy === false ? 'bg-recipecentral' : 'bg-recipecentral-light'
+                  recipeDraft.isSpicy === false
+                    ? 'bg-recipecentral'
+                    : 'bg-recipecentral-light'
                 } transform transition-all hover:scale-105 hover:shadow-xl`}
                 onClick={() => toggleIsSpicy(false)}
               >
@@ -107,9 +122,11 @@ function FoodTypeSelector({ foodCategories, onFoodTypeSelect }: FoodTypeSelector
         </div>
 
         {/* Food Type Selector */}
-        {recipeDraft.isVegetarian !== null && (
+        {recipeDraft.isVegetarian !== null && loadedImages !== null && (
           <>
-            <h2 className="mb-8 text-4xl font-semibold text-gray-800">Select Food Types</h2>
+            <h2 className="mb-8 text-4xl font-semibold text-gray-800">
+              Select Food Types
+            </h2>
             <div className="flex flex-wrap justify-center gap-6">
               {filteredCategories.map((category) => (
                 <CategoryCard

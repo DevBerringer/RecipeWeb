@@ -10,11 +10,12 @@ import { addRecipe } from '../../../../api/api';
 function PreviewRecipePage() {
   const { recipeDraft } = useRecipeDraft();
   const { user } = UseAuth();
-  const { categories, loading } = useCategories(); // 👈 pulling categories + loading state
+  const { categories, loading } = useCategories();
   const navigate = useNavigate();
 
   if (loading) return <div className="p-8 text-center text-xl">Loading...</div>;
-  if (!categories) return <div className="p-8 text-center text-xl">No categories found.</div>;
+  if (!categories)
+    return <div className="p-8 text-center text-xl">No categories found.</div>;
 
   const tagSections = [
     {
@@ -59,8 +60,8 @@ function PreviewRecipePage() {
         FoodTypes: recipeDraft.foodTypes,
         Ingredients: recipeDraft.ingredients.filter((i) => i.trim()),
         Steps: recipeDraft.steps.filter((s) => s.trim()),
-        Rating: null,
-        CreatedBy: user ? user.Id : null,
+        Rating: [], // or null if your API accepts null
+        CreatedBy: user ? user.Id : undefined,
       };
 
       const result = await addRecipe(newRecipe);
@@ -76,6 +77,16 @@ function PreviewRecipePage() {
     navigate('/newRecipe');
   };
 
+  function getSpicyLabel(isSpicy: boolean | null): string {
+    if (isSpicy === null) return 'N/A';
+    return isSpicy ? '🔥' : '❄️';
+  }
+
+  function getVegetarianLabel(isVegetarian: boolean | null): string {
+    if (isVegetarian === null) return 'N/A';
+    return isVegetarian ? '🌱' : '🍖';
+  }
+
   return (
     <div className="mx-auto max-w-7xl space-y-10 p-8">
       {/* Header */}
@@ -84,7 +95,7 @@ function PreviewRecipePage() {
           {recipeDraft.name || 'Untitled Recipe'}
         </h1>
         <div className="flex flex-col items-center">
-          {user.ImagePath ? (
+          {user?.ImagePath ? (
             <img
               src={user.ImagePath}
               alt={`${user.Username}'s profile`}
@@ -93,7 +104,9 @@ function PreviewRecipePage() {
           ) : (
             <div className="h-36 w-48 rounded-2xl bg-gray-300 shadow-lg" />
           )}
-          <div className="mt-2 text-lg font-semibold">{user.Username}</div>
+          <div className="mt-2 text-lg font-semibold">
+            {user?.Username || 'Guest'}
+          </div>
         </div>
       </header>
 
@@ -114,22 +127,8 @@ function PreviewRecipePage() {
           ['Prep Time', `${recipeDraft.prepTimeMin} min`],
           ['Cook Time', `${recipeDraft.cookTimeMin} min`],
           ['Serves', recipeDraft.serves],
-          [
-            'Spicy',
-            recipeDraft.isSpicy === null
-              ? 'N/A'
-              : recipeDraft.isSpicy
-              ? '🔥'
-              : '❄️',
-          ],
-          [
-            'Vegetarian',
-            recipeDraft.isVegetarian === null
-              ? 'N/A'
-              : recipeDraft.isVegetarian
-              ? '🌱'
-              : '🍖',
-          ],
+          ['Spicy', getSpicyLabel(recipeDraft.isSpicy)],
+          ['Vegetarian', getVegetarianLabel(recipeDraft.isVegetarian)],
         ].map(([label, value], idx) => (
           <div key={idx} className="rounded-lg bg-white p-4 text-center shadow">
             <div className="text-sm text-gray-500">{label}</div>
@@ -184,7 +183,7 @@ function PreviewRecipePage() {
             {recipeDraft.steps
               .filter((s) => s.trim())
               .map((step, idx) => (
-                <InstructionStep key={idx} step={step} idx={idx} />
+                <InstructionStep key={idx} step={step} />
               ))}
           </ol>
         </div>

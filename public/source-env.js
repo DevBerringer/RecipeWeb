@@ -1,7 +1,7 @@
 window.$env = {
   name: 'dev',
   hosts: {
-    baseUrl: 'https://recipeprovider-production.up.railway.app',
+    baseUrl: 'recipeprovider-production.up.railway.app',
     auth: {
       login: '/api/auth/signin',
       signOut: '/api/auth/signOut',

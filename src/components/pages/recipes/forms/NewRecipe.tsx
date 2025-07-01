@@ -4,8 +4,14 @@ import { getCategories } from '../../../../api/api';
 import NewRecipeForm from './NewRecipeForm';
 import MealSelector from './MealSelector';
 import CuisineSelector from './CuisineSelector';
-// Assuming CategoriesData, Category, Meal, Food are defined here or in a linked types file
-import { CategoriesData, Foods, Meals } from '../../../../index'; // Adjust path if needed
+// Import Category type from CategoriesContext
+import {
+  Category,
+  CategoriesData,
+  Foods,
+  Meals,
+} from '../../../../contexts/CategoriesContext'; // Adjust path based on where these types are truly defined if not in CategoriesContext
+
 import FoodTypeSelector from './FoodTypeSelector';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
 
@@ -45,28 +51,32 @@ function NewRecipe() {
     console.log(recipeDraft);
   };
 
-  // Correctly type the mapped array to Category[]
-  const mealCategoriesAsCategory: Foods[] =
+  // Map MealCategories to Category[] to ensure type compatibility
+  const mealCategoriesForSelector: Category[] =
     categories?.MealCategories.map((meal: Meals) => ({
       id: meal.id,
       name: meal.name,
-      imgPath: meal.imgPath || '/default-image.png',
+      imagePath: meal.imagePath || '/default-image.png', // Ensure this matches the property name in your actual Meals type
+    })) || [];
+
+  // Map FoodCategories to Category[] to ensure type compatibility
+  const foodCategoriesForSelector: Category[] =
+    categories?.FoodCategories.map((food: Foods) => ({
+      id: food.id,
+      name: food.name,
+      imagePath: food.imagePath || '/default-image.png', // Ensure this matches the property name in your actual Foods type
     })) || [];
 
   const stepsComponents = [
     <CuisineSelector key="cuisineSelector" onSelectCuisine={logInfo} />,
     <MealSelector
       key="mealSelector"
-      // Pass the correctly typed array
-      mealCategories={mealCategoriesAsCategory}
+      mealCategories={mealCategoriesForSelector} // Use the mapped array
       onSelectMealType={logInfo}
     />,
     <FoodTypeSelector
       key="foodTypeSelector"
-      // Ensure FoodCategories are mapped to Category[] if Food is not directly assignable to Category
-      // If Food extends Category and FoodTypeSelector expects Category[], this cast is fine.
-      // If not, you might need a similar map function as for mealCategoriesAsCategory.
-      foodCategories={categories?.FoodCategories as Foods[] || []}
+      foodCategories={foodCategoriesForSelector} // Use the mapped array
       onFoodTypeSelect={logInfo}
     />,
     <NewRecipeForm key="newRecipeForm" />,
@@ -104,7 +114,7 @@ function NewRecipe() {
           <button
             onClick={handleNextStep}
             type="button"
-            className="rounded-xl border  bg-white px-6 py-3 text-xl font-semibold text-stone-600 shadow-inner transition-colors duration-200 hover:bg-recipecentral-light focus:outline-none"
+            className="rounded-xl border bg-white px-6 py-3 text-xl font-semibold text-stone-600 shadow-inner transition-colors duration-200 hover:bg-recipecentral-light focus:outline-none"
           >
             Next →
           </button>

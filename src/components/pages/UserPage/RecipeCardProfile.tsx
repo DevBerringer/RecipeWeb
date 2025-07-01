@@ -17,12 +17,17 @@ export default function RecipeCard({
 }: RecipeCardProps) {
   return (
     <div className={`recipe-card-container h-full ${className ?? ''}`}>
-      <Card className="border border-red-500" {...rest}>
+      <Card
+        className="border border-red-500"
+        {...rest}
+        placeholder={undefined}
+        onPointerEnterCapture={undefined}
+        onPointerLeaveCapture={undefined}
+      >
         <CardHeader
           floated={false}
           color="transparent"
           className="max-w-[450px] p-0"
-          children={undefined}
           placeholder={undefined}
           onPointerEnterCapture={undefined}
           onPointerLeaveCapture={undefined}
@@ -34,7 +39,15 @@ export default function RecipeCard({
           />
         </CardHeader>
         <div className="p-6">
-          <Typography variant="h4" color="blue-gray" className="mb-2">
+          <Typography
+            variant="h4"
+            color="blue-gray"
+            className="mb-2"
+            // Added these props to satisfy TypeScript
+            placeholder={undefined}
+            onPointerEnterCapture={undefined}
+            onPointerLeaveCapture={undefined}
+          >
             {name}
           </Typography>
         </div>

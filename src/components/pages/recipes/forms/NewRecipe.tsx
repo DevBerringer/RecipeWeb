@@ -4,7 +4,8 @@ import { getCategories } from '../../../../api/api';
 import NewRecipeForm from './NewRecipeForm';
 import MealSelector from './MealSelector';
 import CuisineSelector from './CuisineSelector';
-import { CategoriesData } from '../../../..';
+// Assuming CategoriesData, Category, Meal, Food are defined here or in a linked types file
+import { CategoriesData, Category, Meal, Food } from '../../../../types'; // Adjust path if needed
 import FoodTypeSelector from './FoodTypeSelector';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
 
@@ -44,8 +45,9 @@ function NewRecipe() {
     console.log(recipeDraft);
   };
 
-  const mealCategoriesAsCategory: CategoriesData[] =
-    categories?.MealCategories.map((meal) => ({
+  // Correctly type the mapped array to Category[]
+  const mealCategoriesAsCategory: Category[] =
+    categories?.MealCategories.map((meal: Meal) => ({
       id: meal.id,
       name: meal.name,
       imgPath: meal.imgPath || '/default-image.png',
@@ -55,12 +57,16 @@ function NewRecipe() {
     <CuisineSelector key="cuisineSelector" onSelectCuisine={logInfo} />,
     <MealSelector
       key="mealSelector"
+      // Pass the correctly typed array
       mealCategories={mealCategoriesAsCategory}
       onSelectMealType={logInfo}
     />,
     <FoodTypeSelector
       key="foodTypeSelector"
-      foodCategories={categories?.FoodCategories || []}
+      // Ensure FoodCategories are mapped to Category[] if Food is not directly assignable to Category
+      // If Food extends Category and FoodTypeSelector expects Category[], this cast is fine.
+      // If not, you might need a similar map function as for mealCategoriesAsCategory.
+      foodCategories={categories?.FoodCategories as Category[] || []}
       onFoodTypeSelect={logInfo}
     />,
     <NewRecipeForm key="newRecipeForm" />,
@@ -98,7 +104,7 @@ function NewRecipe() {
           <button
             onClick={handleNextStep}
             type="button"
-            className="rounded-xl border  bg-white px-6 py-3 text-xl font-semibold text-stone-600 shadow-inner transition-colors duration-200 hover:bg-recipecentral-light focus:outline-none"
+            className="rounded-xl border  bg-white px-6 py-3 text-xl font-semibold text-stone-600 shadow-inner transition-colors duration-200 hover:bg-recipecentral-light focus:outline-none"
           >
             Next →
           </button>

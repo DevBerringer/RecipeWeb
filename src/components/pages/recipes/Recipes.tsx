@@ -4,7 +4,6 @@ import Lottie from 'lottie-react';
 import loadingAnimation from '../../../assets/cookingPotAnimation.json';
 import { UseRecipe } from '../../../contexts/recipesContext';
 import RecipeCard from './RecipeCard';
-import SearchBar from '../../shared/SearchBar';
 
 function Recipes() {
   const { recipe } = UseRecipe();
@@ -49,7 +48,6 @@ function Recipes() {
         <div className="px-4 py-2 text-lg text-gray-600">
           Can't find what you are looking for?
         </div>
-        <SearchBar onChange={handleFilterChange} />
       </div>
       <div className="mb-4 flex justify-center">
         <select

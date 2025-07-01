@@ -44,7 +44,7 @@ function NewRecipe() {
     console.log(recipeDraft);
   };
 
-  const mealCategoriesAsCategory: Category[] =
+  const mealCategoriesAsCategory: CategoriesData[] =
     categories?.MealCategories.map((meal) => ({
       id: meal.id,
       name: meal.name,

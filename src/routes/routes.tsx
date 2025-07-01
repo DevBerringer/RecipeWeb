@@ -23,8 +23,8 @@ const router = createBrowserRouter([
       { path: 'login', element: <Login /> },
       { path: 'register', element: <Register /> },
       { path: 'user/:id', element: <UserPage /> },
-      { path: 'recipes', element: <Recipes /> }, // Only matches /recipes
-      { path: 'recipes/recipe/:id', element: <Recipe recipe={undefined} /> }, // Specific recipe detail
+      { path: 'recipes/*', element: <Recipes /> },
+      { path: 'recipes/recipe/:id', element: <Recipe /> },
       { path: 'newRecipe', element: <NewRecipe /> },
       { path: 'newRecipe/Preview', element: <PreviewRecipe /> },
       { path: 'contactUs', element: <Contact /> },

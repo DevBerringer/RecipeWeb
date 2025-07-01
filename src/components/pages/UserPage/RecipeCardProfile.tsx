@@ -1,3 +1,6 @@
+/* eslint-disable react/prop-types */
+/* eslint-disable react/no-children-prop */
+/* eslint-disable react/jsx-props-no-spreading */
 import React from 'react';
 import { Card, CardHeader, Typography } from '@material-tailwind/react';
 
@@ -19,6 +22,10 @@ export default function RecipeCard({
           floated={false}
           color="transparent"
           className="max-w-[450px] p-0"
+          children={undefined}
+          placeholder={undefined}
+          onPointerEnterCapture={undefined}
+          onPointerLeaveCapture={undefined}
         >
           <img
             src={picture || '/assets/noFood.jpg'}

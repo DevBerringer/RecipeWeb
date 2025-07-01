@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
-import { UseUser } from '../../../contexts/userContext';
+import React, { useState, useMemo } from 'react';
 import { UseAuth } from '../../../contexts/authContext';
 import { updateProfile } from '../../../api/api';
 
@@ -13,7 +12,6 @@ function EditProfileModal({
   onProfileUpdated,
 }: EditProfileModalProps) {
   const { user } = UseAuth();
-  const { setUsers } = UseUser();
   const [newAbout, setNewAbout] = useState('');
   const [selectedProfilePicture, setSelectedProfilePicture] = useState<
     string | null
@@ -77,12 +75,12 @@ function EditProfileModal({
   );
 
   return (
-    <div className="fixed top-0 left-0 w-full h-full flex items-center justify-center bg-gray-800 bg-opacity-75">
-      <div className="bg-white p-8 rounded shadow-lg flex flex-col">
-        <h2 className="text-2xl font-bold mb-4">Edit Profile</h2>
-        <div className="flex mb-4">
+    <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-800 bg-opacity-75">
+      <div className="flex flex-col rounded bg-white p-8 shadow-lg">
+        <h2 className="mb-4 text-2xl font-bold">Edit Profile</h2>
+        <div className="mb-4 flex">
           <div className="mr-4">
-            <p className="font-bold mb-2">Choose your profile picture:</p>
+            <p className="mb-2 font-bold">Choose your profile picture:</p>
             <div className="grid grid-cols-4 gap-2">
               {profilePictures.map((imageSrc) => (
                 <div key={imageSrc} className="flex">
@@ -103,14 +101,14 @@ function EditProfileModal({
               ))}
             </div>
           </div>
-          <div className="flex-col w-96 text-lg">
+          <div className="w-96 flex-col text-lg">
             <div className="block">
-              <p className="block mb-2 font-bold">Account Status</p>
+              <p className="mb-2 block font-bold">Account Status</p>
               <p className="text-right">Member</p>
             </div>
-            <label className="block mb-2 font-bold pt-4">About Yourself</label>
+            <label className="mb-2 block pt-4 font-bold">About Yourself</label>
             <textarea
-              className="w-full border border-gray-300 rounded p-2 mb-4"
+              className="mb-4 w-full rounded border border-gray-300 p-2"
               name="newAbout"
               value={newAbout}
               onChange={handleInputChange}
@@ -121,14 +119,14 @@ function EditProfileModal({
         <div className="flex justify-end">
           <button
             type="button"
-            className="bg-blue-500 text-white py-2 px-4 rounded mr-2 hover:bg-blue-600"
+            className="mr-2 rounded bg-blue-500 px-4 py-2 text-white hover:bg-blue-600"
             onClick={handleSaveChanges}
           >
             Save Changes
           </button>
           <button
             type="button"
-            className="bg-gray-500 text-white py-2 px-4 rounded hover:bg-gray-600"
+            className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-600"
             onClick={onClose}
           >
             Cancel

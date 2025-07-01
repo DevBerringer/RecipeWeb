@@ -2,7 +2,6 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { getCategories } from '../../../../api/api';
 import NewRecipeForm from './NewRecipeForm';
-import { UseAuth } from '../../../../contexts/authContext';
 import MealSelector from './MealSelector';
 import CuisineSelector from './CuisineSelector';
 import { CategoriesData } from '../../../..';
@@ -12,7 +11,6 @@ import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
 function NewRecipe() {
   const [currentStep, setCurrentStep] = useState(0);
   const [categories, setCategories] = useState<CategoriesData | null>(null);
-  const { user } = UseAuth();
   const { recipeDraft, setRecipeDraft } = useRecipeDraft();
 
   useEffect(() => {
@@ -58,7 +56,7 @@ function NewRecipe() {
       foodCategories={categories?.FoodCategories || []}
       onFoodTypeSelect={logInfo}
     />,
-    <NewRecipeForm key="newRecipeForm" onNext={logInfo} />,
+    <NewRecipeForm key="newRecipeForm" />,
   ];
 
   return (

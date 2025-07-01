@@ -2,6 +2,13 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { getCategories } from '../api/api'; // adjust path if needed
 import { CategoriesData } from '../index'; // adjust if you have a central types file
 
+export type Category = {
+  id: string;
+  name: string;
+  imagePath: string;
+};
+
+
 type CategoriesContextType = {
   categories: CategoriesData | null;
   loading: boolean;

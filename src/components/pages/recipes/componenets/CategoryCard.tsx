@@ -1,11 +1,19 @@
 import { useState, useEffect } from 'react';
+import { Category } from '../../../../contexts/CategoriesContext';
+
+type CategoryCardProps = {
+  category: Category;
+  selectedCategories: string[];
+  handleCategorySelect: (categoryId: string) => void;
+  handleImageLoad: (categoryId: string) => void;
+};
 
 function CategoryCard({
   category,
   selectedCategories,
   handleCategorySelect,
   handleImageLoad,
-}) {
+}: CategoryCardProps) {
   const [loadedImage, setLoadedImage] = useState(false);
 
   useEffect(() => {

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
-import CategoryCard from './CategoryCard';
+import CategoryCard from '../componenets/CategoryCard';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
-import { Category } from '../../../../contexts/CategoriesContext'; // 👈 import your Category type
+import { Category } from '../../../../contexts/CategoriesContext';
 
 type MealSelectorProps = {
   mealCategories: Category[];
@@ -11,7 +11,6 @@ type MealSelectorProps = {
 function MealSelector({ mealCategories, onSelectMealType }: MealSelectorProps) {
   const { recipeDraft, setRecipeDraft } = useRecipeDraft();
   const [selectedCategories, setSelectedMeals] = useState<string[]>([]);
-  const [loadedImages, setLoadedImages] = useState(new Set<string>());
 
   const order = [
     'Breakfast',
@@ -37,7 +36,6 @@ function MealSelector({ mealCategories, onSelectMealType }: MealSelectorProps) {
       : [...selectedCategories, categoryId];
 
     setSelectedMeals(updatedCategories);
-
     setRecipeDraft({
       ...recipeDraft,
       mealTypes: updatedCategories,
@@ -46,10 +44,6 @@ function MealSelector({ mealCategories, onSelectMealType }: MealSelectorProps) {
     if (!recipeDraft.mealTypes.includes(categoryId)) {
       onSelectMealType(categoryId);
     }
-  };
-
-  const handleImageLoad = (categoryId: string) => {
-    setLoadedImages((prev) => new Set(prev).add(categoryId));
   };
 
   return (
@@ -61,11 +55,10 @@ function MealSelector({ mealCategories, onSelectMealType }: MealSelectorProps) {
         <div className="flex flex-wrap justify-center gap-6">
           {sortedCategories.map((category) => (
             <CategoryCard
-              key={category.id} // 👈 use category.id as key to avoid warnings
+              key={category.id}
               category={category}
               selectedCategories={selectedCategories}
               handleCategorySelect={handleCategorySelect}
-              handleImageLoad={handleImageLoad}
             />
           ))}
         </div>

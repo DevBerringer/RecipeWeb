@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, ChangeEvent } from 'react';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
 
 function NewRecipeForm() {
@@ -14,27 +14,30 @@ function NewRecipeForm() {
     steps = [],
   } = recipeDraft;
 
-  const updateDraft = (updates) => {
+  // Define the type for updates object (partial of the draft shape)
+  type Updates = Partial<typeof recipeDraft>;
+
+  const updateDraft = (updates: Updates) => {
     setRecipeDraft({ ...recipeDraft, ...updates });
   };
 
-  const handleImageUpload = (event) => {
-    const file = event.target.files[0];
+  const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => updateDraft({ selectedImage: reader.result });
+    reader.onload = () => updateDraft({ selectedImage: reader.result as string });
     reader.readAsDataURL(file);
   };
 
   const handleAddIngredient = () =>
     updateDraft({ ingredients: [...ingredients, ''] });
 
-  const handleRemoveIngredient = (index) =>
+  const handleRemoveIngredient = (index: number) =>
     updateDraft({
       ingredients: ingredients.filter((_, i) => i !== index),
     });
 
-  const handleIngredientChange = (e, index) => {
+  const handleIngredientChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
     const updated = [...ingredients];
     updated[index] = e.target.value;
     updateDraft({ ingredients: updated });
@@ -42,10 +45,10 @@ function NewRecipeForm() {
 
   const handleAddStep = () => updateDraft({ steps: [...steps, ''] });
 
-  const handleRemoveStep = (index) =>
+  const handleRemoveStep = (index: number) =>
     updateDraft({ steps: steps.filter((_, i) => i !== index) });
 
-  const handleStepChange = (e, index) => {
+  const handleStepChange = (e: ChangeEvent<HTMLTextAreaElement>, index: number) => {
     const updated = [...steps];
     updated[index] = e.target.value;
     updateDraft({ steps: updated });

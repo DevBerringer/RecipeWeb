@@ -24,6 +24,15 @@ declare global {
   }
 }
 
+export type ImageItem = {
+  src: string;
+  alt: string;
+};
+
+export type CustomCarouselProps = {
+  images: ImageItem[];
+};
+
 export type CategoriesData = {
   id: string;
   RegionCategories: Regions[];

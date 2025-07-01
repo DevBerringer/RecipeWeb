@@ -1,4 +1,9 @@
-function IngredientItem({ ingredient, idx }) {
+type IngredientItemProps = {
+  ingredient: string;
+  idx: number;
+};
+
+function IngredientItem({ ingredient, idx }: IngredientItemProps) {
   const icons = ['🥄', '🍽️', '🌿', '🧂', '🍳'];
   const icon = icons[Math.floor(Math.random() * icons.length)];
   return (

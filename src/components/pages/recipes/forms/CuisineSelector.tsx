@@ -1,7 +1,11 @@
 import { useState, useEffect } from 'react';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
 
-function CuisineSelector({ onSelectCuisine }) {
+type CuisineSelectorProps = {
+  onSelectCuisine: (cuisine: string) => void;
+};
+
+function CuisineSelector({ onSelectCuisine }: CuisineSelectorProps) {
   const { recipeDraft, setRecipeDraft } = useRecipeDraft();
   const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
 

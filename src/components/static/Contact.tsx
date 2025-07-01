@@ -1,11 +1,9 @@
-import React from 'react';
-
 function Contact() {
   return (
     <div className="mx-auto max-w-7xl text-lg">
       <h1 className="mb-4 text-3xl font-bold">Contact Us</h1>
-      <div className="flex">
-        <div className="w-1/3">
+      <div className="flex flex-wrap gap-8">
+        <div className="w-full md:w-1/3">
           <p className="text-xl">
             If you have any questions or need further information, please feel
             free to reach out to us.
@@ -16,9 +14,9 @@ function Contact() {
                 Name:
               </label>
               <input
-                type="text"
-                id="name"
+                id="name" // <-- must exactly match htmlFor
                 name="name"
+                type="text"
                 className="w-full rounded border border-gray-300 px-4 py-2"
               />
             </div>
@@ -27,9 +25,9 @@ function Contact() {
                 Email:
               </label>
               <input
-                type="email"
-                id="email"
+                id="email" // <-- must exactly match htmlFor
                 name="email"
+                type="email"
                 className="w-full rounded border border-gray-300 px-4 py-2"
               />
             </div>
@@ -38,9 +36,9 @@ function Contact() {
                 Message:
               </label>
               <textarea
-                id="message"
+                id="message" // <-- must exactly match htmlFor
                 name="message"
-                rows="4"
+                rows={4}
                 className="w-full rounded border border-gray-300 px-4 py-2"
               />
             </div>
@@ -52,11 +50,12 @@ function Contact() {
             </button>
           </form>
         </div>
-        <div className="w-2/3 pl-8">
+
+        <div className="w-full md:w-2/3">
           <img
-            src="public/assets/noFood.jpg"
+            src="/assets/noFood.jpg"
             alt="No food"
-            className="w-full"
+            className="w-full rounded"
           />
         </div>
       </div>

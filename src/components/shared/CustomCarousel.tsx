@@ -1,82 +1,81 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 
-function CustomCarousel({ imagePaths }) {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isPaused, setIsPaused] = useState(false);
+type CustomCarouselProps = {
+  images?: string[]; // 👈 optional prop
+};
+
+function CustomCarousel({ images = [] }: CustomCarouselProps) {
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [isPaused, setIsPaused] = useState<boolean>(false);
 
   const handleNext = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % imagePaths.length);
+    if (images.length === 0) return;
+    setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
   };
 
   const handlePrev = () => {
+    if (images.length === 0) return;
     setCurrentIndex(
-      (prevIndex) => (prevIndex - 1 + imagePaths.length) % imagePaths.length
+      (prevIndex) => (prevIndex - 1 + images.length) % images.length
     );
   };
 
-  const handlePause = () => {
-    setIsPaused(true);
-  };
-
-  const handlePlay = () => {
-    setIsPaused(false);
-  };
-
-  const autoPlayNext = () => {
-    if (!isPaused) {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % imagePaths.length);
-    }
-  };
+  const handlePause = () => setIsPaused(true);
+  const handlePlay = () => setIsPaused(false);
 
   useEffect(() => {
-    const intervalId = setInterval(autoPlayNext, 3500);
+    if (images.length === 0) return;
+
+    const intervalId = setInterval(() => {
+      if (!isPaused) {
+        setCurrentIndex((prevIndex) => (prevIndex + 1) % images.length);
+      }
+    }, 3500);
 
     return () => clearInterval(intervalId);
-  }, [isPaused]);
+  }, [isPaused, images.length]);
+
+  if (images.length === 0) {
+    return (
+      <div className="text-center text-gray-500">No images available.</div>
+    );
+  }
 
   return (
     <div className="floating-carousel-container pt-8 drop-shadow-xl">
-      <div className="carousel-wrapper relative h-[450px]">
-        {imagePaths.map((path, index) => (
+      <div className="carousel-wrapper relative h-64 sm:h-96 md:h-[450px]">
+        {images.map((path, index) => (
           <div
             key={index}
             className={`carousel-item absolute left-0 top-0 h-full w-full transition-opacity ${
               currentIndex === index ? 'opacity-100' : 'opacity-0'
             }`}
-            style={{
-              transition: 'opacity 0.6s ease-in-out',
-            }}
+            style={{ transition: 'opacity 0.6s ease-in-out' }}
           >
             <div className="carousel-image-container shadow-black drop-shadow-xl">
               <img
                 src={path}
-                alt={`${index + 1}`}
+                alt=""
+                aria-hidden="true"
                 className="mx-auto h-full object-cover"
               />
             </div>
           </div>
         ))}
       </div>
-      <div className="mx-auto flex">
-        <button
-          type="button"
-          onClick={handlePrev}
-          className="carousel-button prev-button ml-auto pr-4"
-        >
+
+      <div className="flex justify-center gap-6 pt-4">
+        <button type="button" onClick={handlePrev} className="px-4 text-lg">
           Prev
         </button>
         <button
           type="button"
           onClick={isPaused ? handlePlay : handlePause}
-          className="carousel-button pause-button px-4"
+          className="px-4 text-lg"
         >
           {isPaused ? 'Play' : 'Pause'}
         </button>
-        <button
-          type="button"
-          onClick={handleNext}
-          className="carousel-button next-button mr-auto pl-4"
-        >
+        <button type="button" onClick={handleNext} className="px-4 text-lg">
           Next
         </button>
       </div>

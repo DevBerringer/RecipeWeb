@@ -8,17 +8,23 @@ interface RecipeCardProps {
 export default function RecipeCard({ name, picture }: RecipeCardProps) {
   return (
     <div className="recipe-card-container h-full">
-      <Card className="border-red">
-        <Typography variant="h4" className="mx-6 mb-2 text-3xl">
-          {name}
-        </Typography>
-        <CardHeader className="max-w-[450px]">
+      <Card className="border border-red-500">
+        <CardHeader
+          floated={false}
+          color="transparent"
+          className="max-w-[450px] p-0"
+        >
           <img
             src={picture || '/assets/noFood.jpg'}
             alt="Recipe"
-            className="max-h-[300px] w-[450px] object-fill"
+            className="max-h-[300px] w-full object-cover"
           />
         </CardHeader>
+        <div className="p-6">
+          <Typography variant="h4" color="blue-gray" className="mb-2">
+            {name}
+          </Typography>
+        </div>
       </Card>
     </div>
   );

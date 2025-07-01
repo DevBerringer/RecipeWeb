@@ -1,6 +1,14 @@
 import clsx from 'clsx';
 
-function RecipeTag({ label, idx, baseColor, borderColor, shadowColor }) {
+type RecipeTagProps = {
+  label: string;
+  idx: number;
+  baseColor: string;
+  borderColor: string;
+  shadowColor: string;
+};
+
+function RecipeTag({ label, idx, baseColor, borderColor, shadowColor }: RecipeTagProps) {
   return (
     <span
       className={clsx(

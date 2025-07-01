@@ -1,9 +1,8 @@
 type InstructionStepProps = {
   step: string;
-  idx: number;
 };
 
-function InstructionStep({ step, idx }: InstructionStepProps) {
+function InstructionStep({ step }: InstructionStepProps) {
   return (
     <li
       className="relative px-4 py-3 font-['Caveat'] text-xl leading-relaxed text-stone-800 shadow-md"

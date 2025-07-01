@@ -1,11 +1,10 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Lottie from 'lottie-react';
 import loadingAnimation from '../../../assets/cookingPotAnimation.json';
 import { UseRecipe } from '../../../contexts/recipesContext';
 import RecipeCard from './RecipeCard';
 import SearchBar from '../../shared/SearchBar';
-import React from 'react';
 
 function Recipes() {
   const { recipe } = UseRecipe();
@@ -25,7 +24,9 @@ function Recipes() {
   const currentItems = filteredRecipes.slice(indexOfFirstItem, indexOfLastItem);
 
   // Add event typing here:
-  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+  const handleFilterChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setFilter(e.target.value);
     setCurrentPage(1);
   };

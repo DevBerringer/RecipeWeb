@@ -1,5 +1,4 @@
 import { Card, CardHeader, Typography } from '@material-tailwind/react';
-import React from 'react';
 
 interface RecipeCardProps {
   name: string;

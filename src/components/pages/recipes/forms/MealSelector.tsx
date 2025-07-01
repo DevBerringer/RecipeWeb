@@ -59,6 +59,7 @@ function MealSelector({ mealCategories, onSelectMealType }: MealSelectorProps) {
               category={category}
               selectedCategories={selectedCategories}
               handleCategorySelect={handleCategorySelect}
+              // handleImageLoad is optional, so we omit it here
             />
           ))}
         </div>

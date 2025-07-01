@@ -1,5 +1,4 @@
-import { Recipe as RecipeType } from '../../../types/RecipeTypes';
-import RecipeTag from './components/RecipeTag';
+import RecipeTag from './componenets/RecipeTag';
 
 type RecipeProps = {
   recipe: RecipeType;

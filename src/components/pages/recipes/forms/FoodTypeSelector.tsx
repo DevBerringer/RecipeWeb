@@ -122,7 +122,7 @@ function FoodTypeSelector({
         </div>
 
         {/* Food Type Selector */}
-        {recipeDraft.isVegetarian !== null && (
+        {recipeDraft.isVegetarian !== null && loadedImages !== null && (
           <>
             <h2 className="mb-8 text-4xl font-semibold text-gray-800">
               Select Food Types

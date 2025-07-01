@@ -5,7 +5,7 @@ type CategoryCardProps = {
   category: Category;
   selectedCategories: string[];
   handleCategorySelect: (categoryId: string) => void;
-  handleImageLoad: (categoryId: string) => void;
+  handleImageLoad?: (categoryId: string) => void; // optional
 };
 
 function CategoryCard({
@@ -32,12 +32,14 @@ function CategoryCard({
       <div className="relative mb-4 flex h-48 w-48 items-center justify-center overflow-hidden rounded-xl">
         {/* Image */}
         <img
-          src={category.imgPath}
+          src={category.imagePath}
           alt={category.name}
           loading="lazy"
           onLoad={() => {
             setLoadedImage(true);
-            handleImageLoad(category.id);
+            if (handleImageLoad) {
+              handleImageLoad(category.id);
+            }
           }}
           className={`h-40 w-44 rounded-lg object-cover transition-opacity duration-500 ${
             loadedImage ? 'opacity-100' : 'opacity-0'

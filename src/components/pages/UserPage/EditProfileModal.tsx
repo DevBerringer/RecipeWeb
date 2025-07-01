@@ -17,7 +17,9 @@ function EditProfileModal({
     string | null
   >(null);
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
     const { name, value } = e.target;
     if (name === 'newAbout') {
       setNewAbout(value);
@@ -49,11 +51,11 @@ function EditProfileModal({
 
     updateProfile(userUpdate)
       .then(() => {
-        onProfileUpdated(); // Step 2: Notify the parent component that the profile was updated
+        onProfileUpdated();
         onClose();
       })
       .catch((error) => {
-        // Handle error if needed
+        console.error('Error Updating user', error);
       });
   }
 

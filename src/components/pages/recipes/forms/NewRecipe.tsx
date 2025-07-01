@@ -44,11 +44,17 @@ function NewRecipe() {
     console.log(recipeDraft);
   };
 
+  const mealCategoriesAsCategory =
+    categories?.MealCategories.map((meal) => ({
+      id: meal.id,
+      name: meal.name,
+    })) || [];
+
   const stepsComponents = [
     <CuisineSelector key="cuisineSelector" onSelectCuisine={logInfo} />,
     <MealSelector
       key="mealSelector"
-      mealCategories={categories?.MealCategories || []}
+      mealCategories={mealCategoriesAsCategory}
       onSelectMealType={logInfo}
     />,
     <FoodTypeSelector

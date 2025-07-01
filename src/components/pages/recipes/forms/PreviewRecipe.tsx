@@ -60,8 +60,8 @@ function PreviewRecipePage() {
         FoodTypes: recipeDraft.foodTypes,
         Ingredients: recipeDraft.ingredients.filter((i) => i.trim()),
         Steps: recipeDraft.steps.filter((s) => s.trim()),
-        Rating: null,
-        CreatedBy: user ? user.Id : null,
+        Rating: [], // or null if your API accepts null
+        CreatedBy: user ? user.Id : undefined,
       };
 
       const result = await addRecipe(newRecipe);

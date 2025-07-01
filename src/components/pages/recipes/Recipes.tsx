@@ -5,44 +5,37 @@ import loadingAnimation from '../../../assets/cookingPotAnimation.json';
 import { UseRecipe } from '../../../contexts/recipesContext';
 import RecipeCard from './RecipeCard';
 import SearchBar from '../../shared/SearchBar';
+import React from 'react';
 
 function Recipes() {
   const { recipe } = UseRecipe();
   const [filter, setFilter] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 10; // Change this to set the number of items per page
+  const itemsPerPage = 10;
 
   // Filter recipes based on the selected food type
   const filteredRecipes = recipe.filter((item) =>
     item.Name.toLowerCase().includes(filter.toLowerCase())
   );
 
-  // Calculate the total number of pages
+  // Pagination calculations
   const totalPages = Math.ceil(filteredRecipes.length / itemsPerPage);
-
-  // Get the current page's items
   const indexOfLastItem = currentPage * itemsPerPage;
   const indexOfFirstItem = indexOfLastItem - itemsPerPage;
   const currentItems = filteredRecipes.slice(indexOfFirstItem, indexOfLastItem);
 
-  // Handle filtering change
-  const handleFilterChange = (e) => {
+  // Add event typing here:
+  const handleFilterChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFilter(e.target.value);
-    setCurrentPage(1); // Reset current page to the first page when changing the filter
+    setCurrentPage(1);
   };
 
-  // Handle next page click
   const nextPage = () => {
-    if (currentPage < totalPages) {
-      setCurrentPage(currentPage + 1);
-    }
+    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
   };
 
-  // Handle previous page click
   const prevPage = () => {
-    if (currentPage > 1) {
-      setCurrentPage(currentPage - 1);
-    }
+    if (currentPage > 1) setCurrentPage(currentPage - 1);
   };
 
   useEffect(() => {

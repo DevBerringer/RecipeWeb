@@ -1,13 +1,19 @@
 import { Card, CardHeader, Typography } from '@material-tailwind/react';
+import React from 'react';
 
 interface RecipeCardProps {
   name: string;
   picture: string;
+  className?: string; // allow extra className if desired
 }
 
-export default function RecipeCard({ name, picture }: RecipeCardProps) {
+export default function RecipeCard({
+  name,
+  picture,
+  className,
+}: RecipeCardProps) {
   return (
-    <div className="recipe-card-container h-full">
+    <div className={`recipe-card-container h-full ${className ?? ''}`}>
       <Card className="border border-red-500">
         <CardHeader
           floated={false}

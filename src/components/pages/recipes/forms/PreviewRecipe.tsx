@@ -10,7 +10,7 @@ import { addRecipe } from '../../../../api/api';
 function PreviewRecipePage() {
   const { recipeDraft } = useRecipeDraft();
   const { user } = UseAuth();
-  const { categories, loading } = useCategories(); // 👈 pulling categories + loading state
+  const { categories, loading } = useCategories();
   const navigate = useNavigate();
 
   if (loading) return <div className="p-8 text-center text-xl">Loading...</div>;
@@ -183,7 +183,7 @@ function PreviewRecipePage() {
             {recipeDraft.steps
               .filter((s) => s.trim())
               .map((step, idx) => (
-                <InstructionStep key={idx} step={step} idx={idx} />
+                <InstructionStep key={idx} step={step} />
               ))}
           </ol>
         </div>

@@ -24,6 +24,24 @@ declare global {
   }
 }
 
+export type Recipe = {
+  Id: string | null;
+  Name: string;
+  Serves: string;
+  Picture: string;
+  SpicyLevel: boolean;
+  Description: string;
+  CookTimeMin: number;
+  PrepTimeMin: number;
+  Ingredients: string[];
+  FoodTypes: string[];
+  Steps: string[];
+  Rating: number[];
+  Comments: string[];
+  CreatedBy: string;
+  CreatedDate: Date;
+};
+
 export type ImageItem = {
   src: string;
   alt: string;

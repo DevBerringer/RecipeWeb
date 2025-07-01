@@ -44,12 +44,11 @@ function NewRecipe() {
     console.log(recipeDraft);
   };
 
-  const mealCategoriesAsCategory =
+  const mealCategoriesAsCategory: Category[] =
     categories?.MealCategories.map((meal) => ({
       id: meal.id,
       name: meal.name,
-      imagePath: meal.imagePath || '/default-image.png',
-      // add other Category props if needed
+      imgPath: meal.imgPath || '/default-image.png',
     })) || [];
 
   const stepsComponents = [

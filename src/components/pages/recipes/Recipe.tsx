@@ -1,3 +1,4 @@
+import { Recipe as RecipeType } from '../../../index';
 import RecipeTag from './componenets/RecipeTag';
 
 type RecipeProps = {

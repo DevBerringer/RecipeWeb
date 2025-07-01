@@ -1,10 +1,10 @@
 window.$env = {
-    name: 'dev',
-    hosts: {
-        baseUrl: 'localhost:8082',
-        apis: {
-            recipes: 'recipes',
-            addRecipe: '/insert/recipe'
-        }
-    }
-}
+  name: 'dev',
+  hosts: {
+    baseUrl: 'https://recipeprovider-production.up.railway.app',
+    apis: {
+      recipes: 'recipes',
+      addRecipe: '/insert/recipe',
+    },
+  },
+};

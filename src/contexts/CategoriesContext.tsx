@@ -12,6 +12,8 @@ export type Meals = Category;
 
 export type Foods = Category;
 
+export type Regions = Category;
+
 // Renamed from CategoriesDataMealFood to CategoriesData for consistency
 export type CategoriesData = {
   id: string;

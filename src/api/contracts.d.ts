@@ -14,11 +14,14 @@ type Recipe = {
   Serves: string;
   Picture: string;
   SpicyLevel: boolean;
+  IsVegetarian: boolean;
   Description: string;
   CookTimeMin: number;
   PrepTimeMin: number;
   Ingredients: string[];
   FoodTypes: string[];
+  MealTypes: stringp[];
+  CuisineTypes: string[];
   Steps: string[];
   Rating: number[];
   Comments: string[];

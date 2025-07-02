@@ -66,7 +66,7 @@ function CustomCarousel({ images = [] }: CustomCarouselProps) {
       </div>
 
       {/* Controls */}
-      <div className="flex flex-wrap justify-center gap-6 pb-6 pt-6">
+      <div className="flex flex-wrap justify-center gap-6 pb-6 pt-12">
         <button type="button" onClick={handlePrev} className="px-4 text-lg">
           Prev
         </button>

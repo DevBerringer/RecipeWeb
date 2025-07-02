@@ -43,11 +43,12 @@ function CustomCarousel({ images = [] }: CustomCarouselProps) {
 
   return (
     <div className="floating-carousel-container pt-8 drop-shadow-xl">
+      {/* Carousel images */}
       <div className="carousel-wrapper relative h-64 sm:h-72 md:h-[450px]">
         {images.map((path, index) => (
           <div
             key={index}
-            className={`carousel-item absolute left-0 top-0 transition-opacity ${
+            className={`carousel-item absolute inset-0 transition-opacity ${
               currentIndex === index ? 'opacity-100' : 'opacity-0'
             }`}
             style={{ transition: 'opacity 0.6s ease-in-out' }}
@@ -57,13 +58,15 @@ function CustomCarousel({ images = [] }: CustomCarouselProps) {
                 src={path}
                 alt=""
                 aria-hidden="true"
-                className="mx-auto object-cover"
+                className="mx-auto h-full w-full object-cover"
               />
             </div>
           </div>
         ))}
       </div>
-      <div className="flex justify-center gap-6 pt-4 sm:mt-16">
+
+      {/* Controls */}
+      <div className="flex flex-wrap justify-center gap-6 pb-6 pt-6">
         <button type="button" onClick={handlePrev} className="px-4 text-lg">
           Prev
         </button>

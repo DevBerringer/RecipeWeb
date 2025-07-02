@@ -44,7 +44,7 @@ function CustomCarousel({ images = [] }: CustomCarouselProps) {
   return (
     <div className="floating-carousel-container pt-8 drop-shadow-xl">
       {/* Carousel images */}
-      <div className="carousel-wrapper relative h-64 sm:h-72 md:h-[450px]">
+      <div className="carousel-wrapper relative h-64 sm:h-96 md:h-[450px]">
         {images.map((path, index) => (
           <div
             key={index}
@@ -66,7 +66,7 @@ function CustomCarousel({ images = [] }: CustomCarouselProps) {
       </div>
 
       {/* Controls */}
-      <div className="flex flex-wrap justify-center gap-6 pb-6 pt-12">
+      <div className="flex flex-wrap justify-center gap-6 pb-6 pt-2">
         <button type="button" onClick={handlePrev} className="px-4 text-lg">
           Prev
         </button>

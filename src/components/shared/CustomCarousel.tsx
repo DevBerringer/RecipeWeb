@@ -43,7 +43,7 @@ function CustomCarousel({ images = [] }: CustomCarouselProps) {
 
   return (
     <div className="floating-carousel-container pt-8 drop-shadow-xl">
-      <div className="carousel-wrapper relative h-64 sm:h-96 md:h-[450px]">
+      <div className="carousel-wrapper relative h-64 sm:h-72 md:h-[450px]">
         {images.map((path, index) => (
           <div
             key={index}

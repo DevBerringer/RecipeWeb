@@ -69,8 +69,9 @@ function Login() {
   };
 
   return (
-    <div className="flex bg-white px-4 py-8 sm:px-6 lg:px-10">
-      <div className="flex w-full max-w-lg flex-col justify-center space-y-6 pr-2">
+    <div className="flex flex-col bg-white px-4 py-8 sm:flex-row sm:px-6 lg:px-10">
+      {/* Form Section */}
+      <div className="flex w-full flex-col justify-center space-y-6 sm:max-w-lg sm:pr-2">
         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
           Login
         </h2>
@@ -80,11 +81,13 @@ function Login() {
             Sign Up
           </Link>
         </p>
+
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Username input */}
           {errors.submit && (
             <p className="mt-1 text-xl text-red-500">{errors.submit}</p>
           )}
+
+          {/* Username */}
           <div>
             <label htmlFor="username">Username</label>
             <input
@@ -104,7 +107,7 @@ function Login() {
             )}
           </div>
 
-          {/* Password input */}
+          {/* Password */}
           <div>
             <label htmlFor="password">Password</label>
             <input
@@ -115,7 +118,7 @@ function Login() {
               required
               value={password}
               onChange={handlePasswordChange}
-              placeholder="Enter 8 Charters or more"
+              placeholder="Enter 8 characters or more"
               className={`block w-full rounded-md border-gray-300 bg-gray-200 px-4 py-2 placeholder-gray-400 focus:border-transparent focus:ring-2 focus:ring-indigo-600 ${
                 errors.password ? 'border-red-500' : ''
               }`}
@@ -131,22 +134,24 @@ function Login() {
             </Link>
           </div>
 
-          {/* Submit button */}
+          {/* Submit */}
           <div>
             <button
               type="submit"
-              className="w-full rounded-md bg-recipecentral px-4 py-2 text-sm font-medium text-white hover:bg-recipecentral-dark focus:outline-none focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
+              className="w-full rounded-md bg-recipecentral px-4 py-2 text-sm font-medium text-white hover:bg-recipecentral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
             >
               Sign in
             </button>
           </div>
         </form>
       </div>
-      <div className="flex flex-grow items-center justify-center">
+
+      {/* Image Section */}
+      <div className="mt-8 flex flex-grow items-center justify-center sm:mt-0">
         <img
           src="/assets/foodCollection.jpg"
           alt="Login photos"
-          className="max-h-[32rem] object-cover"
+          className="w-full max-w-sm rounded-md object-cover sm:max-h-[32rem]"
         />
       </div>
     </div>

@@ -66,18 +66,18 @@ function CustomCarousel({ images = [] }: CustomCarouselProps) {
       </div>
 
       {/* Controls */}
-      <div className="flex flex-wrap justify-center gap-6 pb-6 pt-2 text-base sm:text-sm">
-        <button type="button" onClick={handlePrev} className="px-4">
+      <div className="flex flex-wrap justify-center gap-4 pb-6 pt-2 text-base sm:gap-6 sm:text-sm">
+        <button type="button" onClick={handlePrev} className="px-2 sm:px-4">
           Prev
         </button>
         <button
           type="button"
           onClick={isPaused ? handlePlay : handlePause}
-          className="px-4"
+          className="px-2 sm:px-4"
         >
           {isPaused ? 'Play' : 'Pause'}
         </button>
-        <button type="button" onClick={handleNext} className="px-4">
+        <button type="button" onClick={handleNext} className="px-2 sm:px-4">
           Next
         </button>
       </div>

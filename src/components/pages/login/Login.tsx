@@ -71,17 +71,17 @@ function Login() {
   return (
     <div className="flex flex-col bg-white px-4 py-8 sm:flex-row sm:gap-x-12 sm:px-6 lg:px-10">
       {/* Form Section */}
-      <div className="flex w-full flex-col justify-center sm:flex-1">
+      <div className="flex w-full flex-col justify-center [@media(min-width:1100px)]:flex-1">
         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
           Login
         </h2>
         <p>
-          Don't have an account yet?{' '}
+          Don't have an account yet?
+          <br />
           <Link to="../register" className="text-indigo-600 hover:underline">
             Sign Up
           </Link>
         </p>
-
         <form onSubmit={handleSubmit} className="space-y-6">
           {errors.submit && (
             <p className="mt-1 text-xl text-red-500">{errors.submit}</p>

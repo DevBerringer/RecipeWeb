@@ -69,9 +69,9 @@ function Login() {
   };
 
   return (
-    <div className="flex flex-col bg-white px-4 py-8 sm:flex-row sm:px-6 lg:px-10">
+    <div className="flex flex-col bg-white px-4 py-8 sm:flex-row sm:gap-x-12 sm:px-6 lg:px-10">
       {/* Form Section */}
-      <div className="flex w-full flex-col justify-center space-y-6 sm:max-w-lg sm:pr-2">
+      <div className="flex w-full flex-col justify-center sm:flex-1">
         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
           Login
         </h2>
@@ -145,10 +145,8 @@ function Login() {
           </div>
         </form>
       </div>
-
       {/* Image Section */}
-
-      <div className="mt-8 flex flex-grow items-center justify-center sm:mt-0 sm:max-w-[50%] lg:h-[40rem] lg:max-w-[40rem]">
+      <div className="mt-8 flex flex-grow items-center justify-center sm:mt-0 sm:flex-1">
         <img
           src="/assets/foodCollection.jpg"
           alt="Login photos"

@@ -14,18 +14,16 @@ function RegisterForm() {
     submit: '',
   });
 
-  const navigate = useNavigate(); // Initialize the useHistory hook
+  const navigate = useNavigate();
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-    setErrors({ ...errors, email: '' });
-    setErrors({ ...errors, submit: '' });
+    setErrors({ ...errors, email: '', submit: '' });
   };
 
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
-    setErrors({ ...errors, username: '' });
-    setErrors({ ...errors, submit: '' });
+    setErrors({ ...errors, username: '', submit: '' });
   };
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -37,18 +35,16 @@ function RegisterForm() {
     setConfirmPassword(event.target.value);
     setErrors({ ...errors, password: '' });
 
-    // Delay validation for a few seconds
     setTimeout(() => {
       if (password !== event.target.value) {
         setErrors({ ...errors, password: 'Passwords do not match' });
       }
-    }, 3000); // Change the delay time as desired (in milliseconds)
+    }, 3000);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Validate form inputs
     let formIsValid = true;
     const newErrors = { email: '', password: '', username: '', submit: '' };
 
@@ -83,26 +79,17 @@ function RegisterForm() {
     }
 
     if (formIsValid) {
-      // Handle login logic here
-      const user = {
-        username,
-        email,
-        password,
-        roles: [],
-      };
-
+      const user = { username, email, password, roles: [] };
       const response = await Register(user);
 
       if (response.message !== 'User registered successfully!') {
         newErrors.submit = response.message;
         setErrors(newErrors);
       } else {
-        // Clear input fields
         setEmail('');
         setUsername('');
         setPassword('');
         setConfirmPassword('');
-
         navigate('/login');
       }
     } else {
@@ -111,8 +98,9 @@ function RegisterForm() {
   };
 
   return (
-    <div className="flex bg-white px-4 py-8 sm:px-6 lg:px-10">
-      <div className="mr-2 flex w-full max-w-lg flex-col justify-center space-y-6">
+    <div className="flex flex-col bg-white px-4 py-8 sm:flex-row sm:justify-between sm:px-6 lg:px-10">
+      {/* Form Section */}
+      <div className="flex w-full flex-col justify-center sm:max-w-[40rem]">
         <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
           Register
         </h2>
@@ -120,7 +108,7 @@ function RegisterForm() {
           {errors.submit && (
             <p className="mt-1 text-xl text-red-500">{errors.submit}</p>
           )}
-          {/* Email input */}
+          {/* Email */}
           <div>
             <label htmlFor="email">Email Address</label>
             <input
@@ -131,8 +119,7 @@ function RegisterForm() {
               value={email}
               onChange={handleEmailChange}
               placeholder="you@example.com"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
-              ${
+              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
                 errors.email ? 'border-red-500 outline-none' : 'border-gray-300'
               } placeholder-gray-400`}
             />
@@ -140,6 +127,7 @@ function RegisterForm() {
               <p className="mt-1 text-sm text-red-500">{errors.email}</p>
             )}
           </div>
+          {/* Username */}
           <div>
             <label htmlFor="username">Username</label>
             <input
@@ -149,8 +137,7 @@ function RegisterForm() {
               value={username}
               onChange={handleUsernameChange}
               placeholder="Enter Username"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
-              ${
+              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
                 errors.username
                   ? 'border-red-500 outline-none'
                   : 'border-gray-300'
@@ -160,7 +147,7 @@ function RegisterForm() {
               <p className="mt-1 text-sm text-red-500">{errors.username}</p>
             )}
           </div>
-          {/* Password input */}
+          {/* Password */}
           <div>
             <label htmlFor="password">Password</label>
             <input
@@ -169,9 +156,8 @@ function RegisterForm() {
               type="password"
               value={password}
               onChange={handlePasswordChange}
-              placeholder="Enter 8 Charters or more"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
-              ${
+              placeholder="Enter 8 characters or more"
+              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
                 errors.password
                   ? 'border-red-500 outline-none'
                   : 'border-gray-300'
@@ -181,6 +167,7 @@ function RegisterForm() {
               <p className="mt-1 text-sm text-red-500">{errors.password}</p>
             )}
           </div>
+          {/* Confirm Password */}
           <div>
             <label htmlFor="confirmPassword">Confirm Password</label>
             <input
@@ -189,9 +176,8 @@ function RegisterForm() {
               type="password"
               value={confirmPassword}
               onChange={handleConPasswordChange}
-              placeholder="Enter 8 Charters or more"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
-              ${
+              placeholder="Re-enter password"
+              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
                 errors.password
                   ? 'border-red-500 outline-none'
                   : 'border-gray-300'
@@ -201,23 +187,24 @@ function RegisterForm() {
               <p className="mt-1 text-sm text-red-500">{errors.password}</p>
             )}
           </div>
-
-          {/* Submit button */}
+          {/* Submit */}
           <div>
             <button
               type="submit"
-              className="w-full rounded-md bg-recipecentral px-4 py-2 text-xl font-medium text-white hover:bg-recipecentral-dark focus:outline-none focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
+              className="w-full rounded-md bg-recipecentral px-4 py-2 text-xl font-medium text-white hover:bg-recipecentral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
             >
               Sign up!
             </button>
           </div>
         </form>
       </div>
-      <div className="flex flex-grow items-center justify-center">
+
+      {/* Image */}
+      <div className="ml-8 flex w-full items-center justify-center [@media(min-width:1100px)]:mt-0 [@media(min-width:1100px)]:flex-1">
         <img
           src="/assets/register.jpg"
           alt="register"
-          className="max-h-[32rem] object-cover"
+          className="w-full max-w-[32rem] rounded-md object-cover"
         />
       </div>
     </div>

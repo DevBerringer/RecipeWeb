@@ -44,7 +44,7 @@ function CustomCarousel({ images = [] }: CustomCarouselProps) {
   return (
     <div className="floating-carousel-container pt-8 drop-shadow-xl">
       {/* Carousel images */}
-      <div className="carousel-wrapper relative h-64 sm:h-96 md:h-[350px]">
+      <div className="carousel-wrapper relative w-64 h-64 mx-auto mb-4 sm:w-80 sm:h-80 [@media(min-width:1000px)]:w-[30rem] [@media(min-width:1000px)]:h-[30rem] lg:w-[700px] lg:h-[700px]">
         {images.map((path, index) => (
           <div
             key={index}
@@ -53,12 +53,12 @@ function CustomCarousel({ images = [] }: CustomCarouselProps) {
             }`}
             style={{ transition: 'opacity 0.6s ease-in-out' }}
           >
-            <div className="carousel-image-container shadow-black drop-shadow-xl">
+            <div className="carousel-image-container h-full w-full shadow-black drop-shadow-xl">
               <img
                 src={path}
                 alt=""
                 aria-hidden="true"
-                className="mx-auto h-full w-full object-cover"
+                className="mx-auto h-full w-full rounded-lg object-cover" /* Added rounded-lg for a nicer look */
               />
             </div>
           </div>

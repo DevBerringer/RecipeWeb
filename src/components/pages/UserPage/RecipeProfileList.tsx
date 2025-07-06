@@ -8,9 +8,21 @@ interface RecipeProfileListProps {
   createdByFilter: string | null;
 }
 
+interface Recipe {
+  Id: string;
+  Name: string;
+  Description: string;
+  Picture: string | null;
+  PrepTimeMin: number;
+  CookTimeMin: number;
+  CreatedBy: string;
+  CreatedDate: string;
+  FoodTypes: string[];
+}
+
 function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
   const [filter, setFilter] = useState('');
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
@@ -22,7 +34,7 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
     setLoading(true);
     try {
       const data = await getPagedRecipes(page, itemsPerPage);
-      const newRecipes = data.RecipeDTOs || [];
+      const newRecipes: Recipe[] = data.RecipeDTOs || [];
       setRecipes(newRecipes);
       setHasMore(newRecipes.length === itemsPerPage);
     } catch (error) {

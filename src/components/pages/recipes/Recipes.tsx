@@ -17,7 +17,7 @@ interface Recipe {
 
 function Recipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [filter, setFilter] = useState('');
+  const [filter, setFilter] = useState<string | null>('');
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);

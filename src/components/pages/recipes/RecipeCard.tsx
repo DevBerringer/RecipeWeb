@@ -1,6 +1,6 @@
 interface RecipeCardProps {
   name: string;
-  picture: string;
+  picture: string | null;
   prepTime: number;
   cookTime: number;
 }

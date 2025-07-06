@@ -3,6 +3,7 @@ import { getCategories } from '../api/api'; // adjust path if needed
 // Removed: import { CategoriesData } from '../index'; // This was causing confusion if CategoriesData was defined elsewhere
 
 export type Category = {
+  [x: string]: string | undefined;
   id: string;
   name: string;
   imagePath: string;

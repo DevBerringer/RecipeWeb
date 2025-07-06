@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
 import Lottie from 'lottie-react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
@@ -6,8 +6,17 @@ import loadingAnimation from '../../../assets/cookingPotAnimation.json';
 import { getPagedRecipes } from '../../../api/api';
 import RecipeCard from './RecipeCard';
 
+// Define the Recipe type for type safety
+interface Recipe {
+  Id: string;
+  Name: string;
+  Picture: string | null;
+  PrepTimeMin: number;
+  CookTimeMin: number;
+}
+
 function Recipes() {
-  const [recipes, setRecipes] = useState([]);
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [filter, setFilter] = useState('');
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
@@ -18,8 +27,7 @@ function Recipes() {
     setLoading(true);
     try {
       const data = await getPagedRecipes(page, itemsPerPage);
-      const newRecipes = data.RecipeDTOs || [];
-
+      const newRecipes: Recipe[] = data.RecipeDTOs || [];
       setRecipes(newRecipes);
       setHasMore(newRecipes.length === itemsPerPage);
     } catch (error) {
@@ -46,12 +54,27 @@ function Recipes() {
     }
   };
 
+  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFilter(e.target.value);
+  };
+
   const filteredDisplayRecipes = recipes.filter((item) =>
     item.Name.toLowerCase().includes(filter.toLowerCase())
   );
 
   return (
     <div>
+      {/* Filter input */}
+      <div className="my-6 flex justify-center">
+        <input
+          type="text"
+          placeholder="Search recipes..."
+          value={filter}
+          onChange={handleFilterChange}
+          className="rounded border border-gray-300 px-4 py-2 text-lg focus:outline-none focus:ring-2 focus:ring-recipecentral"
+        />
+      </div>
+
       <div className="relative w-full">
         {loading ? (
           <div className="left-0 flex h-full w-full flex-col items-center justify-center">

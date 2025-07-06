@@ -158,7 +158,7 @@ export const getCategories = async () => {
 export const addRecipe = async (recipe: {
   Id: null;
   Name: string;
-  Picture: string | null;
+  SelectedImage: string | null;
   SpicyLevel: boolean;
   Description: string;
   CookTimeMin: number;
@@ -171,7 +171,7 @@ export const addRecipe = async (recipe: {
   MealTypes: string[];
   CuisineTypes: string[];
   IsVegetarian: boolean;
-  Serves: string;
+  Serves: number;
 }) => {
   try {
     const response = await getRecipeApi().post(

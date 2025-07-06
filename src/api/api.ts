@@ -119,7 +119,7 @@ export const getRecipes = async () => {
   }
 };
 
-export const getRecipeById = async (id) => {
+export const getRecipeById = async (id: string | undefined) => {
   try {
     const response = await getRecipeApi().get(
       window.$env.hosts.apis.recipe.replace('{id}', id)

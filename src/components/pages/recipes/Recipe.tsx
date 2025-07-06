@@ -91,7 +91,7 @@ function RecipePage() {
       {/* Header */}
       <header className="flex flex-wrap items-center justify-between">
         <h1 className="text-5xl font-bold text-gray-900">
-          {currentRecipe.Name}
+          {currentRecipe.Name ? currentRecipe.Name : ''}
         </h1>
         <p className="text-gray-500">
           Created: {new Date(currentRecipe.CreatedDate).toLocaleDateString()}
@@ -99,10 +99,10 @@ function RecipePage() {
       </header>
 
       {/* Featured Image */}
-      {currentRecipe.Picture && (
+      {currentRecipe.SelectedImage && (
         <div className="overflow-hidden rounded-xl shadow-lg">
           <img
-            src={currentRecipe.Picture}
+            src={currentRecipe.SelectedImage}
             alt="Recipe"
             className="h-[400px] w-full object-cover"
           />

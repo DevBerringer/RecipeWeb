@@ -9,7 +9,7 @@ type RecipeResponseDTO = {
 };
 
 type Recipe = {
-  Id: string | null;
+  Id: string;
   Name: string;
   Serves: string;
   SelectedImage: string;

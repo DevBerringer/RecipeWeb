@@ -9,7 +9,7 @@ import RecipeCard from './RecipeCard';
 interface Recipe {
   Id: string;
   Name: string;
-  Picture: string | null;
+  SelectedImage: string | null;
   PrepTimeMin: number;
   CookTimeMin: number;
 }
@@ -61,6 +61,51 @@ function Recipes() {
     item.Name.toLowerCase().includes(filter.toLowerCase())
   );
 
+  const renderContent = () => {
+    if (loading) {
+      return (
+        <div className="left-0 flex h-full w-full flex-col items-center justify-center">
+          <Lottie
+            className="max-h-[350px] max-w-[350px]"
+            animationData={loadingAnimation}
+          />
+          <p className="mt-4 text-gray-600">Loading recipes...</p>
+        </div>
+      );
+    }
+
+    if (filteredDisplayRecipes.length > 0) {
+      return (
+        <div className="grid grid-cols-1 justify-center xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+          {filteredDisplayRecipes.map((item) => (
+            <Link to={`recipe/${item.Id}`} key={item.Id} className="m-2 my-5">
+              <div className="h-full w-full min-w-[256px]">
+                <RecipeCard
+                  picture={item.SelectedImage}
+                  name={item.Name}
+                  prepTime={item.PrepTimeMin}
+                  cookTime={item.CookTimeMin}
+                />
+              </div>
+            </Link>
+          ))}
+        </div>
+      );
+    }
+
+    return (
+      <div className="left-0 flex h-full w-full flex-col items-center justify-center">
+        <Lottie
+          className="max-h-[350px] max-w-[350px]"
+          animationData={loadingAnimation}
+        />
+        <p className="mt-4 text-gray-600">
+          No recipes found matching your criteria.
+        </p>
+      </div>
+    );
+  };
+
   return (
     <div>
       {/* Filter input */}
@@ -74,46 +119,12 @@ function Recipes() {
         />
       </div>
 
-      <div className="relative w-full">
-        {loading ? (
-          <div className="left-0 flex h-full w-full flex-col items-center justify-center">
-            <Lottie
-              className="max-h-[350px] max-w-[350px]"
-              animationData={loadingAnimation}
-            />
-            <p className="mt-4 text-gray-600">Loading recipes...</p>
-          </div>
-        ) : filteredDisplayRecipes.length > 0 ? (
-          <div className="grid grid-cols-1 justify-center xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {filteredDisplayRecipes.map((item) => (
-              <Link to={`recipe/${item.Id}`} key={item.Id} className="m-2 my-5">
-                <div className="h-full w-full min-w-[256px]">
-                  <RecipeCard
-                    picture={item.Picture}
-                    name={item.Name}
-                    prepTime={item.PrepTimeMin}
-                    cookTime={item.CookTimeMin}
-                  />
-                </div>
-              </Link>
-            ))}
-          </div>
-        ) : (
-          <div className="left-0 flex h-full w-full flex-col items-center justify-center">
-            <Lottie
-              className="max-h-[350px] max-w-[350px]"
-              animationData={loadingAnimation}
-            />
-            <p className="mt-4 text-gray-600">
-              No recipes found matching your criteria.
-            </p>
-          </div>
-        )}
-      </div>
+      <div className="relative w-full">{renderContent()}</div>
 
       {!loading && (
         <div className="my-8 flex justify-center gap-6">
           <button
+            type="button"
             onClick={handlePreviousPage}
             disabled={currentPage === 0}
             className={`flex items-center gap-2 rounded-lg px-5 py-3 text-lg font-medium shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
@@ -127,6 +138,7 @@ function Recipes() {
           </button>
 
           <button
+            type="button"
             onClick={handleNextPage}
             disabled={!hasMore}
             className={`flex items-center gap-2 rounded-lg px-5 py-3 text-lg font-medium shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${

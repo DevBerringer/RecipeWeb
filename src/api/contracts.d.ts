@@ -12,7 +12,7 @@ type Recipe = {
   Id: string | null;
   Name: string;
   Serves: string;
-  Picture: string;
+  SelectedImage: string;
   IsSpicy: boolean;
   IsVegetarian: boolean;
   Description: string;
@@ -20,7 +20,7 @@ type Recipe = {
   PrepTimeMin: number;
   Ingredients: string[];
   FoodTypes: string[];
-  MealTypes: stringp[];
+  MealTypes: string[];
   CuisineTypes: string[];
   Steps: string[];
   Rating: number[];

@@ -54,7 +54,7 @@ function NewRecipe() {
       (meal: Meals) => ({
         id: meal.id,
         name: meal.name,
-        imgPath: meal.imgPath,
+        imagePath: meal.imagePath,
       })
     );
 
@@ -62,7 +62,7 @@ function NewRecipe() {
       (food: Foods) => ({
         id: food.id,
         name: food.name,
-        imgPath: food.imgPath,
+        imagePath: food.imagePath,
       })
     );
 

@@ -1,28 +1,58 @@
 /* eslint-disable react/no-array-index-key */
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { UseRecipe } from '../../../contexts/recipesContext';
+import Lottie from 'lottie-react';
 import { useCategories } from '../../../contexts/CategoriesContext';
 import RecipeTag from './componenets/RecipeTag';
+import { getRecipeById } from '../../../api/api';
+import loadingAnimation from '../../../assets/cookingPotAnimation.json';
 
 function RecipePage() {
-  const { recipe } = UseRecipe();
-  const { categories, loading } = useCategories();
+  const { categories, loading: categoriesLoading } = useCategories();
   const [currentRecipe, setCurrentRecipe] = useState<Recipe | null>(null);
-  const { id: userIdFromURL } = useParams();
+  const [loadingRecipe, setLoadingRecipe] = useState(true);
+  const { id: recipeId } = useParams();
 
   useEffect(() => {
-    const filteredRecipe = recipe.find((r) => r.Id === userIdFromURL);
-    setCurrentRecipe(filteredRecipe || null);
-  }, [recipe, userIdFromURL]);
+    const fetchRecipe = async () => {
+      setLoadingRecipe(true);
+      try {
+        const data = await getRecipeById(recipeId);
+        setCurrentRecipe(data);
+      } catch (error) {
+        console.error('Failed to fetch recipe:', error);
+        setCurrentRecipe(null);
+      } finally {
+        setLoadingRecipe(false);
+      }
+    };
 
-  if (loading) return <div className="p-8 text-center text-xl">Loading...</div>;
-  if (!categories)
+    if (recipeId) {
+      fetchRecipe();
+    }
+  }, [recipeId]);
+
+  if (categoriesLoading || loadingRecipe) {
+    return (
+      <div className="flex flex-col items-center justify-center pt-20">
+        <Lottie
+          className="max-h-[300px] max-w-[300px]"
+          animationData={loadingAnimation}
+        />
+        <p className="mt-4 text-xl text-gray-600">Loading recipe details...</p>
+      </div>
+    );
+  }
+
+  if (!categories) {
     return <div className="p-8 text-center text-xl">No categories found.</div>;
-  if (!currentRecipe)
-    return <div className="p-8 text-center text-xl">Recipe not found.</div>;
+  }
 
-  // Map tags like in preview
+  if (!currentRecipe) {
+    return <div className="p-8 text-center text-xl">Recipe not found.</div>;
+  }
+
+  // Map tags from recipe categories
   const tagSections = [
     {
       title: '🍽️ Cuisines',
@@ -85,7 +115,7 @@ function RecipePage() {
           ['Prep Time', `${currentRecipe.PrepTimeMin} min`],
           ['Cook Time', `${currentRecipe.CookTimeMin} min`],
           ['Serves', currentRecipe.Serves || 'N/A'],
-          ['Spicy', currentRecipe.SpicyLevel ? '🔥' : '❄️'],
+          ['Spicy', currentRecipe.IsSpicy ? '🔥' : '❄️'],
           ['Vegetarian', currentRecipe.IsVegetarian ? '🌱' : '🍖'],
         ].map(([label, value], idx) => (
           <div key={idx} className="rounded-lg bg-white p-4 text-center shadow">

@@ -200,7 +200,7 @@ function RegisterForm() {
       </div>
 
       {/* Image */}
-      <div className="ml-8 flex w-full items-center justify-center [@media(min-width:1100px)]:mt-0 [@media(min-width:1100px)]:flex-1">
+      <div className="ml-8 flex w-full items-center justify-center [@media(min-width:1100px)]:ml-0 [@media(min-width:1100px)]:flex-1">
         <img
           src="/assets/register.jpg"
           alt="register"

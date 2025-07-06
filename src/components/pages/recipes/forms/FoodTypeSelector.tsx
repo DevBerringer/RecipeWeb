@@ -5,13 +5,9 @@ import { Category } from '../../../../contexts/CategoriesContext';
 
 type FoodTypeSelectorProps = {
   foodCategories: Category[];
-  onFoodTypeSelect: (category: string) => void;
 };
 
-function FoodTypeSelector({
-  foodCategories,
-  onFoodTypeSelect,
-}: FoodTypeSelectorProps) {
+function FoodTypeSelector({ foodCategories }: FoodTypeSelectorProps) {
   const { recipeDraft, setRecipeDraft } = useRecipeDraft();
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [loadedImages, setLoadedImages] = useState(new Set<string>());
@@ -31,10 +27,6 @@ function FoodTypeSelector({
       ...recipeDraft,
       foodTypes: updatedCategories,
     });
-
-    if (!recipeDraft.foodTypes.includes(categoryId)) {
-      onFoodTypeSelect(categoryId);
-    }
   };
 
   const filteredCategories =

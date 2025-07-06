@@ -32,7 +32,7 @@ function CategoryCard({
       <div className="relative mb-4 flex h-48 w-48 items-center justify-center overflow-hidden rounded-xl">
         {/* Image */}
         <img
-          src={category.imagePath}
+          src={category.imgPath}
           alt={category.name}
           loading="lazy"
           onLoad={() => {

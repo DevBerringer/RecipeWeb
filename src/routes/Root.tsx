@@ -1,6 +1,5 @@
 import { Outlet } from 'react-router-dom';
 
-import { RecipeProvider } from '../contexts/recipesContext';
 import { UserProvider } from '../contexts/userContext';
 import { AuthProvider } from '../contexts/authContext';
 import { RecipeDraftProvider } from '../contexts/RecipeDraftContext';
@@ -15,15 +14,13 @@ export default function Root() {
         <RecipeDraftProvider>
           <div className="App">
             <Navbar />
-            <RecipeProvider>
-              <div className="text-md main-container mb-0 mt-28 justify-center bg-recipecentral pb-10 text-base">
-                <div className="paper-container container mx-4 mb-auto mt-10 flex min-h-60 flex-col rounded-2xl px-4 py-8 shadow-xl md:mx-10 lg:mx-20 xl:mx-40">
-                  <main id="detail">
-                    <Outlet />
-                  </main>
-                </div>
+            <div className="text-md main-container mb-0 mt-28 justify-center bg-recipecentral pb-10 text-base">
+              <div className="paper-container container mx-4 mb-auto mt-10 flex min-h-60 flex-col rounded-2xl px-4 py-8 shadow-xl md:mx-10 lg:mx-20 xl:mx-40">
+                <main id="detail">
+                  <Outlet />
+                </main>
               </div>
-            </RecipeProvider>
+            </div>
             <Footer />
           </div>
         </RecipeDraftProvider>

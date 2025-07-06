@@ -1,71 +1,69 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Lottie from 'lottie-react';
+import { ArrowLeft, ArrowRight } from 'lucide-react';
 import loadingAnimation from '../../../assets/cookingPotAnimation.json';
-import { UseRecipe } from '../../../contexts/recipesContext';
+import { getPagedRecipes } from '../../../api/api';
 import RecipeCard from './RecipeCard';
 
 function Recipes() {
-  const { recipe } = UseRecipe();
+  const [recipes, setRecipes] = useState([]);
   const [filter, setFilter] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(0);
+  const [hasMore, setHasMore] = useState(true);
   const itemsPerPage = 10;
 
-  // Filter recipes based on the selected food type
-  const filteredRecipes = recipe.filter((item) =>
-    item.Name.toLowerCase().includes(filter.toLowerCase())
-  );
+  const fetchRecipes = async (page: number) => {
+    setLoading(true);
+    try {
+      const data = await getPagedRecipes(page, itemsPerPage);
+      const newRecipes = data.RecipeDTOs || [];
 
-  // Pagination calculations
-  const totalPages = Math.ceil(filteredRecipes.length / itemsPerPage);
-  const indexOfLastItem = currentPage * itemsPerPage;
-  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-  const currentItems = filteredRecipes.slice(indexOfFirstItem, indexOfLastItem);
-
-  // Add event typing here:
-  const handleFilterChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
-    setFilter(e.target.value);
-    setCurrentPage(1);
-  };
-
-  const nextPage = () => {
-    if (currentPage < totalPages) setCurrentPage(currentPage + 1);
-  };
-
-  const prevPage = () => {
-    if (currentPage > 1) setCurrentPage(currentPage - 1);
+      setRecipes(newRecipes);
+      setHasMore(newRecipes.length === itemsPerPage);
+    } catch (error) {
+      console.error('Failed to fetch recipes:', error);
+      setHasMore(false);
+    } finally {
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
+    fetchRecipes(currentPage);
+  }, [currentPage]);
+
+  const handleNextPage = () => {
+    if (hasMore) {
+      setCurrentPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (currentPage > 0) {
+      setCurrentPage((prev) => prev - 1);
+    }
+  };
+
+  const filteredDisplayRecipes = recipes.filter((item) =>
+    item.Name.toLowerCase().includes(filter.toLowerCase())
+  );
 
   return (
     <div>
-      <div className="mx-auto mb-4 flex justify-end">
-        <div className="px-4 py-2 text-lg text-gray-600">
-          Can't find what you are looking for?
-        </div>
-      </div>
-      <div className="mb-4 flex justify-center">
-        <select
-          className="rounded border border-gray-300 px-4 py-2"
-          value={filter}
-          onChange={handleFilterChange}
-        >
-          <option value="">All</option>
-          <option value="breakfast">Breakfast</option>
-          <option value="lunch">Lunch</option>
-          <option value="dinner">Dinner</option>
-          <option value="dessert">Dessert</option>
-        </select>
-      </div>
       <div className="relative w-full">
-        {currentItems.length > 0 ? (
+        {loading ? (
+          <div className="left-0 flex h-full w-full flex-col items-center justify-center">
+            <Lottie
+              className="max-h-[350px] max-w-[350px]"
+              animationData={loadingAnimation}
+            />
+            <p className="mt-4 text-gray-600">Loading recipes...</p>
+          </div>
+        ) : filteredDisplayRecipes.length > 0 ? (
           <div className="grid grid-cols-1 justify-center xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
-            {currentItems.map((item) => (
+            {filteredDisplayRecipes.map((item) => (
               <Link to={`recipe/${item.Id}`} key={item.Id} className="m-2 my-5">
                 <div className="h-full w-full min-w-[256px]">
                   <RecipeCard
@@ -79,35 +77,47 @@ function Recipes() {
             ))}
           </div>
         ) : (
-          <div className="left-0 flex h-full w-full items-center justify-center pt-20">
+          <div className="left-0 flex h-full w-full flex-col items-center justify-center">
             <Lottie
               className="max-h-[350px] max-w-[350px]"
               animationData={loadingAnimation}
             />
+            <p className="mt-4 text-gray-600">
+              No recipes found matching your criteria.
+            </p>
           </div>
         )}
       </div>
-      {currentItems.length > 0 ? (
-        <div className="my-4 flex justify-center">
+
+      {/* Pagination Controls */}
+      {!loading && (
+        <div className="my-8 flex justify-center gap-6">
           <button
-            type="button"
-            className="mr-2 rounded bg-recipecentral px-4 py-2 disabled:opacity-50"
-            onClick={prevPage}
-            disabled={currentPage === 1}
+            onClick={handlePreviousPage}
+            disabled={currentPage === 0}
+            className={`flex items-center gap-2 rounded-lg px-5 py-3 text-lg font-medium shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              currentPage === 0
+                ? 'cursor-not-allowed bg-gray-300 text-gray-500'
+                : 'bg-recipecentral text-white hover:bg-recipecentral-dark focus:ring-blue-500'
+            }`}
           >
+            <ArrowLeft size={20} />
             Previous
           </button>
+
           <button
-            type="button"
-            className="rounded bg-recipecentral px-4 py-2 disabled:opacity-50"
-            onClick={nextPage}
-            disabled={currentPage === totalPages}
+            onClick={handleNextPage}
+            disabled={!hasMore}
+            className={`flex items-center gap-2 rounded-lg px-5 py-3 text-lg font-medium shadow-md transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 ${
+              !hasMore
+                ? 'cursor-not-allowed bg-gray-300 text-gray-500'
+                : 'bg-recipecentral text-white hover:bg-recipecentral-dark focus:ring-blue-500'
+            }`}
           >
             Next
+            <ArrowRight size={20} />
           </button>
         </div>
-      ) : (
-        <div />
       )}
     </div>
   );

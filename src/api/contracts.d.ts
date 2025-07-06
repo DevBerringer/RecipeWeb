@@ -13,7 +13,7 @@ type Recipe = {
   Name: string;
   Serves: string;
   Picture: string;
-  SpicyLevel: boolean;
+  IsSpicy: boolean;
   IsVegetarian: boolean;
   Description: string;
   CookTimeMin: number;

@@ -5,10 +5,9 @@ import { Category } from '../../../../contexts/CategoriesContext';
 
 type MealSelectorProps = {
   mealCategories: Category[];
-  onSelectMealType: (category: string) => void;
 };
 
-function MealSelector({ mealCategories, onSelectMealType }: MealSelectorProps) {
+function MealSelector({ mealCategories }: MealSelectorProps) {
   const { recipeDraft, setRecipeDraft } = useRecipeDraft();
   const [selectedCategories, setSelectedMeals] = useState<string[]>([]);
 
@@ -40,10 +39,6 @@ function MealSelector({ mealCategories, onSelectMealType }: MealSelectorProps) {
       ...recipeDraft,
       mealTypes: updatedCategories,
     });
-
-    if (!recipeDraft.mealTypes.includes(categoryId)) {
-      onSelectMealType(categoryId);
-    }
   };
 
   return (
@@ -59,7 +54,6 @@ function MealSelector({ mealCategories, onSelectMealType }: MealSelectorProps) {
               category={category}
               selectedCategories={selectedCategories}
               handleCategorySelect={handleCategorySelect}
-              // handleImageLoad is optional, so we omit it here
             />
           ))}
         </div>

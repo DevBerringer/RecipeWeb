@@ -4,8 +4,12 @@ import { getCategories } from '../../../../api/api';
 import NewRecipeForm from './NewRecipeForm';
 import MealSelector from './MealSelector';
 import CuisineSelector from './CuisineSelector';
-// Corrected import path and types from CategoriesContext.tsx
-import { CategoriesData, Category, Foods, Meals } from '../../../../contexts/CategoriesContext';
+import {
+  CategoriesData,
+  Category,
+  Foods,
+  Meals,
+} from '../../../../contexts/CategoriesContext';
 import FoodTypeSelector from './FoodTypeSelector';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
 
@@ -28,7 +32,7 @@ function NewRecipe() {
   }, []);
 
   const handleNextStep = () => {
-    if (currentStep < stepsComponents.length - 1) {
+    if (currentStep < 3) {
       setCurrentStep((prevStep) => prevStep + 1);
       window.scrollTo(0, 0);
     }
@@ -41,41 +45,42 @@ function NewRecipe() {
     }
   };
 
-  const logInfo = () => {
-    console.log(recipeDraft);
+  const renderStepComponent = () => {
+    if (!categories) {
+      return <div className="text-center text-xl">Loading categories...</div>;
+    }
+
+    const mealCategoriesForSelector: Category[] = categories.MealCategories.map(
+      (meal: Meals) => ({
+        id: meal.id,
+        name: meal.name,
+        imgPath: meal.imgPath,
+      })
+    );
+
+    const foodCategoriesForSelector: Category[] = categories.FoodCategories.map(
+      (food: Foods) => ({
+        id: food.id,
+        name: food.name,
+        imgPath: food.imgPath,
+      })
+    );
+
+    const stepsComponents = [
+      <CuisineSelector key="cuisineSelector" />,
+      <MealSelector
+        key="mealSelector"
+        mealCategories={mealCategoriesForSelector}
+      />,
+      <FoodTypeSelector
+        key="foodTypeSelector"
+        foodCategories={foodCategoriesForSelector}
+      />,
+      <NewRecipeForm key="newRecipeForm" />,
+    ];
+
+    return stepsComponents[currentStep];
   };
-
-  // Map MealCategories to Category[] to ensure type compatibility
-  const mealCategoriesForSelector: Category[] =
-    categories?.MealCategories.map((meal: Meals) => ({
-      id: meal.id,
-      name: meal.name,
-      imagePath: meal.imagePath || '/default-image.png',
-    })) || [];
-
-  // Map FoodCategories to Category[] to ensure type compatibility
-  const foodCategoriesForSelector: Category[] =
-    categories?.FoodCategories.map((food: Foods) => ({
-      id: food.id,
-      name: food.name,
-      imagePath: food.imagePath || '/default-image.png',
-    })) || [];
-
-
-  const stepsComponents = [
-    <CuisineSelector key="cuisineSelector" onSelectCuisine={logInfo} />,
-    <MealSelector
-      key="mealSelector"
-      mealCategories={mealCategoriesForSelector}
-      onSelectMealType={logInfo}
-    />,
-    <FoodTypeSelector
-      key="foodTypeSelector"
-      foodCategories={foodCategoriesForSelector}
-      onFoodTypeSelect={logInfo}
-    />,
-    <NewRecipeForm key="newRecipeForm" />,
-  ];
 
   return (
     <div className="container p-4">
@@ -92,7 +97,7 @@ function NewRecipe() {
         />
       </div>
 
-      <div className="mt-10">{stepsComponents[currentStep]}</div>
+      <div className="mt-10">{renderStepComponent()}</div>
 
       <div className="mt-12 flex justify-center gap-8">
         {currentStep > 0 && (
@@ -105,7 +110,7 @@ function NewRecipe() {
           </button>
         )}
 
-        {currentStep < stepsComponents.length - 1 ? (
+        {currentStep < 3 ? (
           <button
             onClick={handleNextStep}
             type="button"

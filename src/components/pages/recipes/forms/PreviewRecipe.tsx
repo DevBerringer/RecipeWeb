@@ -52,15 +52,19 @@ function PreviewRecipePage() {
       const newRecipe = {
         Id: null,
         Name: recipeDraft.name,
-        Picture: recipeDraft.selectedImage || null,
+        FoodTypes: recipeDraft.foodTypes,
+        MealTypes: recipeDraft.mealTypes,
+        CuisineTypes: recipeDraft.cuisineTypes,
+        IsVegetarian: !!recipeDraft.isVegetarian,
         SpicyLevel: !!recipeDraft.isSpicy,
-        Description: recipeDraft.description,
         CookTimeMin: recipeDraft.cookTimeMin,
         PrepTimeMin: recipeDraft.prepTimeMin,
-        FoodTypes: recipeDraft.foodTypes,
+        Serves: recipeDraft.serves,
+        Description: recipeDraft.description,
         Ingredients: recipeDraft.ingredients.filter((i) => i.trim()),
         Steps: recipeDraft.steps.filter((s) => s.trim()),
-        Rating: [], // or null if your API accepts null
+        SelectedImage: recipeDraft.selectedImage || null,
+        Rating: [],
         CreatedBy: user ? user.Id : undefined,
       };
 

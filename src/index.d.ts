@@ -15,7 +15,9 @@ declare global {
         apis: {
           users: string;
           updateUser: string;
+          recipe: string;
           recipes: string;
+          pagedRecipes: string;
           addRecipe: string;
           categories: string;
         };
@@ -62,17 +64,17 @@ export type Regions = {
   id: string;
   name: string;
   dishes: string[];
-  imgPath: string;
+  imagePath: string;
 };
 
 export type Meals = {
   id: string;
   name: string;
-  imgPath: string;
+  imagePath: string;
 };
 
 export type Foods = {
   id: string;
   name: string;
-  imgPath: string;
+  imagePath: string;
 };

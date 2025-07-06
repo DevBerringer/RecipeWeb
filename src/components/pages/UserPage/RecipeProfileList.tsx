@@ -1,13 +1,11 @@
 import { useState, ChangeEvent } from 'react';
 import { Link } from 'react-router-dom';
-import { UseRecipe } from '../../../contexts/recipesContext';
 
 interface RecipeProfileListProps {
   createdByFilter: string | null;
 }
 
 function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
-  const { recipe } = UseRecipe();
   const [filter, setFilter] = useState('');
 
   // Filter recipes based on the selected food type and created by (if createdByFilter is not null)

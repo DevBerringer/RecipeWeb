@@ -9,7 +9,8 @@ const getRecipeApi = () => {
   }
 
   return axios.create({
-    baseURL: `https://${window.$env.hosts.baseUrl}`,
+    baseURL: `http://${window.$env.hosts.baseUrl}`,
+    withCredentials: true, // Add this globally here
   });
 };
 
@@ -22,7 +23,6 @@ export const Signin = async (User: { username: string; password: string }) => {
       User,
       {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
       }
     );
     return response.data;
@@ -34,9 +34,10 @@ export const Signin = async (User: { username: string; password: string }) => {
 
 export const SignOut = async () => {
   try {
-    const response = await getRecipeApi().get(window.$env.hosts.auth.signOut, {
-      withCredentials: true,
-    });
+    const response = await getRecipeApi().post(
+      window.$env.hosts.auth.signOut,
+      null
+    );
     return response.data;
   } catch (error) {
     console.error('Error Signing out:', error);
@@ -68,9 +69,7 @@ export const Register = async (User: {
 // Auth
 export const getAuthentication = async () => {
   try {
-    const response = await getRecipeApi().get(window.$env.hosts.auth.check, {
-      withCredentials: true,
-    });
+    const response = await getRecipeApi().get(window.$env.hosts.auth.check);
     return response.data;
   } catch (error) {
     console.error('Error Authenticating:', error);
@@ -100,7 +99,6 @@ export const updateProfile = async (userUpdate: {
       userUpdate,
       {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
       }
     );
     return response.data;
@@ -117,6 +115,30 @@ export const getRecipes = async () => {
     return response.data;
   } catch (error) {
     console.error('Error fetching recipes:', error);
+    throw error;
+  }
+};
+
+export const getRecipeById = async (id) => {
+  try {
+    const response = await getRecipeApi().get(
+      window.$env.hosts.apis.recipe.replace('{id}', id)
+    );
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch recipe with ID ${id}:`, error);
+    throw error;
+  }
+};
+
+export const getPagedRecipes = async (page = 0, pageSize = 4) => {
+  try {
+    const response = await getRecipeApi().get(
+      `${window.$env.hosts.apis.pagedRecipes}?page=${page}&pageSize=${pageSize}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching paginated recipes:', error);
     throw error;
   }
 };
@@ -146,6 +168,10 @@ export const addRecipe = async (recipe: {
   Steps: string[];
   Rating: number[] | null;
   CreatedBy: string | undefined;
+  MealTypes: string[];
+  CuisineTypes: string[];
+  IsVegetarian: boolean;
+  Serves: string;
 }) => {
   try {
     const response = await getRecipeApi().post(
@@ -153,7 +179,6 @@ export const addRecipe = async (recipe: {
       recipe,
       {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
       }
     );
     return response.data;

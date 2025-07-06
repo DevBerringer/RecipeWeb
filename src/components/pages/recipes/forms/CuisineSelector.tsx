@@ -1,11 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useRecipeDraft } from '../../../../contexts/RecipeDraftContext';
 
-type CuisineSelectorProps = {
-  onSelectCuisine: (cuisine: string) => void;
-};
-
-function CuisineSelector({ onSelectCuisine }: CuisineSelectorProps) {
+function CuisineSelector() {
   const { recipeDraft, setRecipeDraft } = useRecipeDraft();
   const [selectedCuisines, setSelectedCuisines] = useState<string[]>([]);
 
@@ -39,10 +35,6 @@ function CuisineSelector({ onSelectCuisine }: CuisineSelectorProps) {
       ...recipeDraft,
       cuisineTypes: updatedCuisines,
     });
-
-    if (!recipeDraft.cuisineTypes.includes(cuisine)) {
-      onSelectCuisine(cuisine);
-    }
   };
 
   return (

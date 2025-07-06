@@ -9,7 +9,7 @@ const getRecipeApi = () => {
   }
 
   return axios.create({
-    baseURL: `http://${window.$env.hosts.baseUrl}`,
+    baseURL: `https://${window.$env.hosts.baseUrl}`,
     withCredentials: true, // Add this globally here
   });
 };

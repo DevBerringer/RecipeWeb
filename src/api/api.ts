@@ -120,10 +120,12 @@ export const getRecipes = async () => {
 };
 
 export const getRecipeById = async (id: string | undefined) => {
+  if (!id) {
+    throw new Error('Recipe ID is required');
+  }
   try {
-    const response = await getRecipeApi().get(
-      window.$env.hosts.apis.recipe.replace('{id}', id)
-    );
+    const url = window.$env.hosts.apis.recipe.replace('{id}', id);
+    const response = await getRecipeApi().get(url);
     return response.data;
   } catch (error) {
     console.error(`Failed to fetch recipe with ID ${id}:`, error);

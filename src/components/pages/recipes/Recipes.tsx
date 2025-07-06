@@ -6,7 +6,6 @@ import loadingAnimation from '../../../assets/cookingPotAnimation.json';
 import { getPagedRecipes } from '../../../api/api';
 import RecipeCard from './RecipeCard';
 
-// Define the Recipe type for type safety
 interface Recipe {
   Id: string;
   Name: string;
@@ -17,7 +16,7 @@ interface Recipe {
 
 function Recipes() {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [filter, setFilter] = useState<string | null>('');
+  const [filter, setFilter] = useState<string>(''); // ✅ filter is a string, never null
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
@@ -112,7 +111,6 @@ function Recipes() {
         )}
       </div>
 
-      {/* Pagination Controls */}
       {!loading && (
         <div className="my-8 flex justify-center gap-6">
           <button

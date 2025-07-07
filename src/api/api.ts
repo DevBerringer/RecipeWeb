@@ -197,7 +197,7 @@ export const uploadRecipeImage = async (file: File | null) => {
   const formData = new FormData();
   formData.append('image', file);
 
-  const response = await axios.post(
+  const response = await getRecipeApi().post(
     `${window.$env.hosts.apis.uploadImage}`,
     formData,
     {

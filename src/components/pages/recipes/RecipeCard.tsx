@@ -1,6 +1,6 @@
 interface RecipeCardProps {
   name: string;
-  picture: string | null;
+  selectedImage: string | null;
   prepTime: number;
   cookTime: number;
 }
@@ -8,14 +8,14 @@ interface RecipeCardProps {
 export default function RecipeCard({
   name,
   prepTime,
-  picture,
+  selectedImage,
   cookTime,
 }: RecipeCardProps) {
   return (
     <div className="group flex h-full w-full transform cursor-pointer flex-col justify-between rounded-lg shadow shadow-slate-400 transition-transform hover:scale-105 hover:shadow-slate-400">
       <div className="">
         <img
-          src={picture || 'assets/noFood.jpg'}
+          src={selectedImage || 'assets/noFood.jpg'}
           alt="Non-Uploaded"
           className="h-48 w-full rounded-t-lg object-fill"
         />

@@ -14,6 +14,7 @@ export type RecipeDraft = {
   ingredients: string[];
   steps: string[];
   selectedImage: string | null;
+  imageFile: File | null;
 };
 
 type RecipeDraftContextType = {

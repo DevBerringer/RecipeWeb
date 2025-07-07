@@ -5,7 +5,7 @@ import { useCategories } from '../../../../contexts/CategoriesContext';
 import RecipeTag from '../componenets/RecipeTag';
 import IngredientItem from '../componenets/IngredientItem';
 import InstructionStep from '../componenets/InstructionStep';
-import { addRecipe } from '../../../../api/api';
+import { addRecipe, uploadRecipeImage } from '../../../../api/api';
 
 function PreviewRecipePage() {
   const { recipeDraft } = useRecipeDraft();
@@ -48,6 +48,7 @@ function PreviewRecipePage() {
   ];
 
   const handleSubmit = async () => {
+    const imageUrl = await uploadRecipeImage(recipeDraft.imageFile);
     try {
       const newRecipe = {
         Id: null,
@@ -63,7 +64,7 @@ function PreviewRecipePage() {
         Description: recipeDraft.description,
         Ingredients: recipeDraft.ingredients.filter((i) => i.trim()),
         Steps: recipeDraft.steps.filter((s) => s.trim()),
-        SelectedImage: recipeDraft.selectedImage || null,
+        SelectedImage: imageUrl,
         Rating: [],
         CreatedBy: user ? user.Id : undefined,
       };
@@ -164,6 +165,9 @@ function PreviewRecipePage() {
           ))}
       </section>
 
+      <section>
+        <div>{recipeDraft.description}</div>
+      </section>
       {/* Ingredients + Instructions */}
       <section className="grid grid-cols-1 gap-8 pt-2 md:grid-cols-2">
         <div className="space-y-4">

@@ -19,6 +19,7 @@ declare global {
           recipes: string;
           pagedRecipes: string;
           addRecipe: string;
+          uploadImage: string;
           categories: string;
         };
       };

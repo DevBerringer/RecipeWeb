@@ -23,9 +23,13 @@ function NewRecipeForm() {
 
   const handleImageUpload = (event: ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
+    console.log(file);
+    console.log(recipeDraft);
     if (!file) return;
     const reader = new FileReader();
-    reader.onload = () => updateDraft({ selectedImage: reader.result as string });
+    reader.onload = () => {
+      updateDraft({ selectedImage: reader.result as string, imageFile: file });
+    };
     reader.readAsDataURL(file);
   };
 
@@ -37,7 +41,10 @@ function NewRecipeForm() {
       ingredients: ingredients.filter((_, i) => i !== index),
     });
 
-  const handleIngredientChange = (e: ChangeEvent<HTMLInputElement>, index: number) => {
+  const handleIngredientChange = (
+    e: ChangeEvent<HTMLInputElement>,
+    index: number
+  ) => {
     const updated = [...ingredients];
     updated[index] = e.target.value;
     updateDraft({ ingredients: updated });
@@ -48,7 +55,10 @@ function NewRecipeForm() {
   const handleRemoveStep = (index: number) =>
     updateDraft({ steps: steps.filter((_, i) => i !== index) });
 
-  const handleStepChange = (e: ChangeEvent<HTMLTextAreaElement>, index: number) => {
+  const handleStepChange = (
+    e: ChangeEvent<HTMLTextAreaElement>,
+    index: number
+  ) => {
     const updated = [...steps];
     updated[index] = e.target.value;
     updateDraft({ steps: updated });

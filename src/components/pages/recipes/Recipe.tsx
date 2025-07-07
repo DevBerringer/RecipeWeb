@@ -124,7 +124,6 @@ function RecipePage() {
           </div>
         ))}
       </section>
-
       {/* Tag Sections */}
       <section className="grid grid-cols-1 gap-6 md:grid-cols-3">
         {tagSections
@@ -146,6 +145,10 @@ function RecipePage() {
               </div>
             </div>
           ))}
+      </section>
+
+      <section>
+        <div>{currentRecipe.Description}</div>
       </section>
 
       {/* Ingredients + Instructions */}

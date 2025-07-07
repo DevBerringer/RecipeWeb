@@ -1,8 +1,8 @@
 window.$env = {
   name: 'dev',
   hosts: {
-    //baseUrl: 'localhost:8082',
-    baseUrl: 'recipeprovider-production.up.railway.app',
+    baseUrl: 'localhost:8082',
+    //baseUrl: 'recipeprovider-production.up.railway.app',
     auth: {
       login: '/api/auth/signin',
       signOut: '/api/auth/signout',
@@ -17,6 +17,7 @@ window.$env = {
       users: '/api/user/all',
       updateUser: '/api/user/updateProfile',
       categories: '/api/categories/all',
+      uploadImage: '/api/image/upload-image',
     },
   },
 };

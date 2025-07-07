@@ -81,7 +81,7 @@ function Recipes() {
             <Link to={`recipe/${item.Id}`} key={item.Id} className="m-2 my-5">
               <div className="h-full w-full min-w-[256px]">
                 <RecipeCard
-                  picture={item.SelectedImage}
+                  selectedImage={item.SelectedImage}
                   name={item.Name}
                   prepTime={item.PrepTimeMin}
                   cookTime={item.CookTimeMin}

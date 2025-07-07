@@ -9,7 +9,7 @@ const getRecipeApi = () => {
   }
 
   return axios.create({
-    baseURL: `https://${window.$env.hosts.baseUrl}`,
+    baseURL: `http://${window.$env.hosts.baseUrl}`,
     withCredentials: true, // Add this globally here
   });
 };
@@ -188,4 +188,23 @@ export const addRecipe = async (recipe: {
     console.error('Error adding recipe:', error);
     throw error;
   }
+};
+
+export const uploadRecipeImage = async (file: File | null) => {
+  if (file == null) {
+    return '';
+  }
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await axios.post(
+    `${window.$env.hosts.apis.uploadImage}`,
+    formData,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true,
+    }
+  );
+
+  return response.data; // this is the image URL
 };

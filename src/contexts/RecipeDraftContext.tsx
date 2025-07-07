@@ -36,6 +36,7 @@ const defaultRecipeDraft: RecipeDraft = {
   ingredients: Array(4).fill(''),
   steps: Array(2).fill(''),
   selectedImage: null,
+  imageFile: null,
 };
 
 const RecipeDraftContext = createContext<RecipeDraftContextType | undefined>(

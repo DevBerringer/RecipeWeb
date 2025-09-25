@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import Lottie from 'lottie-react';
 import loadingAnimation from '../../../assets/cookingPotAnimation.json';
 import { getPagedRecipes } from '../../../api/api';
-import RecipeCard from './RecipeCard';
 import { UseAuth } from '../../../contexts/authContext';
 import { useCategories } from '../../../contexts/CategoriesContext';
 import SearchBox from './componenets/SearchBox';

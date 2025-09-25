@@ -5,7 +5,7 @@ import { useCategories } from '../../../../contexts/CategoriesContext';
 import RecipeTag from '../componenets/RecipeTag';
 import IngredientItem from '../componenets/IngredientItem';
 import InstructionStep from '../componenets/InstructionStep';
-import { addRecipe } from '../../../../api/api';
+import { addRecipe, uploadRecipeImage } from '../../../../api/api';
 
 function PreviewRecipePage() {
   const { recipeDraft } = useRecipeDraft();
@@ -48,19 +48,24 @@ function PreviewRecipePage() {
   ];
 
   const handleSubmit = async () => {
+    const imageUrl = await uploadRecipeImage(recipeDraft.imageFile);
     try {
       const newRecipe = {
         Id: null,
         Name: recipeDraft.name,
-        Picture: recipeDraft.selectedImage || null,
+        FoodTypes: recipeDraft.foodTypes,
+        MealTypes: recipeDraft.mealTypes,
+        CuisineTypes: recipeDraft.cuisineTypes,
+        IsVegetarian: !!recipeDraft.isVegetarian,
         SpicyLevel: !!recipeDraft.isSpicy,
-        Description: recipeDraft.description,
         CookTimeMin: recipeDraft.cookTimeMin,
         PrepTimeMin: recipeDraft.prepTimeMin,
-        FoodTypes: recipeDraft.foodTypes,
+        Serves: recipeDraft.serves,
+        Description: recipeDraft.description,
         Ingredients: recipeDraft.ingredients.filter((i) => i.trim()),
         Steps: recipeDraft.steps.filter((s) => s.trim()),
-        Rating: [], // or null if your API accepts null
+        SelectedImage: imageUrl,
+        Rating: [],
         CreatedBy: user ? user.Id : undefined,
       };
 
@@ -74,7 +79,7 @@ function PreviewRecipePage() {
   };
 
   const handleBack = () => {
-    navigate('/newRecipe');
+    navigate('/newRecipe', { state: { fromPreview: true } });
   };
 
   function getSpicyLabel(isSpicy: boolean | null): string {
@@ -160,6 +165,9 @@ function PreviewRecipePage() {
           ))}
       </section>
 
+      <section>
+        <div>{recipeDraft.description}</div>
+      </section>
       {/* Ingredients + Instructions */}
       <section className="grid grid-cols-1 gap-8 pt-2 md:grid-cols-2">
         <div className="space-y-4">

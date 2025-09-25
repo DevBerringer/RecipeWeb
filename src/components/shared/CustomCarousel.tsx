@@ -43,39 +43,41 @@ function CustomCarousel({ images = [] }: CustomCarouselProps) {
 
   return (
     <div className="floating-carousel-container pt-8 drop-shadow-xl">
-      <div className="carousel-wrapper relative h-64 sm:h-96 md:h-[450px]">
+      {/* Carousel images */}
+      <div className="carousel-wrapper relative w-64 h-64 mx-auto mb-4 sm:w-80 sm:h-80 [@media(min-width:1000px)]:w-[30rem] [@media(min-width:1000px)]:h-[30rem] lg:w-[700px] lg:h-[700px]">
         {images.map((path, index) => (
           <div
             key={index}
-            className={`carousel-item absolute left-0 top-0 h-full w-full transition-opacity ${
+            className={`carousel-item absolute inset-0 transition-opacity ${
               currentIndex === index ? 'opacity-100' : 'opacity-0'
             }`}
             style={{ transition: 'opacity 0.6s ease-in-out' }}
           >
-            <div className="carousel-image-container shadow-black drop-shadow-xl">
+            <div className="carousel-image-container h-full w-full shadow-black drop-shadow-xl">
               <img
                 src={path}
                 alt=""
                 aria-hidden="true"
-                className="mx-auto h-full object-cover"
+                className="mx-auto h-full w-full rounded-lg object-cover" /* Added rounded-lg for a nicer look */
               />
             </div>
           </div>
         ))}
       </div>
 
-      <div className="flex justify-center gap-6 pt-4">
-        <button type="button" onClick={handlePrev} className="px-4 text-lg">
+      {/* Controls */}
+      <div className="flex flex-wrap justify-center gap-4 pb-6 pt-2 text-base sm:gap-6 sm:text-sm">
+        <button type="button" onClick={handlePrev} className="px-2 sm:px-4">
           Prev
         </button>
         <button
           type="button"
           onClick={isPaused ? handlePlay : handlePause}
-          className="px-4 text-lg"
+          className="px-2 sm:px-4"
         >
           {isPaused ? 'Play' : 'Pause'}
         </button>
-        <button type="button" onClick={handleNext} className="px-4 text-lg">
+        <button type="button" onClick={handleNext} className="px-2 sm:px-4">
           Next
         </button>
       </div>

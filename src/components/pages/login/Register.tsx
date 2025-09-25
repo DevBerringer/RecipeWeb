@@ -14,18 +14,16 @@ function RegisterForm() {
     submit: '',
   });
 
-  const navigate = useNavigate(); // Initialize the useHistory hook
+  const navigate = useNavigate();
 
   const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
     setEmail(event.target.value);
-    setErrors({ ...errors, email: '' });
-    setErrors({ ...errors, submit: '' });
+    setErrors({ ...errors, email: '', submit: '' });
   };
 
   const handleUsernameChange = (event: ChangeEvent<HTMLInputElement>) => {
     setUsername(event.target.value);
-    setErrors({ ...errors, username: '' });
-    setErrors({ ...errors, submit: '' });
+    setErrors({ ...errors, username: '', submit: '' });
   };
 
   const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -37,18 +35,16 @@ function RegisterForm() {
     setConfirmPassword(event.target.value);
     setErrors({ ...errors, password: '' });
 
-    // Delay validation for a few seconds
     setTimeout(() => {
       if (password !== event.target.value) {
         setErrors({ ...errors, password: 'Passwords do not match' });
       }
-    }, 3000); // Change the delay time as desired (in milliseconds)
+    }, 3000);
   };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    // Validate form inputs
     let formIsValid = true;
     const newErrors = { email: '', password: '', username: '', submit: '' };
 
@@ -83,26 +79,17 @@ function RegisterForm() {
     }
 
     if (formIsValid) {
-      // Handle login logic here
-      const user = {
-        username,
-        email,
-        password,
-        roles: [],
-      };
-
+      const user = { username, email, password, roles: [] };
       const response = await Register(user);
 
       if (response.message !== 'User registered successfully!') {
         newErrors.submit = response.message;
         setErrors(newErrors);
       } else {
-        // Clear input fields
         setEmail('');
         setUsername('');
         setPassword('');
         setConfirmPassword('');
-
         navigate('/login');
       }
     } else {
@@ -111,116 +98,104 @@ function RegisterForm() {
   };
 
   return (
-    <div className="flex bg-white px-4 py-8 sm:px-6 lg:px-10">
-      <div className="mr-2 flex w-full max-w-lg flex-col justify-center space-y-6">
-        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-          Register
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {errors.submit && (
-            <p className="mt-1 text-xl text-red-500">{errors.submit}</p>
+    <>
+      <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        Register
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {errors.submit && (
+          <p className="mt-1 text-xl text-red-500">{errors.submit}</p>
+        )}
+        {/* Email */}
+        <div>
+          <label htmlFor="email">Email Address</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="off"
+            value={email}
+            onChange={handleEmailChange}
+            placeholder="you@example.com"
+            className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
+              errors.email ? 'border-red-500 outline-none' : 'border-gray-300'
+            } placeholder-gray-400`}
+          />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-500">{errors.email}</p>
           )}
-          {/* Email input */}
-          <div>
-            <label htmlFor="email">Email Address</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="off"
-              value={email}
-              onChange={handleEmailChange}
-              placeholder="you@example.com"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
-              ${
-                errors.email ? 'border-red-500 outline-none' : 'border-gray-300'
-              } placeholder-gray-400`}
-            />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="username">Username</label>
-            <input
-              id="username"
-              type="text"
-              autoComplete="off"
-              value={username}
-              onChange={handleUsernameChange}
-              placeholder="Enter Username"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
-              ${
-                errors.username
-                  ? 'border-red-500 outline-none'
-                  : 'border-gray-300'
-              } placeholder-gray-400`}
-            />
-            {errors.username && (
-              <p className="mt-1 text-sm text-red-500">{errors.username}</p>
-            )}
-          </div>
-          {/* Password input */}
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-              placeholder="Enter 8 Charters or more"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
-              ${
-                errors.password
-                  ? 'border-red-500 outline-none'
-                  : 'border-gray-300'
-              } placeholder-gray-400`}
-            />
-            {errors.password && (
-              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-            )}
-          </div>
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              id="confirmPassword"
-              name="password"
-              type="password"
-              value={confirmPassword}
-              onChange={handleConPasswordChange}
-              placeholder="Enter 8 Charters or more"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 
-              ${
-                errors.password
-                  ? 'border-red-500 outline-none'
-                  : 'border-gray-300'
-              } placeholder-gray-400`}
-            />
-            {errors.password && (
-              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-            )}
-          </div>
-
-          {/* Submit button */}
-          <div>
-            <button
-              type="submit"
-              className="w-full rounded-md bg-recipecentral px-4 py-2 text-xl font-medium text-white hover:bg-recipecentral-dark focus:outline-none focus-visible:bg-recipecentral-dark focus-visible:ring-2 focus-visible:ring-offset-2"
-            >
-              Sign up!
-            </button>
-          </div>
-        </form>
-      </div>
-      <div className="flex flex-grow items-center justify-center">
-        <img
-          src="/assets/register.jpg"
-          alt="register"
-          className="max-h-[32rem] object-cover"
-        />
-      </div>
-    </div>
+        </div>
+        {/* Username */}
+        <div>
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            autoComplete="off"
+            value={username}
+            onChange={handleUsernameChange}
+            placeholder="Enter Username"
+            className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
+              errors.username
+                ? 'border-red-500 outline-none'
+                : 'border-gray-300'
+            } placeholder-gray-400`}
+          />
+          {errors.username && (
+            <p className="mt-1 text-sm text-red-500">{errors.username}</p>
+          )}
+        </div>
+        {/* Password */}
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+            placeholder="Enter 8 characters or more"
+            className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
+              errors.password
+                ? 'border-red-500 outline-none'
+                : 'border-gray-300'
+            } placeholder-gray-400`}
+          />
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+          )}
+        </div>
+        {/* Confirm Password */}
+        <div>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            name="password"
+            type="password"
+            value={confirmPassword}
+            onChange={handleConPasswordChange}
+            placeholder="Re-enter password"
+            className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
+              errors.password
+                ? 'border-red-500 outline-none'
+                : 'border-gray-300'
+            } placeholder-gray-400`}
+          />
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+          )}
+        </div>
+        {/* Submit */}
+        <div>
+          <button
+            type="submit"
+            className="w-full rounded-md bg-recipecentral px-4 py-2 text-xl font-medium text-white hover:bg-recipecentral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          >
+            Sign up!
+          </button>
+        </div>
+      </form>
+    </>
   );
 }
 

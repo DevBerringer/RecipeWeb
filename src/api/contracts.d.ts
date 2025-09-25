@@ -9,18 +9,18 @@ type RecipeResponseDTO = {
 };
 
 type Recipe = {
-  Id: string | null;
+  Id: string;
   Name: string;
   Serves: string;
-  Picture: string;
-  SpicyLevel: boolean;
+  SelectedImage: string;
+  IsSpicy: boolean;
   IsVegetarian: boolean;
   Description: string;
   CookTimeMin: number;
   PrepTimeMin: number;
   Ingredients: string[];
   FoodTypes: string[];
-  MealTypes: stringp[];
+  MealTypes: string[];
   CuisineTypes: string[];
   Steps: string[];
   Rating: number[];

@@ -22,8 +22,9 @@ export default function ProfileNav() {
   async function logout() {
     const response = await SignOut();
 
-    if (response.message === 'User Logged Out successfully!') {
+    if (response.message === 'User logged out successfully!') {
       setUser(null);
+      localStorage.removeItem('userJWT');
       navigate('/');
     } else {
       // Clear input fields

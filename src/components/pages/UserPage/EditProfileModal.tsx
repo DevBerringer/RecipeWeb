@@ -77,7 +77,11 @@ function EditProfileModal({
   );
 
   return (
-    <div className="fixed left-0 top-0 flex h-full w-full items-center justify-center bg-gray-800 bg-opacity-75">
+    <div
+      className="fixed inset-0 z-50 flex h-full w-full items-center justify-center bg-black/60"
+      role="dialog"
+      aria-modal="true"
+    >
       <div className="flex flex-col rounded bg-white p-8 shadow-lg">
         <h2 className="mb-4 text-2xl font-bold">Edit Profile</h2>
         <div className="mb-4 flex">

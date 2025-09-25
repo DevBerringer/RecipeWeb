@@ -1,17 +1,30 @@
 import axios from 'axios';
 
-const recipeApi = axios.create({
-  baseURL: `http://${window.$env.hosts.baseUrl}`,
-});
+// Function to get the axios instance with the current config
+const getRecipeApi = () => {
+  if (!window.$env) {
+    throw new Error(
+      'window.$env is not defined. Check your index.html script block.'
+    );
+  }
+
+  return axios.create({
+    baseURL: `https://${window.$env.hosts.baseUrl}`,
+    withCredentials: true, // Add this globally here
+  });
+};
 
 // Security
 
 export const Signin = async (User: { username: string; password: string }) => {
   try {
-    const response = await recipeApi.post(window.$env.hosts.auth.login, User, {
-      headers: { 'Content-Type': 'application/json' },
-      withCredentials: true,
-    });
+    const response = await getRecipeApi().post(
+      window.$env.hosts.auth.login,
+      User,
+      {
+        headers: { 'Content-Type': 'application/json' },
+      }
+    );
     return response.data;
   } catch (error) {
     console.error('Error Logging in:', error);
@@ -21,12 +34,13 @@ export const Signin = async (User: { username: string; password: string }) => {
 
 export const SignOut = async () => {
   try {
-    const response = await recipeApi.get(window.$env.hosts.auth.signOut, {
-      withCredentials: true,
-    });
+    const response = await getRecipeApi().post(
+      window.$env.hosts.auth.signOut,
+      null
+    );
     return response.data;
   } catch (error) {
-    console.error('Error Logging in:', error);
+    console.error('Error Signing out:', error);
     throw error;
   }
 };
@@ -38,7 +52,7 @@ export const Register = async (User: {
   roles: string[];
 }) => {
   try {
-    const response = await recipeApi.post(
+    const response = await getRecipeApi().post(
       window.$env.hosts.auth.register,
       User,
       {
@@ -47,17 +61,32 @@ export const Register = async (User: {
     );
     return response.data;
   } catch (error) {
-    console.error('Error Registering recipe:', error);
+    console.error('Error Registering:', error);
     throw error;
+  }
+};
+
+// Forgot Password - request reset link (always returns generic message)
+export const ForgotPassword = async (email: string) => {
+  try {
+    const response = await getRecipeApi().post(
+      window.$env.hosts.auth.forgotPassword,
+      { email },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+    return response.data;
+  } catch (error) {
+    // We still want to present a generic success message to avoid user enumeration.
+    console.error('Error requesting password reset:', error);
+    // Return a safe generic response shape so the UI can proceed uniformly
+    return { message: 'If an account exists for that email, we will send a reset link shortly.' };
   }
 };
 
 // Auth
 export const getAuthentication = async () => {
   try {
-    const response = await recipeApi.get(window.$env.hosts.auth.check, {
-      withCredentials: true,
-    });
+    const response = await getRecipeApi().get(window.$env.hosts.auth.check);
     return response.data;
   } catch (error) {
     console.error('Error Authenticating:', error);
@@ -68,10 +97,10 @@ export const getAuthentication = async () => {
 // Users
 export const getUsers = async () => {
   try {
-    const response = await recipeApi.get(window.$env.hosts.apis.users);
+    const response = await getRecipeApi().get(window.$env.hosts.apis.users);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching users:', error);
     throw error;
   }
 };
@@ -82,17 +111,16 @@ export const updateProfile = async (userUpdate: {
   Description: string;
 }) => {
   try {
-    const response = await recipeApi.post(
+    const response = await getRecipeApi().post(
       window.$env.hosts.apis.updateUser,
       userUpdate,
       {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
       }
     );
     return response.data;
   } catch (error) {
-    console.error('Error adding recipe:', error);
+    console.error('Error updating profile:', error);
     throw error;
   }
 };
@@ -100,20 +128,77 @@ export const updateProfile = async (userUpdate: {
 // Recipes
 export const getRecipes = async () => {
   try {
-    const response = await recipeApi.get(window.$env.hosts.apis.recipes);
+    const response = await getRecipeApi().get(window.$env.hosts.apis.recipes);
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching recipes:', error);
+    throw error;
+  }
+};
+
+export const getRecipeById = async (id: string | undefined) => {
+  if (!id) {
+    throw new Error('Recipe ID is required');
+  }
+  try {
+    const url = window.$env.hosts.apis.recipe.replace('{id}', id);
+    const response = await getRecipeApi().get(url);
+    return response.data;
+  } catch (error) {
+    console.error(`Failed to fetch recipe with ID ${id}:`, error);
+    throw error;
+  }
+};
+
+export const getPagedRecipes = async (
+  page = 0,
+  pageSize = 4,
+  filters?: {
+    search?: string;
+    meals?: string[];
+    foods?: string[];
+    regions?: string[];
+    vegetarian?: boolean | null;
+    spicy?: boolean | null;
+    maxCookTime?: number | null;
+  }
+) => {
+  try {
+    const params = new URLSearchParams();
+    params.set('page', String(page));
+    params.set('pageSize', String(pageSize));
+    if (filters?.search) params.set('search', filters.search);
+    if (filters?.meals && filters.meals.length)
+      params.set('meals', filters.meals.join(','));
+    if (filters?.foods && filters.foods.length)
+      params.set('foods', filters.foods.join(','));
+    if (filters?.regions && filters.regions.length)
+      params.set('regions', filters.regions.join(','));
+    if (filters?.vegetarian !== null && filters?.vegetarian !== undefined)
+      params.set('vegetarian', String(filters.vegetarian));
+    if (filters?.spicy !== null && filters?.spicy !== undefined)
+      params.set('spicy', String(filters.spicy));
+    if (filters?.maxCookTime !== null && filters?.maxCookTime !== undefined)
+      params.set('maxCookTime', String(filters.maxCookTime));
+
+    const response = await getRecipeApi().get(
+      `${window.$env.hosts.apis.pagedRecipes}?${params.toString()}`
+    );
+    return response.data;
+  } catch (error) {
+    console.error('Error fetching paginated recipes:', error);
     throw error;
   }
 };
 
 export const getCategories = async () => {
   try {
-    const response = await recipeApi.get(window.$env.hosts.apis.categories);
+    const response = await getRecipeApi().get(
+      window.$env.hosts.apis.categories
+    );
     return response.data;
   } catch (error) {
-    console.error('Error fetching data:', error);
+    console.error('Error fetching categories:', error);
     throw error;
   }
 };
@@ -121,7 +206,7 @@ export const getCategories = async () => {
 export const addRecipe = async (recipe: {
   Id: null;
   Name: string;
-  Picture: string | null;
+  SelectedImage: string | null;
   SpicyLevel: boolean;
   Description: string;
   CookTimeMin: number;
@@ -131,14 +216,17 @@ export const addRecipe = async (recipe: {
   Steps: string[];
   Rating: number[] | null;
   CreatedBy: string | undefined;
+  MealTypes: string[];
+  CuisineTypes: string[];
+  IsVegetarian: boolean;
+  Serves: number;
 }) => {
   try {
-    const response = await recipeApi.post(
+    const response = await getRecipeApi().post(
       window.$env.hosts.apis.addRecipe,
       recipe,
       {
         headers: { 'Content-Type': 'application/json' },
-        withCredentials: true,
       }
     );
     return response.data;
@@ -146,4 +234,23 @@ export const addRecipe = async (recipe: {
     console.error('Error adding recipe:', error);
     throw error;
   }
+};
+
+export const uploadRecipeImage = async (file: File | null) => {
+  if (file == null) {
+    return '';
+  }
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await getRecipeApi().post(
+    `${window.$env.hosts.apis.uploadImage}`,
+    formData,
+    {
+      headers: { 'Content-Type': 'multipart/form-data' },
+      withCredentials: true,
+    }
+  );
+
+  return response.data; // this is the image URL
 };

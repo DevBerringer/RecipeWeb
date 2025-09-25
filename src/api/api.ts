@@ -66,6 +66,23 @@ export const Register = async (User: {
   }
 };
 
+// Forgot Password - request reset link (always returns generic message)
+export const ForgotPassword = async (email: string) => {
+  try {
+    const response = await getRecipeApi().post(
+      window.$env.hosts.auth.forgotPassword,
+      { email },
+      { headers: { 'Content-Type': 'application/json' } }
+    );
+    return response.data;
+  } catch (error) {
+    // We still want to present a generic success message to avoid user enumeration.
+    console.error('Error requesting password reset:', error);
+    // Return a safe generic response shape so the UI can proceed uniformly
+    return { message: 'If an account exists for that email, we will send a reset link shortly.' };
+  }
+};
+
 // Auth
 export const getAuthentication = async () => {
   try {
@@ -133,10 +150,39 @@ export const getRecipeById = async (id: string | undefined) => {
   }
 };
 
-export const getPagedRecipes = async (page = 0, pageSize = 4) => {
+export const getPagedRecipes = async (
+  page = 0,
+  pageSize = 4,
+  filters?: {
+    search?: string;
+    meals?: string[];
+    foods?: string[];
+    regions?: string[];
+    vegetarian?: boolean | null;
+    spicy?: boolean | null;
+    maxCookTime?: number | null;
+  }
+) => {
   try {
+    const params = new URLSearchParams();
+    params.set('page', String(page));
+    params.set('pageSize', String(pageSize));
+    if (filters?.search) params.set('search', filters.search);
+    if (filters?.meals && filters.meals.length)
+      params.set('meals', filters.meals.join(','));
+    if (filters?.foods && filters.foods.length)
+      params.set('foods', filters.foods.join(','));
+    if (filters?.regions && filters.regions.length)
+      params.set('regions', filters.regions.join(','));
+    if (filters?.vegetarian !== null && filters?.vegetarian !== undefined)
+      params.set('vegetarian', String(filters.vegetarian));
+    if (filters?.spicy !== null && filters?.spicy !== undefined)
+      params.set('spicy', String(filters.spicy));
+    if (filters?.maxCookTime !== null && filters?.maxCookTime !== undefined)
+      params.set('maxCookTime', String(filters.maxCookTime));
+
     const response = await getRecipeApi().get(
-      `${window.$env.hosts.apis.pagedRecipes}?page=${page}&pageSize=${pageSize}`
+      `${window.$env.hosts.apis.pagedRecipes}?${params.toString()}`
     );
     return response.data;
   } catch (error) {

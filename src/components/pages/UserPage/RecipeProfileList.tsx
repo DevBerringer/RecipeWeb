@@ -1,5 +1,6 @@
 import { useState, ChangeEvent, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import RecipeCard from '../recipes/RecipeCard';
 import Lottie from 'lottie-react';
 import { getPagedRecipes } from '../../../api/api';
 import loadingAnimation from '../../../assets/cookingPotAnimation.json';
@@ -27,7 +28,7 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const itemsPerPage = 8;
+  const itemsPerPage = 10;
 
   // Fetch paginated recipes
   const fetchRecipes = async (page: number) => {
@@ -75,7 +76,7 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
           <input
             type="text"
             id="recipeNameFilter"
-            className="flex-2 focus:shadow-outline appearance-none rounded border px-3 py-2 leading-tight text-gray-700 shadow focus:outline-none"
+            className="flex-2 border shadow-md focus:shadow-outline appearance-none rounded px-3 py-2 leading-tight text-gray-700 focus:outline-none"
             placeholder="Enter recipe name..."
             value={filter}
             onChange={handleFilterChange}
@@ -95,36 +96,23 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
           <p className="mt-4 text-gray-600">Loading recipes...</p>
         </div>
       ) : filteredRecipes.length > 0 ? (
-        filteredRecipes.map((item) => (
-          <div key={item.Id}>
-            <div className="h-[1px] w-full bg-gray-300" />
-            <Link to={`../../recipes/${item.Id}`} className="m-2 my-5 block">
-              <div className="grid w-full grid-cols-4 gap-4">
-                <div className="col-span-4 flex max-h-[400px] max-w-lg flex-col justify-between pt-10 text-lg">
-                  <div>
-                    <p className="text-2xl font-bold">{item.Description}</p>
-                  </div>
-                  <div className="pt-3">
-                    Categories: {item.FoodTypes.join(', ')}
-                  </div>
-                  <div className="pt-3 text-right">
-                    PrepTime: {item.PrepTimeMin} min.
-                  </div>
-                  <div className="pt-3 text-right">
-                    CookTime: {item.CookTimeMin} min.
-                  </div>
-                </div>
-              </div>
-              <div className="text-right">
-                <span className="text-gray-500">Created Date: </span>
-                {new Date(item.CreatedDate).toLocaleDateString()}
+        <div className="grid grid-cols-1 justify-center gap-4 xs:grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {filteredRecipes.map((item) => (
+            <Link to={`../../recipes/recipe/${item.Id}`} key={item.Id} className="block">
+              <div className="min-w-[256px] min-h-[300px]">
+                <RecipeCard
+                  selectedImage={(item as any).SelectedImage}
+                  name={item.Name}
+                  prepTime={item.PrepTimeMin}
+                  cookTime={item.CookTimeMin}
+                />
               </div>
             </Link>
-          </div>
-        ))
+          ))}
+        </div>
       ) : (
         <div className="my-4 flex items-center justify-center">
-          <div className="max-w-lg rounded border border-gray-300 bg-gray-100 p-4 text-center text-lg text-gray-500">
+          <div className="max-w-lg rounded bg-gray-100 p-4 text-center text-lg text-gray-500">
             No recipes found
           </div>
         </div>
@@ -136,7 +124,7 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
           <button
             onClick={handlePreviousPage}
             disabled={currentPage === 0}
-            className={`rounded-md px-6 py-3 shadow-md focus:outline-none focus:ring-2 ${
+            className={`rounded-md px-6 py-3 focus:outline-none focus:ring-2 ${
               currentPage === 0
                 ? 'cursor-not-allowed bg-gray-300 text-gray-500'
                 : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 focus:ring-opacity-50'
@@ -147,7 +135,7 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
           <button
             onClick={handleNextPage}
             disabled={!hasMore}
-            className={`rounded-md px-6 py-3 shadow-md focus:outline-none focus:ring-2 ${
+            className={`rounded-md px-6 py-3 focus:outline-none focus:ring-2 ${
               !hasMore
                 ? 'cursor-not-allowed bg-gray-300 text-gray-500'
                 : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 focus:ring-opacity-50'

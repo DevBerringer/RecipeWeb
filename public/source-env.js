@@ -8,6 +8,7 @@ window.$env = {
       signOut: '/api/auth/signout',
       register: '/api/auth/signup',
       check: '/api/test/user',
+      forgotPassword: '/api/auth/forgot-password'
     },
     apis: {
       recipe: '/api/recipe/{id}',

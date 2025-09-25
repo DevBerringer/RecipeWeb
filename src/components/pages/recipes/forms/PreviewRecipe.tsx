@@ -79,7 +79,7 @@ function PreviewRecipePage() {
   };
 
   const handleBack = () => {
-    navigate('/newRecipe');
+    navigate('/newRecipe', { state: { fromPreview: true } });
   };
 
   function getSpicyLabel(isSpicy: boolean | null): string {

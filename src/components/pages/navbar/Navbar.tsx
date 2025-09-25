@@ -10,13 +10,7 @@ function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = [
-    { to: 'recipes/Breakfast', label: 'Breakfasts' },
-    { to: 'recipes/Lunch', label: 'Lunches' },
-    { to: 'recipes/Dinner', label: 'Dinners' },
-    { to: 'recipes/Dessert', label: 'Desserts' },
-    { to: 'recipes/Snack', label: 'Snacks' },
-    { to: 'recipes/Drink', label: 'Drinks' },
-    { to: 'recipes', label: 'All Recipes' },
+    { to: 'recipes', label: 'Recipes' },
   ];
 
   return (

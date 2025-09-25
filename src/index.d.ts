@@ -11,6 +11,7 @@ declare global {
           signOut: string;
           register: string;
           check: string;
+          forgotPassword: string;
         };
         apis: {
           users: string;

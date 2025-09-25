@@ -98,116 +98,104 @@ function RegisterForm() {
   };
 
   return (
-    <div className="flex flex-col bg-white px-4 py-8 sm:flex-row sm:justify-between sm:px-6 lg:px-10">
-      {/* Form Section */}
-      <div className="flex w-full flex-col justify-center sm:max-w-[40rem]">
-        <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
-          Register
-        </h2>
-        <form onSubmit={handleSubmit} className="space-y-6">
-          {errors.submit && (
-            <p className="mt-1 text-xl text-red-500">{errors.submit}</p>
+    <>
+      <h2 className="text-3xl font-extrabold text-gray-900 sm:text-4xl">
+        Register
+      </h2>
+      <form onSubmit={handleSubmit} className="space-y-6">
+        {errors.submit && (
+          <p className="mt-1 text-xl text-red-500">{errors.submit}</p>
+        )}
+        {/* Email */}
+        <div>
+          <label htmlFor="email">Email Address</label>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autoComplete="off"
+            value={email}
+            onChange={handleEmailChange}
+            placeholder="you@example.com"
+            className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
+              errors.email ? 'border-red-500 outline-none' : 'border-gray-300'
+            } placeholder-gray-400`}
+          />
+          {errors.email && (
+            <p className="mt-1 text-sm text-red-500">{errors.email}</p>
           )}
-          {/* Email */}
-          <div>
-            <label htmlFor="email">Email Address</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              autoComplete="off"
-              value={email}
-              onChange={handleEmailChange}
-              placeholder="you@example.com"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
-                errors.email ? 'border-red-500 outline-none' : 'border-gray-300'
-              } placeholder-gray-400`}
-            />
-            {errors.email && (
-              <p className="mt-1 text-sm text-red-500">{errors.email}</p>
-            )}
-          </div>
-          {/* Username */}
-          <div>
-            <label htmlFor="username">Username</label>
-            <input
-              id="username"
-              type="text"
-              autoComplete="off"
-              value={username}
-              onChange={handleUsernameChange}
-              placeholder="Enter Username"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
-                errors.username
-                  ? 'border-red-500 outline-none'
-                  : 'border-gray-300'
-              } placeholder-gray-400`}
-            />
-            {errors.username && (
-              <p className="mt-1 text-sm text-red-500">{errors.username}</p>
-            )}
-          </div>
-          {/* Password */}
-          <div>
-            <label htmlFor="password">Password</label>
-            <input
-              id="password"
-              name="password"
-              type="password"
-              value={password}
-              onChange={handlePasswordChange}
-              placeholder="Enter 8 characters or more"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
-                errors.password
-                  ? 'border-red-500 outline-none'
-                  : 'border-gray-300'
-              } placeholder-gray-400`}
-            />
-            {errors.password && (
-              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-            )}
-          </div>
-          {/* Confirm Password */}
-          <div>
-            <label htmlFor="confirmPassword">Confirm Password</label>
-            <input
-              id="confirmPassword"
-              name="password"
-              type="password"
-              value={confirmPassword}
-              onChange={handleConPasswordChange}
-              placeholder="Re-enter password"
-              className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
-                errors.password
-                  ? 'border-red-500 outline-none'
-                  : 'border-gray-300'
-              } placeholder-gray-400`}
-            />
-            {errors.password && (
-              <p className="mt-1 text-sm text-red-500">{errors.password}</p>
-            )}
-          </div>
-          {/* Submit */}
-          <div>
-            <button
-              type="submit"
-              className="w-full rounded-md bg-recipecentral px-4 py-2 text-xl font-medium text-white hover:bg-recipecentral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
-            >
-              Sign up!
-            </button>
-          </div>
-        </form>
-      </div>
-
-      {/* Image */}
-      <div className="ml-8 flex w-full items-center justify-center [@media(min-width:1100px)]:ml-0 [@media(min-width:1100px)]:flex-1">
-        <img
-          src="/assets/register.jpg"
-          alt="register"
-          className="w-full max-w-[32rem] rounded-md object-cover"
-        />
-      </div>
-    </div>
+        </div>
+        {/* Username */}
+        <div>
+          <label htmlFor="username">Username</label>
+          <input
+            id="username"
+            type="text"
+            autoComplete="off"
+            value={username}
+            onChange={handleUsernameChange}
+            placeholder="Enter Username"
+            className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
+              errors.username
+                ? 'border-red-500 outline-none'
+                : 'border-gray-300'
+            } placeholder-gray-400`}
+          />
+          {errors.username && (
+            <p className="mt-1 text-sm text-red-500">{errors.username}</p>
+          )}
+        </div>
+        {/* Password */}
+        <div>
+          <label htmlFor="password">Password</label>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            value={password}
+            onChange={handlePasswordChange}
+            placeholder="Enter 8 characters or more"
+            className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
+              errors.password
+                ? 'border-red-500 outline-none'
+                : 'border-gray-300'
+            } placeholder-gray-400`}
+          />
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+          )}
+        </div>
+        {/* Confirm Password */}
+        <div>
+          <label htmlFor="confirmPassword">Confirm Password</label>
+          <input
+            id="confirmPassword"
+            name="password"
+            type="password"
+            value={confirmPassword}
+            onChange={handleConPasswordChange}
+            placeholder="Re-enter password"
+            className={`block w-full rounded-md border bg-gray-100 px-4 py-2 ${
+              errors.password
+                ? 'border-red-500 outline-none'
+                : 'border-gray-300'
+            } placeholder-gray-400`}
+          />
+          {errors.password && (
+            <p className="mt-1 text-sm text-red-500">{errors.password}</p>
+          )}
+        </div>
+        {/* Submit */}
+        <div>
+          <button
+            type="submit"
+            className="w-full rounded-md bg-recipecentral px-4 py-2 text-xl font-medium text-white hover:bg-recipecentral-dark focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2"
+          >
+            Sign up!
+          </button>
+        </div>
+      </form>
+    </>
   );
 }
 

@@ -17,7 +17,7 @@ function NewRecipe() {
   const location = useLocation();
   const [currentStep, setCurrentStep] = useState(0);
   const [categories, setCategories] = useState<CategoriesData | null>(null);
-  const { recipeDraft, setRecipeDraft, saveNamedDraft, listDrafts, loadDraft, deleteDraft, clearDraft } = useRecipeDraft();
+  const { recipeDraft, setRecipeDraft, clearDraft } = useRecipeDraft();
 
   useEffect(() => {
     const fetchCategories = async () => {

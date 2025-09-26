@@ -84,20 +84,6 @@ function PreviewRecipePage() {
     }
   };
 
-  const handleBack = () => {
-    navigate('/newRecipe', { state: { fromPreview: true } });
-  };
-
-  function getSpicyLabel(isSpicy: boolean | null): string {
-    if (isSpicy === null) return 'N/A';
-    return isSpicy ? '🔥' : '❄️';
-  }
-
-  function getVegetarianLabel(isVegetarian: boolean | null): string {
-    if (isVegetarian === null) return 'N/A';
-    return isVegetarian ? '🌱' : '🍖';
-  }
-
   return (
     <div className="flex min-h-screen">
       {/* Editing Sidebar */}
@@ -274,8 +260,8 @@ function PreviewRecipePage() {
         </div>
       </div>
 
-            {/* Recipe Name Input */}
-            <div className="flex flex-col items-center">
+        {/* Recipe Name Input */}
+        <div className="flex flex-col items-center">
         <input
           type="text"
           id="name"

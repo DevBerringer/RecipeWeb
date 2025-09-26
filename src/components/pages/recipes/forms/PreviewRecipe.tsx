@@ -85,9 +85,9 @@ function PreviewRecipePage() {
   };
 
   return (
-    <div className="flex min-h-screen">
+    <div className="flex flex-col md:flex-row min-h-screen">
       {/* Editing Sidebar */}
-      <div className="w-80 bg-stone-50 border-r border-stone-200 p-6 overflow-y-auto">
+      <div className="w-full md:w-80 bg-stone-50 border-r border-stone-200 p-4 md:p-6 overflow-y-auto max-h-96 md:max-h-none">
         <div className="space-y-6">
           <h2 className="handWritten text-2xl font-bold text-gray-800 mb-6">✏️ Edit Recipe</h2>
           
@@ -193,11 +193,11 @@ function PreviewRecipePage() {
       </div>
 
       {/* Main Recipe Content */}
-      <div className="flex-1 mx-auto max-w-7xl space-y-10 p-8">
+      <div className="flex-1 mx-auto max-w-7xl space-y-6 md:space-y-10 p-4 md:p-8">
 
       {/* Draft controls */}
-      <div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
+      <div className="mx-auto flex flex-col md:flex-row max-w-7xl items-center justify-between gap-3">
+        <div className="flex flex-wrap items-center gap-2 md:gap-3">
           <button
             type="button"
             onClick={() => {
@@ -206,9 +206,9 @@ function PreviewRecipePage() {
                 navigate('/newRecipe');
               }
             }}
-            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-4 py-2 text-sm shadow-inner transition hover:bg-amber-50"
+            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-3 py-2 text-xs md:text-sm shadow-inner transition hover:bg-amber-50"
           >
-            ✨ New Recipe
+            ✨ New
           </button>
           <button
             type="button"
@@ -216,21 +216,21 @@ function PreviewRecipePage() {
               const title = prompt('Save draft name?') || recipeDraft.name || 'Untitled Recipe';
               saveNamedDraft(title);
             }}
-            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-4 py-2 text-sm shadow-inner transition hover:bg-amber-50"
+            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-3 py-2 text-xs md:text-sm shadow-inner transition hover:bg-amber-50"
           >
-            💾 Save Draft
+            💾 Save
           </button>
           <Link
             to="/newRecipe/forms"
-            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-4 py-2 text-sm shadow-inner transition hover:bg-amber-50"
+            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-3 py-2 text-xs md:text-sm shadow-inner transition hover:bg-amber-50"
           >
-            ✏️ Edit Form
+            ✏️ Forms
           </Link>
         </div>
-        <div className="flex items-center gap-2">
-          <span className="handWritten text-base text-stone-700">Open Draft:</span>
+        <div className="flex flex-col md:flex-row items-center gap-2">
+          <span className="handWritten text-sm text-stone-700">Open Draft:</span>
           <select
-            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-3 py-2 text-sm shadow-inner"
+            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-2 py-2 text-xs md:text-sm shadow-inner w-full md:w-auto"
             onChange={(e) => {
               const id = e.target.value;
               if (id) loadDraft(id);
@@ -248,31 +248,31 @@ function PreviewRecipePage() {
           </select>
           <button
             type="button"
-            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-3 py-2 text-sm shadow-inner transition hover:bg-amber-50"
+            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-2 py-2 text-xs md:text-sm shadow-inner transition hover:bg-amber-50"
             onClick={() => {
               const drafts = listDrafts();
               const id = prompt('Enter draft ID to delete:\n' + drafts.map((d) => `${d.id}: ${d.title}`).join('\n'));
               if (id) deleteDraft(id);
             }}
           >
-            🗑️ Delete Draft
+            🗑️
           </button>
         </div>
       </div>
 
         {/* Recipe Name Input */}
         <div className="flex flex-col items-center">
-        <input
-          type="text"
-          id="name"
-          placeholder="Enter Recipe Name"
-          value={recipeDraft.name}
-          onChange={(e) =>
-            setRecipeDraft({ ...recipeDraft, name: e.target.value })
-          }
-          className="handWritten max-w-full rounded-2xl border-2 border-dashed border-amber-900/30 bg-amber-50/60 px-4 py-3 text-center text-4xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-700/30"
-        />
-      </div>
+          <input
+            type="text"
+            id="name"
+            placeholder="Enter Recipe Name"
+            value={recipeDraft.name}
+            onChange={(e) =>
+              setRecipeDraft({ ...recipeDraft, name: e.target.value })
+            }
+            className="handWritten max-w-full rounded-2xl border-2 border-dashed border-amber-900/30 bg-amber-50/60 px-4 py-3 text-center text-2xl md:text-4xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-700/30"
+          />
+        </div>
 
       {/* Featured Image */}
       {recipeDraft.selectedImage && (
@@ -286,51 +286,51 @@ function PreviewRecipePage() {
       )}
 
       {/* Quick Stats - Editable */}
-      <section className="grid grid-cols-2 gap-4 md:grid-cols-5">
-        <div className="rounded-lg bg-white p-4 text-center shadow">
-          <div className="text-sm text-gray-500">Prep Time</div>
+      <section className="grid grid-cols-2 gap-2 md:gap-4 md:grid-cols-3 md:grid-cols-5">
+        <div className="rounded-lg bg-white p-2 md:p-4 text-center shadow">
+          <div className="text-xs md:text-sm text-gray-500">Prep Time</div>
           <input
             type="number"
             value={recipeDraft.prepTimeMin}
             onChange={(e) =>
               setRecipeDraft({ ...recipeDraft, prepTimeMin: parseInt(e.target.value) || 0 })
             }
-            className="handWritten w-full text-center text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
+            className="handWritten w-full text-center text-lg md:text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
             placeholder="0"
           />
-          <div className="text-sm text-gray-500">min</div>
+          <div className="text-xs md:text-sm text-gray-500">min</div>
         </div>
         
-        <div className="rounded-lg bg-white p-4 text-center shadow">
-          <div className="text-sm text-gray-500">Cook Time</div>
+        <div className="rounded-lg bg-white p-2 md:p-4 text-center shadow">
+          <div className="text-xs md:text-sm text-gray-500">Cook Time</div>
           <input
             type="number"
             value={recipeDraft.cookTimeMin}
             onChange={(e) =>
               setRecipeDraft({ ...recipeDraft, cookTimeMin: parseInt(e.target.value) || 0 })
             }
-            className="handWritten w-full text-center text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
+            className="handWritten w-full text-center text-lg md:text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
             placeholder="0"
           />
-          <div className="text-sm text-gray-500">min</div>
+          <div className="text-xs md:text-sm text-gray-500">min</div>
         </div>
         
-        <div className="rounded-lg bg-white p-4 text-center shadow">
-          <div className="text-sm text-gray-500">Serves</div>
+        <div className="rounded-lg bg-white p-2 md:p-4 text-center shadow">
+          <div className="text-xs md:text-sm text-gray-500">Serves</div>
           <input
             type="number"
             value={recipeDraft.serves}
             onChange={(e) =>
               setRecipeDraft({ ...recipeDraft, serves: parseInt(e.target.value) || 0 })
             }
-            className="handWritten w-full text-center text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
+            className="handWritten w-full text-center text-lg md:text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
             placeholder="0"
           />
-          <div className="text-sm text-gray-500">people</div>
+          <div className="text-xs md:text-sm text-gray-500">people</div>
         </div>
         
-        <div className="rounded-lg bg-white p-4 text-center shadow">
-          <div className="text-sm text-gray-500">Spicy</div>
+        <div className="rounded-lg bg-white p-2 md:p-4 text-center shadow">
+          <div className="text-xs md:text-sm text-gray-500">Spicy</div>
           <select
             value={recipeDraft.isSpicy === null ? '' : recipeDraft.isSpicy.toString()}
             onChange={(e) =>
@@ -339,7 +339,7 @@ function PreviewRecipePage() {
                 isSpicy: e.target.value === '' ? null : e.target.value === 'true' 
               })
             }
-            className="handWritten w-full text-center text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
+            className="handWritten w-full text-center text-lg md:text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
           >
             <option value="">N/A</option>
             <option value="false">❄️ Mild</option>
@@ -347,8 +347,8 @@ function PreviewRecipePage() {
           </select>
         </div>
         
-        <div className="rounded-lg bg-white p-4 text-center shadow">
-          <div className="text-sm text-gray-500">Vegetarian</div>
+        <div className="rounded-lg bg-white p-2 md:p-4 text-center shadow">
+          <div className="text-xs md:text-sm text-gray-500">Vegetarian</div>
           <select
             value={recipeDraft.isVegetarian === null ? '' : recipeDraft.isVegetarian.toString()}
             onChange={(e) =>
@@ -357,17 +357,17 @@ function PreviewRecipePage() {
                 isVegetarian: e.target.value === '' ? null : e.target.value === 'true' 
               })
             }
-            className="handWritten w-full text-center text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
+            className="handWritten w-full text-center text-lg md:text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 focus:ring-amber-500 rounded"
           >
             <option value="">N/A</option>
             <option value="false">🍖 Meat</option>
             <option value="true">🌱 Vegetarian</option>
           </select>
-        </div>
+          </div>
       </section>
 
       {/* Selected Tags Display */}
-      <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <section className="grid grid-cols-1 md:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         {tagSections
           .filter((section) => section.tags.length > 0)
           .map(({ title, tags, baseColor, borderColor, shadowColor }, idx) => (
@@ -406,9 +406,9 @@ function PreviewRecipePage() {
         </div>
       </section>
       {/* Ingredients + Instructions */}
-      <section className="grid grid-cols-1 gap-8 pt-2 md:grid-cols-2">
+      <section className="grid grid-cols-1 gap-6 md:gap-8 pt-2 md:grid-cols-2">
         <div className="space-y-4">
-          <h2 className="font-['Mynerve'] text-3xl font-semibold text-gray-800">
+          <h2 className="font-['Mynerve'] text-2xl md:text-3xl font-semibold text-gray-800">
             📝 Ingredients
           </h2>
           <div className="space-y-2">
@@ -454,7 +454,7 @@ function PreviewRecipePage() {
         </div>
 
         <div className="space-y-4">
-          <h2 className="font-['Mynerve'] text-3xl font-semibold text-gray-800">
+          <h2 className="font-['Mynerve'] text-2xl md:text-3xl font-semibold text-gray-800">
             👩‍🍳 Instructions
           </h2>
           <div className="space-y-4">
@@ -500,11 +500,11 @@ function PreviewRecipePage() {
         </div>
       </section>
 
-      <div className="flex justify-center gap-6 pt-8">
+      <div className="flex justify-center gap-4 md:gap-6 pt-6 md:pt-8">
         <button
           type="button"
           onClick={handleSubmit}
-          className="handWritten rounded-xl border-2 border-dashed border-amber-900/30 bg-amber-50/60 px-8 py-4 text-2xl font-semibold text-amber-800 shadow-sm transition-colors duration-200 hover:bg-amber-100/60 focus:outline-none focus:ring-2 focus:ring-amber-700/30"
+          className="handWritten rounded-xl border-2 border-dashed border-amber-900/30 bg-amber-50/60 px-6 py-3 md:px-8 md:py-4 text-lg md:text-2xl font-semibold text-amber-800 shadow-sm transition-colors duration-200 hover:bg-amber-100/60 focus:outline-none focus:ring-2 focus:ring-amber-700/30"
         >
           📤 Submit Recipe
         </button>

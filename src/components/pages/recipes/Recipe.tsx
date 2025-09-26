@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import Lottie from 'lottie-react';
 import { useCategories } from '../../../contexts/CategoriesContext';
 import RecipeTag from './componenets/RecipeTag';
+import IngredientItem from './componenets/IngredientItem';
+import InstructionStep from './componenets/InstructionStep';
 import { getRecipeById } from '../../../api/api';
 import loadingAnimation from '../../../assets/cookingPotAnimation.json';
 
@@ -93,9 +95,11 @@ function RecipePage() {
         <h1 className="text-5xl font-bold text-gray-900">
           {currentRecipe.Name ? currentRecipe.Name : ''}
         </h1>
-        <p className="text-gray-500">
-          Created: {new Date(currentRecipe.CreatedDate).toLocaleDateString()}
-        </p>
+        <div className="flex flex-col items-center">
+          <div className="mt-2 text-lg font-semibold">
+            Created: {new Date(currentRecipe.CreatedDate).toLocaleDateString()}
+          </div>
+        </div>
       </header>
 
       {/* Featured Image */}
@@ -148,7 +152,7 @@ function RecipePage() {
       </section>
 
       <section>
-        <div>{currentRecipe.Description}</div>
+        <div className="text-lg text-gray-700">{currentRecipe.Description}</div>
       </section>
 
       {/* Ingredients + Instructions */}
@@ -160,12 +164,7 @@ function RecipePage() {
           </h2>
           <div className="space-y-2">
             {currentRecipe.Ingredients.map((ingredient, idx) => (
-              <div
-                key={idx}
-                className="rounded border border-gray-200 bg-white p-3 text-lg shadow"
-              >
-                {ingredient}
-              </div>
+              <IngredientItem key={idx} ingredient={ingredient} idx={idx} />
             ))}
           </div>
         </div>
@@ -175,11 +174,9 @@ function RecipePage() {
           <h2 className="font-['Mynerve'] text-3xl font-semibold text-gray-800">
             👩‍🍳 Instructions
           </h2>
-          <ol className="list-decimal space-y-4 pl-5">
+          <ol className="list-none space-y-8 pl-0">
             {currentRecipe.Steps.map((step, idx) => (
-              <li key={idx} className="text-lg text-gray-800">
-                {step}
-              </li>
+              <InstructionStep key={idx} step={step} />
             ))}
           </ol>
         </div>

@@ -118,69 +118,14 @@ function NewRecipe() {
         />
       </div>
 
-      {/* Draft controls */}
-      <div className="mx-auto mb-6 flex max-w-7xl flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-3">
-          <button
-            type="button"
-            onClick={() => {
-              if (confirm('Start a new recipe? This will clear all fields.')) {
-                clearDraft();
-                setCurrentStep(0);
-              }
-            }}
-            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-4 py-2 text-sm shadow-inner transition hover:bg-amber-50"
-          >
-            ✨ New Recipe
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              const title = prompt('Save draft name?') || recipeDraft.name || 'Untitled Recipe';
-              saveNamedDraft(title);
-            }}
-            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-4 py-2 text-sm shadow-inner transition hover:bg-amber-50"
-          >
-            💾 Save Draft
-          </button>
-          <Link
-            to="/newRecipe/Preview"
-            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-4 py-2 text-sm shadow-inner transition hover:bg-amber-50"
-          >
-            👀 Preview
-          </Link>
-        </div>
-        <div className="flex items-center gap-2">
-          <span className="handWritten text-base text-stone-700">Open Draft:</span>
-          <select
-            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-3 py-2 text-sm shadow-inner"
-            onChange={(e) => {
-              const id = e.target.value;
-              if (id) loadDraft(id);
-            }}
-            defaultValue=""
-          >
-            <option value="" disabled>
-              Select draft
-            </option>
-            {listDrafts().map((d) => (
-              <option key={d.id} value={d.id}>
-                {d.title} — {new Date(d.updatedAt).toLocaleString()}
-              </option>
-            ))}
-          </select>
-          <button
-            type="button"
-            className="rounded-xl border-2 border-dashed border-stone-400 bg-white/80 px-3 py-2 text-sm shadow-inner transition hover:bg-amber-50"
-            onClick={() => {
-              const drafts = listDrafts();
-              const id = prompt('Enter draft ID to delete:\n' + drafts.map((d) => `${d.id}: ${d.title}`).join('\n'));
-              if (id) deleteDraft(id);
-            }}
-          >
-            🗑️ Delete Draft
-          </button>
-        </div>
+      {/* Back to Preview Link */}
+      <div className="flex justify-center mb-6">
+        <Link
+          to="/newRecipe"
+          className="handWritten rounded-xl border-2 border-dashed border-amber-900/30 bg-amber-50/60 px-6 py-3 text-xl font-semibold text-amber-800 shadow-sm transition-colors duration-200 hover:bg-amber-100/60 focus:outline-none focus:ring-2 focus:ring-amber-700/30"
+        >
+          👀 Back to Preview & Edit
+        </Link>
       </div>
 
       <div className="mt-10">{renderStepComponent()}</div>
@@ -206,10 +151,10 @@ function NewRecipe() {
           </button>
         ) : (
           <Link
-            to="/newRecipe/Preview"
-            className="rounded-xl border border-stone-300 bg-white px-6 py-3 text-xl font-semibold text-stone-600 shadow-inner transition-colors duration-200 hover:bg-recipecentral-light focus:outline-none"
+            to="/newRecipe"
+            className="handWritten rounded-xl border-2 border-dashed border-amber-900/30 bg-amber-50/60 px-6 py-3 text-xl font-semibold text-amber-800 shadow-sm transition-colors duration-200 hover:bg-amber-100/60 focus:outline-none focus:ring-2 focus:ring-amber-700/30"
           >
-            <span className="text-xl text-gray-800">👀 Preview Recipe</span>
+            👀 Back to Preview & Edit
           </Link>
         )}
       </div>

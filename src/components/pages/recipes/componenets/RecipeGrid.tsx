@@ -11,10 +11,10 @@ type Recipe = {
 
 export default function RecipeGrid({ recipes }: { recipes: Recipe[] }) {
   return (
-    <div className="grid grid-cols-1 justify-center xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5">
+    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 px-4">
       {recipes.map((item) => (
-        <Link to={`recipe/${item.Id}`} key={item.Id} className="m-2 my-5">
-          <div className="h-full w-full min-w-[256px]">
+        <Link to={`recipe/${item.Id}`} key={item.Id} className="block">
+          <div className="h-full max-w-[300px] min-w-[256px]">
             <RecipeCard
               selectedImage={item.SelectedImage}
               name={item.Name}
@@ -27,5 +27,4 @@ export default function RecipeGrid({ recipes }: { recipes: Recipe[] }) {
     </div>
   );
 }
-
 

@@ -38,6 +38,7 @@ const router = createBrowserRouter([
       { path: 'newRecipe/Preview', element: <PreviewRecipe /> },
       { path: 'contactUs', element: <Contact /> },
       { path: 'about', element: <About /> },
+      { path: '*', element: <NotFound /> }
     ],
   },
 ]);

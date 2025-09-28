@@ -4,13 +4,14 @@ import { Menu, X } from 'lucide-react';
 import Logo from './Logo';
 import { UseAuth } from '../../../contexts/authContext';
 import ProfileNav from './ProfileNav';
+import RecipesDropdown from './RecipesDropdown';
 
 function Navbar() {
   const { user } = UseAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const links = [
-    { to: 'recipes', label: 'Recipes' },
+    { to: 'recipes', label: 'Recipes', isDropdown: true },
   ];
 
   return (
@@ -23,9 +24,13 @@ function Navbar() {
           <div className="flex items-center">
             {links.map((link, index) => (
               <div className="flex" key={index}>
-                <Link to={link.to} className="px-4 hover:underline">
-                  {link.label}
-                </Link>
+                {link.isDropdown ? (
+                  <RecipesDropdown />
+                ) : (
+                  <Link to={link.to} className="px-4 hover:underline">
+                    {link.label}
+                  </Link>
+                )}
                 {index < links.length - 1 && (
                   <div className="h-6 border-l border-gray-300" />
                 )}
@@ -69,14 +74,27 @@ function Navbar() {
         <div className="md:hidden bg-white border-t border-gray-200 shadow-lg">
           <div className="flex flex-col p-4 space-y-4">
             {links.map((link, index) => (
-              <Link
-                key={index}
-                to={link.to}
-                className="text-black hover:underline"
-                onClick={() => setIsMenuOpen(false)}
-              >
-                {link.label}
-              </Link>
+              <div key={index}>
+                {link.isDropdown ? (
+                  <div className="space-y-2">
+                    <Link
+                      to="/recipes"
+                      className="block text-black hover:text-amber-600 hover:underline font-semibold"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Recipes
+                    </Link>
+                  </div>
+                ) : (
+                  <Link
+                    to={link.to}
+                    className="text-black hover:underline"
+                    onClick={() => setIsMenuOpen(false)}
+                  >
+                    {link.label}
+                  </Link>
+                )}
+              </div>
             ))}
 
             {!user ? (

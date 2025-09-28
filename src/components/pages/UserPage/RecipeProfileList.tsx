@@ -4,6 +4,7 @@ import RecipeCard from '../recipes/RecipeCard';
 import Lottie from 'lottie-react';
 import { getPagedRecipes } from '../../../api/api';
 import loadingAnimation from '../../../assets/cookingPotAnimation.json';
+import PaginationControls from '../../shared/PaginationControls';
 
 interface RecipeProfileListProps {
   createdByFilter: string | null;
@@ -22,6 +23,7 @@ interface Recipe {
 }
 
 function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
+  const [searchInput, setSearchInput] = useState('');
   const [filter, setFilter] = useState('');
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -50,8 +52,12 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
     fetchRecipes(currentPage);
   }, [currentPage]);
 
-  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilter(e.target.value);
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSearch = () => {
+    setFilter(searchInput);
   };
 
   const handleNextPage = () => {
@@ -74,14 +80,24 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
       <div className="mb-8 flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
         <div className="flex w-full max-w-md items-center">
           <div className="relative w-full">
-            <input
-              type="text"
-              id="recipeNameFilter"
-              className="handWritten w-full rounded-2xl border-2 border-dashed border-amber-900/30 bg-amber-50/60 px-6 py-4 text-center text-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-700/30"
-              placeholder="🔍 Search recipes..."
-              value={filter}
-              onChange={handleFilterChange}
-            />
+            <div className="flex gap-2">
+              <input
+                type="text"
+                id="recipeNameFilter"
+                className="handWritten flex-1 rounded-2xl border-2 border-dashed border-amber-900/30 bg-amber-50/60 px-6 py-4 text-center text-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-700/30"
+                placeholder="🔍 Search recipes..."
+                value={searchInput}
+                onChange={handleSearchInputChange}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
+              <button
+                type="button"
+                onClick={handleSearch}
+                className="handWritten rounded-2xl bg-recipecentral px-4 py-4 hover:text-white font-semibold shadow-sm hover:bg-recipecentral-dark transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-recipecentral focus:ring-offset-2"
+              >
+                🔍 Search
+              </button>
+            </div>
           </div>
         </div>
         <div className="handWritten text-center text-2xl font-semibold text-stone-700">
@@ -121,32 +137,13 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
       )}
 
       {/* Pagination Controls */}
-      {!loading && (
-        <div className="my-8 flex justify-center gap-6">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 0}
-            className={`handWritten rounded-xl border-2 border-dashed px-6 py-3 text-lg font-semibold shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-700/30 ${
-              currentPage === 0
-                ? 'cursor-not-allowed border-stone-300 bg-stone-100 text-stone-400'
-                : 'border-amber-900/30 bg-amber-50/60 text-stone-700 hover:bg-amber-100/60'
-            }`}
-          >
-            ← Previous Page
-          </button>
-          <button
-            onClick={handleNextPage}
-            disabled={!hasMore}
-            className={`handWritten rounded-xl border-2 border-dashed px-6 py-3 text-lg font-semibold shadow-sm transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-amber-700/30 ${
-              !hasMore
-                ? 'cursor-not-allowed border-stone-300 bg-stone-100 text-stone-400'
-                : 'border-amber-900/30 bg-amber-50/60 text-stone-700 hover:bg-amber-100/60'
-            }`}
-          >
-            Next Page →
-          </button>
-        </div>
-      )}
+      <PaginationControls
+        currentPage={currentPage}
+        hasMore={hasMore}
+        loading={loading}
+        onPrev={handlePreviousPage}
+        onNext={handleNextPage}
+      />
     </div>
   );
 }

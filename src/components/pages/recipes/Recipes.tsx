@@ -1,5 +1,5 @@
-import { useEffect, useState, ChangeEvent } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useState, ChangeEvent, useRef } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import Lottie from 'lottie-react';
 import loadingAnimation from '../../../assets/cookingPotAnimation.json';
 import { getPagedRecipes } from '../../../api/api';
@@ -9,7 +9,7 @@ import SearchBox from './componenets/SearchBox';
 import CategoryFilters from './componenets/CategoryFilters';
 import AttributeFilters from './componenets/AttributeFilters';
 import RecipeGrid from './componenets/RecipeGrid';
-import PaginationControls from './componenets/PaginationControls';
+import PaginationControls from '../../shared/PaginationControls';
 
 interface Recipe {
   Id: string;
@@ -21,11 +21,14 @@ interface Recipe {
 
 function Recipes() {
   const { user } = UseAuth();
+  const [searchParams] = useSearchParams();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
-  const [filter, setFilter] = useState<string>(''); // ✅ filter is a string, never null
+  const [searchInput, setSearchInput] = useState<string>(''); // Input value
+  const [filter, setFilter] = useState<string>(''); // Applied filter
   const [loading, setLoading] = useState(false);
   const [currentPage, setCurrentPage] = useState(0);
   const [hasMore, setHasMore] = useState(true);
+  const requestIdRef = useRef(0);
   const itemsPerPage = 10;
 
   // Filters
@@ -38,8 +41,33 @@ function Recipes() {
   const [maxCookTime, setMaxCookTime] = useState<number | null>(null);
   const [showFilters, setShowFilters] = useState(false);
 
+  // Handle URL parameters for filtering
+  useEffect(() => {
+    const foodType = searchParams.get('foodType');
+    const mealType = searchParams.get('mealType');
+    const regionType = searchParams.get('regionType');
+
+    // Clear existing filters first
+    setSelectedFoods([]);
+    setSelectedMeals([]);
+    setSelectedRegions([]);
+
+    // Set new filters from URL parameters
+    if (foodType) {
+      setSelectedFoods([foodType]);
+    }
+    if (mealType) {
+      setSelectedMeals([mealType]);
+    }
+    if (regionType) {
+      setSelectedRegions([regionType]);
+    }
+  }, [searchParams]);
+
   const fetchRecipes = async (page: number) => {
+    const currentRequestId = ++requestIdRef.current;
     setLoading(true);
+    
     try {
       const data = await getPagedRecipes(page, itemsPerPage, {
         search: filter || undefined,
@@ -50,25 +78,26 @@ function Recipes() {
         spicy: isSpicy,
         maxCookTime: maxCookTime,
       });
-      const newRecipes: Recipe[] = data.RecipeDTOs || [];
-      setRecipes(newRecipes);
-      setHasMore(newRecipes.length === itemsPerPage);
+      
+      // Only update state if this is still the latest request
+      if (currentRequestId === requestIdRef.current) {
+        const newRecipes: Recipe[] = data.RecipeDTOs || [];
+        setRecipes(newRecipes);
+        setHasMore(newRecipes.length === itemsPerPage);
+      }
     } catch (error) {
       console.error('Failed to fetch recipes:', error);
-      setHasMore(false);
+      // Only update state if this is still the latest request
+      if (currentRequestId === requestIdRef.current) {
+        setHasMore(false);
+      }
     } finally {
-      setLoading(false);
+      // Only update loading state if this is still the latest request
+      if (currentRequestId === requestIdRef.current) {
+        setLoading(false);
+      }
     }
   };
-
-  useEffect(() => {
-    if (!user) {
-      setRecipes([]);
-      setHasMore(false);
-      return;
-    }
-    fetchRecipes(currentPage);
-  }, [currentPage, user]);
 
   const handleNextPage = () => {
     if (hasMore) {
@@ -82,27 +111,40 @@ function Recipes() {
     }
   };
 
-  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilter(e.target.value);
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
   };
 
-  // Whenever filters change, reset to first page and refetch
+  const handleSearch = () => {
+    setFilter(searchInput);
+  };
+
+  // Handle page changes
+  useEffect(() => {
+    if (!user) {
+      setRecipes([]);
+      setHasMore(false);
+      return;
+    }
+    fetchRecipes(currentPage);
+  }, [currentPage, user]);
+
+  // Handle filter changes - reset page and fetch
   useEffect(() => {
     if (!user) return;
     setCurrentPage(0);
     fetchRecipes(0);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filter, selectedMeals, selectedFoods, selectedRegions, isVegetarian, isSpicy, maxCookTime, user]);
+  }, [filter, selectedMeals, selectedFoods, selectedRegions, isVegetarian, isSpicy, maxCookTime, searchParams]);
 
   const renderContent = () => {
     if (loading) {
       return (
         <div className="left-0 flex h-full w-full flex-col items-center justify-center">
-          <Lottie
-            className="max-h-[350px] max-w-[350px]"
-            animationData={loadingAnimation}
-          />
-          <p className="mt-4 text-gray-600">Loading recipes...</p>
+        <Lottie
+          className="max-h-[250px] -mt-4 translate-y-[-100px]"
+          animationData={loadingAnimation}
+        />
+          <p className="mt-4 text-gray-600 translate-y-[-100px]">Loading recipes...</p>
         </div>
       );
     }
@@ -114,10 +156,10 @@ function Recipes() {
     return (
       <div className="left-0 flex h-full w-full flex-col items-center justify-center">
         <Lottie
-          className="max-h-[350px] max-w-[350px]"
+          className="max-h-[250px] -mt-4 translate-y-[-100px]"
           animationData={loadingAnimation}
         />
-        <p className="mt-4 text-gray-600">
+        <p className="mt-4 text-gray-600 translate-y-[-100px]">
           No recipes found matching your criteria.
         </p>
       </div>
@@ -158,10 +200,10 @@ function Recipes() {
   return (
     <div>
       {/* Filters */}
-            <div className="my-6 max-w-6xl mx-auto px-4">
+        <div className="my-6 max-w-6xl mx-auto px-4">
         {/* Search Box at the top */}
         <div className="mb-4">
-          <SearchBox value={filter} onChange={handleFilterChange} />
+          <SearchBox value={searchInput} onChange={handleSearchInputChange} onSearch={handleSearch} />
         </div>
 
         {/* Filters Dropdown */}

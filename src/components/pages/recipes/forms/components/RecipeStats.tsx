@@ -40,7 +40,7 @@ export default function RecipeStats() {
         <div className="text-xs md:text-sm text-gray-500">Prep Time</div>
         <input
           type="number"
-          value={recipeDraft.prepTimeMin === 0 ? undefined : recipeDraft.prepTimeMin}
+          value={recipeDraft.prepTimeMin || ''}
           onChange={(e) => handleTimeChange('prepTimeMin', parseInt(e.target.value) || 0)}
           onBlur={handleTimeBlur}
           className={`handWritten w-full text-center text-lg md:text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 rounded ${
@@ -60,7 +60,7 @@ export default function RecipeStats() {
         <div className="text-xs md:text-sm text-gray-500">Cook Time</div>
         <input
           type="number"
-          value={recipeDraft.cookTimeMin === 0 ? undefined : recipeDraft.cookTimeMin}
+          value={recipeDraft.cookTimeMin || ''}
           onChange={(e) => handleTimeChange('cookTimeMin', parseInt(e.target.value) || 0)}
           onBlur={handleTimeBlur}
           className={`handWritten w-full text-center text-lg md:text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 rounded ${
@@ -80,7 +80,7 @@ export default function RecipeStats() {
         <div className="text-xs md:text-sm text-gray-500">Serves</div>
         <input
           type="number"
-          value={recipeDraft.serves === 0 ? undefined : recipeDraft.serves}
+          value={recipeDraft.serves || ''}
           onChange={(e) => handleServesChange(parseInt(e.target.value) || 0)}
           onBlur={handleServesBlur}
           className={`handWritten w-full text-center text-lg md:text-2xl font-semibold border-none bg-transparent focus:outline-none focus:ring-2 rounded ${

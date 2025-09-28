@@ -92,7 +92,7 @@ export default function RecipesDropdown() {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute top-full left-[-50vw] mt-2 w-[90vw] sm:w-[600px] md:w-[800px] md:left-[-345px] bg-white rounded-2xl shadow-2xl border border-recipecentral-dark overflow-hidden z-50">
+        <div className="absolute top-full mt-2 w-[90vw] sm:w-[600px] md:w-[800px] bg-white rounded-2xl shadow-2xl border border-recipecentral-dark overflow-hidden z-50">
           <div className="p-4 sm:p-6 md:p-10">
             <h3 className="handWritten text-lg font-bold text-gray-900 mb-4 text-center">
               🍽️ Recipe Categories
@@ -136,7 +136,7 @@ export default function RecipesDropdown() {
                         onClick={() => setIsOpen(false)}
                         >
                         {showImage && (
-                            <div className="w-12 h-10 rounded-lg overflow-hidden flex-shrink-0">
+                            <div className="w-12 h-10 rounded-lg">
                             <img
                                 src={item.imagePath || '/assets/noFood.jpg'}
                                 alt={item.name}

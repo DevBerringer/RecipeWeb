@@ -1,6 +1,7 @@
 import { createContext, useContext, useState, ReactNode } from 'react';
 
 export type RecipeDraft = {
+  id?: string; // ID of the loaded draft, if any
   name: string;
   cuisineTypes: string[];
   mealTypes: string[];
@@ -124,7 +125,7 @@ export function RecipeDraftProvider({ children }: { children: ReactNode }) {
     const drafts = readDrafts();
     const found = drafts.find((d) => d.id === id);
     if (found) {
-      const loaded = { ...defaultRecipeDraft, ...found.draft } as RecipeDraft;
+      const loaded = { ...defaultRecipeDraft, ...found.draft, id } as RecipeDraft;
       setRecipeDraft(loaded);
       persistCurrentDraft(loaded);
     }
@@ -136,7 +137,7 @@ export function RecipeDraftProvider({ children }: { children: ReactNode }) {
   };
 
   const clearDraft = () => {
-    setRecipeDraft(defaultRecipeDraft);
+    setRecipeDraft({ ...defaultRecipeDraft, id: undefined });
     try {
       localStorage.removeItem('rc.currentDraft');
     } catch {}

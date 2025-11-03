@@ -21,7 +21,7 @@ export default function ProfileNav() {
 
   async function logout() {
     try {
-      const response = await SignOut();
+      await SignOut();
 
       // SignOut already clears tokens, but ensure user state is cleared
       setUser(null);

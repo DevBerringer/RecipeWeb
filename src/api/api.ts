@@ -37,7 +37,7 @@ const getRecipeApi = () => {
   }
 
   const instance = axios.create({
-    baseURL: `http://${window.$env.hosts.baseUrl}`,
+    baseURL: `https://${window.$env.hosts.baseUrl}`,
     // Removed: withCredentials: true (no longer using cookies)
     headers: {
       'Content-Type': 'application/json',
@@ -100,7 +100,7 @@ const getRecipeApi = () => {
         try {
           // Attempt to refresh the token
           const refreshResponse = await axios.post<RefreshTokenResponse>(
-            `http://${window.$env.hosts.baseUrl}${window.$env.hosts.auth.refresh}`,
+            `https://${window.$env.hosts.baseUrl}${window.$env.hosts.auth.refresh}`,
             { refreshToken },
             {
               headers: { 'Content-Type': 'application/json' },

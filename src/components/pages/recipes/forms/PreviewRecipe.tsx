@@ -10,6 +10,7 @@ import RecipeHeader from './components/RecipeHeader';
 import RecipeStats from './components/RecipeStats';
 import RecipeTags from './components/RecipeTags';
 import RecipeDescription from './components/RecipeDescription';
+import RecipeImage from './components/RecipeImage';
 import RecipeIngredients from './components/RecipeIngredients';
 import RecipeInstructions from './components/RecipeInstructions';
 import CategorySelectors from './components/CategorySelectors';
@@ -93,9 +94,15 @@ function PreviewRecipePageContent() {
       <div className="flex-1 mx-auto max-w-7xl space-y-6 md:space-y-10 p-4 md:p-8">
         <DraftControls />
         <RecipeHeader />
+        
+        {/* Description and Image Row */}
+        <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+          <RecipeDescription />
+          <RecipeImage />
+        </section>
+        
         <RecipeStats />
         <RecipeTags />
-        <RecipeDescription />
         
         {/* Ingredients + Instructions */}
         <section className="grid grid-cols-1 gap-6 md:gap-8 pt-2 md:grid-cols-2">

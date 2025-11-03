@@ -12,16 +12,16 @@ declare global {
           register: string;
           check: string;
           forgotPassword: string;
+          refresh: string; // Bearer token refresh endpoint
         };
         apis: {
-          users: string;
           updateUser: string;
           recipe: string;
-          recipes: string;
           pagedRecipes: string;
           addRecipe: string;
           uploadImage: string;
           categories: string;
+          users: string;
         };
       };
     };

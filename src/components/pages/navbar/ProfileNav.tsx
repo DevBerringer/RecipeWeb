@@ -20,14 +20,18 @@ export default function ProfileNav() {
   }
 
   async function logout() {
-    const response = await SignOut();
+    try {
+      const response = await SignOut();
 
-    if (response.message === 'User logged out successfully!') {
+      // SignOut already clears tokens, but ensure user state is cleared
       setUser(null);
-      localStorage.removeItem('userJWT');
       navigate('/');
-    } else {
-      // Clear input fields
+    } catch (error) {
+      // Even if API call fails, clear user state and redirect
+      // (tokens are already cleared by SignOut function)
+      console.error('Logout error:', error);
+      setUser(null);
+      navigate('/');
     }
   }
 

@@ -3,6 +3,7 @@ import { ValidationError, RecipeFormData, validateRecipe, getFieldError, hasFiel
 
 interface ValidationContextType {
   errors: ValidationError[];
+  validationEnabled: boolean;
   validateField: (field: string, value: any) => void;
   validateTimeFields: (prepTime: number, cookTime: number) => void;
   validateAll: (recipeData: RecipeFormData) => boolean;
@@ -11,14 +12,18 @@ interface ValidationContextType {
   getFieldError: (field: string) => string | undefined;
   hasFieldError: (field: string) => boolean;
   setErrors: (errors: ValidationError[]) => void;
+  setValidationEnabled: (enabled: boolean) => void;
 }
 
 const ValidationContext = createContext<ValidationContextType | undefined>(undefined);
 
 export function ValidationProvider({ children }: { children: React.ReactNode }) {
   const [errors, setErrors] = useState<ValidationError[]>([]);
+  const [validationEnabled, setValidationEnabled] = useState(true);
 
   const validateField = useCallback((field: string, value: any) => {
+    if (!validationEnabled) return;
+    
     setErrors(prev => prev.filter(error => error.field !== field));
     
     // Basic field validation
@@ -47,9 +52,11 @@ export function ValidationProvider({ children }: { children: React.ReactNode }) 
         setErrors(prev => [...prev, { field, message: 'Number of servings cannot exceed 50' }]);
       }
     }
-  }, []);
+  }, [validationEnabled]);
 
   const validateTimeFields = useCallback((prepTime: number, cookTime: number) => {
+    if (!validationEnabled) return;
+    
     // Clear existing time field errors
     setErrors(prev => prev.filter(error => 
       error.field !== 'prepTimeMin' && 
@@ -82,7 +89,7 @@ export function ValidationProvider({ children }: { children: React.ReactNode }) 
         { field: 'cookTimeMin', message: 'Either prep time or cook time must be greater than 0' }
       ]);
     }
-  }, []);
+  }, [validationEnabled]);
 
   const validateAll = useCallback((recipeData: RecipeFormData): boolean => {
     const result = validateRecipe(recipeData);
@@ -93,6 +100,10 @@ export function ValidationProvider({ children }: { children: React.ReactNode }) 
 
   const clearErrors = useCallback(() => {
     setErrors([]);
+  }, []);
+
+  const setValidationEnabledCallback = useCallback((enabled: boolean) => {
+    setValidationEnabled(enabled);
   }, []);
 
   const clearFieldError = useCallback((field: string) => {
@@ -115,6 +126,7 @@ export function ValidationProvider({ children }: { children: React.ReactNode }) 
     <ValidationContext.Provider
       value={{
         errors,
+        validationEnabled,
         validateField,
         validateTimeFields,
         validateAll,
@@ -123,6 +135,7 @@ export function ValidationProvider({ children }: { children: React.ReactNode }) 
         getFieldError: getFieldErrorCallback,
         hasFieldError: hasFieldErrorCallback,
         setErrors: setErrorsCallback,
+        setValidationEnabled: setValidationEnabledCallback,
       }}
     >
       {children}

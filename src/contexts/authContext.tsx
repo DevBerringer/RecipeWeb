@@ -19,7 +19,14 @@ function useAuthSource(): {
       const fetchedData = await getAuthentication();
       setUser(fetchedData);
     } catch (error) {
-      // Handle error, e.g., show an error message or retry
+      // Handle authentication errors gracefully
+      // If 401, tokens will be cleared by interceptor and user redirected
+      // For other errors, just clear user state
+      if ((error as any)?.response?.status !== 401) {
+        setUser(null);
+      }
+      // Don't log here as interceptor handles logging and redirects
+      // Silently fail - user is not authenticated
     }
   }, []);
 

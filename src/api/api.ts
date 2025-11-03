@@ -1,6 +1,34 @@
-import axios from 'axios';
+import axios, { AxiosError, AxiosRequestConfig } from 'axios';
+import { tokenStorage, LoginResponse, RefreshTokenResponse } from './tokenStorage';
 
-// Function to get the axios instance with the current config
+// Track if we're currently refreshing to avoid multiple simultaneous refresh requests
+let isRefreshing = false;
+let failedQueue: Array<{
+  resolve: (value?: any) => void;
+  reject: (error?: any) => void;
+}> = [];
+
+const processQueue = (error: any, token: string | null = null) => {
+  failedQueue.forEach((prom) => {
+    if (error) {
+      prom.reject(error);
+    } else {
+      prom.resolve(token);
+    }
+  });
+
+  failedQueue = [];
+};
+
+/**
+ * Function to get the axios instance with Bearer token authentication
+ * 
+ * Features:
+ * - Automatically adds Authorization header with Bearer token
+ * - Handles 401 errors by attempting token refresh
+ * - Queues requests during token refresh to prevent race conditions
+ * - Clears tokens and redirects on auth failure
+ */
 const getRecipeApi = () => {
   if (!window.$env) {
     throw new Error(
@@ -8,39 +36,195 @@ const getRecipeApi = () => {
     );
   }
 
-  return axios.create({
-    baseURL: `https://${window.$env.hosts.baseUrl}`,
-    withCredentials: true, // Add this globally here
+  const instance = axios.create({
+    baseURL: `http://${window.$env.hosts.baseUrl}`,
+    // Removed: withCredentials: true (no longer using cookies)
+    headers: {
+      'Content-Type': 'application/json',
+    },
   });
+
+  // Request interceptor: Add Bearer token to all requests
+  instance.interceptors.request.use(
+    (config) => {
+      const token = tokenStorage.getAccessToken();
+      if (token && config.headers) {
+        config.headers.Authorization = `Bearer ${token}`;
+      }
+      return config;
+    },
+    (error) => {
+      return Promise.reject(error);
+    }
+  );
+
+  // Response interceptor: Handle 401 errors with automatic token refresh
+  instance.interceptors.response.use(
+    (response) => response,
+    async (error: AxiosError) => {
+      const originalRequest = error.config as AxiosRequestConfig & { _retry?: boolean };
+
+      // If we get a 401 and haven't already retried
+      if (error.response?.status === 401 && !originalRequest._retry) {
+        if (isRefreshing) {
+          // If already refreshing, queue this request
+          return new Promise((resolve, reject) => {
+            failedQueue.push({ resolve, reject });
+          })
+            .then((token) => {
+              if (originalRequest.headers) {
+                originalRequest.headers.Authorization = `Bearer ${token}`;
+              }
+              return instance(originalRequest);
+            })
+            .catch((err) => {
+              return Promise.reject(err);
+            });
+        }
+
+        originalRequest._retry = true;
+        isRefreshing = true;
+
+        const refreshToken = tokenStorage.getRefreshToken();
+
+        if (!refreshToken) {
+          // No refresh token available, clear everything
+          isRefreshing = false;
+          tokenStorage.clearAllTokens();
+          processQueue(new Error('No refresh token available'), null);
+          
+          // Don't redirect - let the app handle unauthenticated state gracefully
+          return Promise.reject(error);
+        }
+
+        try {
+          // Attempt to refresh the token
+          const refreshResponse = await axios.post<RefreshTokenResponse>(
+            `http://${window.$env.hosts.baseUrl}${window.$env.hosts.auth.refresh}`,
+            { refreshToken },
+            {
+              headers: { 'Content-Type': 'application/json' },
+            }
+          );
+
+          const newAccessToken = refreshResponse.data.accessToken;
+          
+          if (newAccessToken) {
+            // Store the new access token
+            tokenStorage.setAccessToken(newAccessToken);
+            
+            // Update refresh token if rotated
+            if (refreshResponse.data.refreshToken) {
+              tokenStorage.setRefreshToken(refreshResponse.data.refreshToken);
+            }
+
+            // Update the original request with new token
+            if (originalRequest.headers) {
+              originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+            }
+
+            // Process queued requests
+            isRefreshing = false;
+            processQueue(null, newAccessToken);
+
+            // Retry the original request
+            return instance(originalRequest);
+          } else {
+            throw new Error('No access token in refresh response');
+          }
+        } catch (refreshError) {
+          // Refresh failed - clear tokens
+          isRefreshing = false;
+          tokenStorage.clearAllTokens();
+          processQueue(refreshError, null);
+          
+          // Don't redirect - let the app handle auth failure gracefully
+          return Promise.reject(refreshError);
+        }
+      }
+
+      // For non-401 errors, just reject
+      return Promise.reject(error);
+    }
+  );
+
+  return instance;
 };
 
 // Security
 
+/**
+ * Sign in user and store access/refresh tokens
+ * 
+ * Expected Spring backend response format:
+ * {
+ *   accessToken: string,
+ *   refreshToken: string,
+ *   // ... other user data
+ * }
+ * 
+ * Also supports alternative formats:
+ * - { token: string, refreshToken: string }
+ * - { access_token: string, refresh_token: string }
+ */
 export const Signin = async (User: { username: string; password: string }) => {
   try {
-    const response = await getRecipeApi().post(
+    const response = await getRecipeApi().post<LoginResponse>(
       window.$env.hosts.auth.login,
       User,
       {
         headers: { 'Content-Type': 'application/json' },
       }
     );
+
+    const data = response.data;
+
+    // Extract and store tokens (support multiple response formats)
+    const accessToken = data.accessToken || data.token || data.access_token;
+    const refreshToken = data.refreshToken || data.refresh_token;
+
+    if (accessToken) {
+      tokenStorage.setAccessToken(accessToken);
+    } else {
+      console.warn('No access token received in login response');
+    }
+
+    if (refreshToken) {
+      tokenStorage.setRefreshToken(refreshToken);
+    } else {
+      console.warn('No refresh token received in login response');
+    }
+
     return response.data;
   } catch (error) {
     console.error('Error Logging in:', error);
+    // Clear any partial token storage on login failure
+    tokenStorage.clearAllTokens();
     throw error;
   }
 };
 
+/**
+ * Sign out user and clear all tokens
+ * 
+ * Clears tokens even if the API call fails to ensure
+ * proper logout on the client side
+ */
 export const SignOut = async () => {
   try {
     const response = await getRecipeApi().post(
       window.$env.hosts.auth.signOut,
       null
     );
+    
+    // Always clear tokens, even if API call succeeds
+    tokenStorage.clearAllTokens();
+    
     return response.data;
   } catch (error) {
     console.error('Error Signing out:', error);
+    // Still clear tokens even if API call fails
+    tokenStorage.clearAllTokens();
     throw error;
   }
 };
@@ -121,17 +305,6 @@ export const updateProfile = async (userUpdate: {
     return response.data;
   } catch (error) {
     console.error('Error updating profile:', error);
-    throw error;
-  }
-};
-
-// Recipes
-export const getRecipes = async () => {
-  try {
-    const response = await getRecipeApi().get(window.$env.hosts.apis.recipes);
-    return response.data;
-  } catch (error) {
-    console.error('Error fetching recipes:', error);
     throw error;
   }
 };
@@ -248,7 +421,8 @@ export const uploadRecipeImage = async (file: File | null) => {
     formData,
     {
       headers: { 'Content-Type': 'multipart/form-data' },
-      withCredentials: true,
+      // Removed: withCredentials: true (Bearer token in header instead)
+      // Note: Content-Type will be set automatically by axios for FormData
     }
   );
 

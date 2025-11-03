@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useRecipeDraft } from '../../../../../contexts/RecipeDraftContext';
+import { useValidation } from '../contexts/ValidationContext';
 
 export default function DraftControls() {
   const { 
@@ -10,6 +11,7 @@ export default function DraftControls() {
     loadDraft, 
     deleteDraft 
   } = useRecipeDraft();
+  const { clearErrors, setValidationEnabled } = useValidation();
   const [drafts, setDrafts] = useState(listDrafts());
   const [refreshKey, setRefreshKey] = useState(0);
   const [notification, setNotification] = useState<{message: string, type: 'info' | 'success' | 'warning' | 'error'} | null>(null);
@@ -60,9 +62,17 @@ export default function DraftControls() {
   };
 
   const confirmNewRecipe = () => {
+    // Disable validation temporarily
+    setValidationEnabled(false);
     clearDraft();
+    clearErrors();
     setShowNewConfirmModal(false);
     showNotification('Started a new recipe!', 'success');
+    
+    // Re-enable validation after a short delay to allow form to update
+    setTimeout(() => {
+      setValidationEnabled(true);
+    }, 100);
   };
 
   return (

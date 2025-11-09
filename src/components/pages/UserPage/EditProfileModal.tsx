@@ -90,7 +90,7 @@ function EditProfileModal({
       role="dialog"
       aria-modal="true"
     >
-      <div className="handWritten mx-4 w-full max-w-4xl rounded-3xl bg-white shadow-2xl">
+      <div className="handWritten mx-4 w-full max-w-4xl rounded-3xl bg-white shadow-2xl max-h-[90vh] overflow-y-auto">
         {/* Header */}
         <div className="border-b border-gray-200 px-8 py-6">
           <div className="flex items-center justify-between">

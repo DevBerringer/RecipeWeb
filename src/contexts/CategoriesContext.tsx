@@ -55,8 +55,8 @@ export const CategoriesProvider: React.FC<{ children: React.ReactNode }> = ({
       setCategories(data);
       setError(null);
     } catch (err) {
-      setError('Failed to fetch categories.');
-      console.error(err);
+      // Silently fail - categories may not be available if not authenticated
+      setError(null);
     } finally {
       setLoading(false);
     }

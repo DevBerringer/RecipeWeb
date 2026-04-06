@@ -46,6 +46,7 @@ function useUserSource(): {
       dispatch({ type: 'setUsers', payload: fetchedData.UserDTOs });
     } catch (error) {
       // Handle error, e.g., show an error message or retry
+      // Silently fail - users list may not be available if not authenticated
     }
   }, []);
 

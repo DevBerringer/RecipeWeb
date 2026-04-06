@@ -78,7 +78,7 @@ function UserPage() {
                 <button
                   type="button"
                   onClick={handleEditProfileClick}
-                  className="rounded-md bg-white px-4 py-2 text-sm font-medium hover:text-amber-950"
+                  className="rounded-md bg-white text-sm font-medium hover:text-amber-950 hover:underline"
                 >
                   Edit Profile
                 </button>
@@ -90,13 +90,7 @@ function UserPage() {
       </div>
 
       {/* Recipes Section */}
-      <div className="mt-8">
-        <div className="mb-4 flex items-center justify-between p-5">
-          <h2 className="text-xl font-bold text-gray-900">Recipes</h2>
-          {currentProfile?.Username === user?.Username && (
-            <span className="text-sm text-gray-500">Your added recipes</span>
-          )}
-        </div>
+      <div className="m-4">
         <div className="rounded-2xl bg-white p-4">
           <RecipeProfileList
             createdByFilter={currentProfile ? currentProfile.Id : ''}

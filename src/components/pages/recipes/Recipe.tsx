@@ -4,6 +4,8 @@ import { useParams } from 'react-router-dom';
 import Lottie from 'lottie-react';
 import { useCategories } from '../../../contexts/CategoriesContext';
 import RecipeTag from './componenets/RecipeTag';
+import IngredientItem from './componenets/IngredientItem';
+import InstructionStep from './componenets/InstructionStep';
 import { getRecipeById } from '../../../api/api';
 import loadingAnimation from '../../../assets/cookingPotAnimation.json';
 
@@ -87,45 +89,65 @@ function RecipePage() {
   ];
 
   return (
-    <div className="mx-auto max-w-7xl space-y-10 p-8">
+    <div className="mx-auto max-w-7xl space-y-6 lg:space-y-10 p-4 lg:p-8">
       {/* Header */}
-      <header className="flex flex-wrap items-center justify-between">
-        <h1 className="text-5xl font-bold text-gray-900">
+      <header className="flex flex-col items-center">
+        <h1 className="handWritten text-center text-2xl lg:text-5xl font-bold text-gray-900">
           {currentRecipe.Name ? currentRecipe.Name : ''}
         </h1>
-        <p className="text-gray-500">
+        <div className="mt-2 text-sm lg:text-lg font-semibold text-gray-600">
           Created: {new Date(currentRecipe.CreatedDate).toLocaleDateString()}
-        </p>
+        </div>
       </header>
 
-      {/* Featured Image */}
-      {currentRecipe.SelectedImage && (
-        <div className="overflow-hidden rounded-xl shadow-lg">
-          <img
-            src={currentRecipe.SelectedImage}
-            alt="Recipe"
-            className="h-[400px] w-full object-cover"
-          />
+      {/* Description and Image Row */}
+      <section className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8">
+        {/* Description */}
+        <div className="space-y-4">
+          <h3 className="handWritten text-xl font-semibold text-gray-800">
+            📝 Description
+          </h3>
+          <div className="handWritten text-lg text-gray-700">
+            {currentRecipe.Description}
+          </div>
         </div>
-      )}
+
+        {/* Image */}
+        <div className="space-y-4">
+          {currentRecipe.SelectedImage ? (
+            <div className="overflow-hidden rounded-xl shadow-lg">
+              <img
+                src={currentRecipe.SelectedImage}
+                alt="Recipe"
+                className="h-[300px] w-full object-cover"
+              />
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-[300px] w-full rounded-xl border-2 border-dashed border-gray-300 bg-gray-50">
+              <p className="handWritten text-gray-500 text-lg">No image available</p>
+            </div>
+          )}
+        </div>
+      </section>
 
       {/* Quick Stats */}
-      <section className="grid grid-cols-2 gap-4 md:grid-cols-5">
+      <section className="grid grid-cols-2 gap-2 lg:gap-4 md:grid-cols-3 lg:grid-cols-5">
         {[
           ['Prep Time', `${currentRecipe.PrepTimeMin} min`],
           ['Cook Time', `${currentRecipe.CookTimeMin} min`],
           ['Serves', currentRecipe.Serves || 'N/A'],
-          ['Spicy', currentRecipe.IsSpicy ? '🔥' : '❄️'],
+          ['Spicy', currentRecipe.isSpicy ? '🔥' : '❄️'],
           ['Vegetarian', currentRecipe.IsVegetarian ? '🌱' : '🍖'],
         ].map(([label, value], idx) => (
-          <div key={idx} className="rounded-lg bg-white p-4 text-center shadow">
-            <div className="text-sm text-gray-500">{label}</div>
-            <div className="text-2xl font-semibold">{value}</div>
+          <div key={idx} className="rounded-lg bg-white p-2 lg:p-4 text-center shadow">
+            <div className="text-xs lg:text-sm text-gray-500">{label}</div>
+            <div className="text-lg lg:text-2xl font-semibold">{value}</div>
           </div>
         ))}
       </section>
+
       {/* Tag Sections */}
-      <section className="grid grid-cols-1 gap-6 md:grid-cols-3">
+      <section className="grid grid-cols-1 gap-4 lg:gap-6 md:grid-cols-2 lg:grid-cols-3">
         {tagSections
           .filter((section) => section.tags.length > 0)
           .map(({ title, tags, baseColor, borderColor, shadowColor }, idx) => (
@@ -147,39 +169,28 @@ function RecipePage() {
           ))}
       </section>
 
-      <section>
-        <div>{currentRecipe.Description}</div>
-      </section>
-
       {/* Ingredients + Instructions */}
-      <section className="grid grid-cols-1 gap-8 pt-2 md:grid-cols-2">
+      <section className="grid grid-cols-1 gap-6 lg:gap-8 pt-2 lg:grid-cols-2">
         {/* Ingredients */}
         <div className="space-y-4">
-          <h2 className="font-['Mynerve'] text-3xl font-semibold text-gray-800">
+          <h2 className="font-['Mynerve'] text-2xl lg:text-3xl font-semibold text-gray-800">
             📝 Ingredients
           </h2>
           <div className="space-y-2">
             {currentRecipe.Ingredients.map((ingredient, idx) => (
-              <div
-                key={idx}
-                className="rounded border border-gray-200 bg-white p-3 text-lg shadow"
-              >
-                {ingredient}
-              </div>
+              <IngredientItem key={idx} ingredient={ingredient} idx={idx} />
             ))}
           </div>
         </div>
 
         {/* Instructions */}
         <div className="space-y-4">
-          <h2 className="font-['Mynerve'] text-3xl font-semibold text-gray-800">
+          <h2 className="font-['Mynerve'] text-2xl lg:text-3xl font-semibold text-gray-800">
             👩‍🍳 Instructions
           </h2>
-          <ol className="list-decimal space-y-4 pl-5">
+          <ol className="list-none space-y-8 pl-0">
             {currentRecipe.Steps.map((step, idx) => (
-              <li key={idx} className="text-lg text-gray-800">
-                {step}
-              </li>
+              <InstructionStep key={idx} step={step} />
             ))}
           </ol>
         </div>
@@ -187,13 +198,13 @@ function RecipePage() {
 
       {/* Comments */}
       {currentRecipe.Comments && currentRecipe.Comments.length > 0 && (
-        <section className="pt-8">
-          <h2 className="text-3xl font-semibold text-gray-800">💬 Comments</h2>
+        <section className="pt-6 lg:pt-8">
+          <h2 className="handWritten text-2xl lg:text-3xl font-semibold text-gray-800">💬 Comments</h2>
           <ul className="mt-4 space-y-2 pl-4">
             {currentRecipe.Comments.map((comment, idx) => (
               <li
                 key={idx}
-                className="rounded border border-gray-200 bg-gray-50 p-3"
+                className="handWritten rounded border border-gray-200 bg-gray-50 p-3 text-lg"
               >
                 {comment}
               </li>

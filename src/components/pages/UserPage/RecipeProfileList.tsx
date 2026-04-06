@@ -4,6 +4,7 @@ import RecipeCard from '../recipes/RecipeCard';
 import Lottie from 'lottie-react';
 import { getPagedRecipes } from '../../../api/api';
 import loadingAnimation from '../../../assets/cookingPotAnimation.json';
+import PaginationControls from '../../shared/PaginationControls';
 
 interface RecipeProfileListProps {
   createdByFilter: string | null;
@@ -22,6 +23,7 @@ interface Recipe {
 }
 
 function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
+  const [searchInput, setSearchInput] = useState('');
   const [filter, setFilter] = useState('');
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
@@ -50,8 +52,12 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
     fetchRecipes(currentPage);
   }, [currentPage]);
 
-  const handleFilterChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setFilter(e.target.value);
+  const handleSearchInputChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  };
+
+  const handleSearch = () => {
+    setFilter(searchInput);
   };
 
   const handleNextPage = () => {
@@ -71,19 +77,31 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
-        <div className="mt-4 flex">
-          <input
-            type="text"
-            id="recipeNameFilter"
-            className="flex-2 border shadow-md focus:shadow-outline appearance-none rounded px-3 py-2 leading-tight text-gray-700 focus:outline-none"
-            placeholder="Enter recipe name..."
-            value={filter}
-            onChange={handleFilterChange}
-          />
+      <div className="mb-8 flex flex-col items-center gap-6 sm:flex-row sm:justify-between">
+        <div className="flex w-full max-w-md items-center">
+          <div className="relative w-full">
+            <div className="flex gap-2">
+              <input
+                type="text"
+                id="recipeNameFilter"
+                className="handWritten flex-1 rounded-2xl border-2 border-dashed border-amber-900/30 bg-amber-50/60 px-6 py-4 text-center text-xl shadow-sm focus:outline-none focus:ring-2 focus:ring-amber-700/30"
+                placeholder="🔍 Search recipes..."
+                value={searchInput}
+                onChange={handleSearchInputChange}
+                onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+              />
+              <button
+                type="button"
+                onClick={handleSearch}
+                className="handWritten rounded-2xl bg-recipecentral px-4 py-4 hover:text-white font-semibold shadow-sm hover:bg-recipecentral-dark transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-recipecentral focus:ring-offset-2"
+              >
+                🔍 Search
+              </button>
+            </div>
+          </div>
         </div>
-        <div className="pt-2 text-right text-2xl">
-          Recipes {filteredRecipes?.length}
+        <div className="handWritten text-center text-2xl font-semibold text-stone-700">
+          📚 {filteredRecipes?.length} Recipe{filteredRecipes?.length !== 1 ? 's' : ''}
         </div>
       </div>
 
@@ -111,40 +129,21 @@ function RecipeProfileList({ createdByFilter }: RecipeProfileListProps) {
           ))}
         </div>
       ) : (
-        <div className="my-4 flex items-center justify-center">
-          <div className="max-w-lg rounded bg-gray-100 p-4 text-center text-lg text-gray-500">
-            No recipes found
+        <div className="my-8 flex items-center justify-center">
+          <div className="handWritten max-w-lg rounded-2xl border-2 border-dashed border-stone-300 bg-stone-50/60 p-8 text-center text-xl text-stone-600 shadow-sm">
+            📝 No recipes found in this cookbook
           </div>
         </div>
       )}
 
       {/* Pagination Controls */}
-      {!loading && (
-        <div className="my-6 flex justify-center space-x-4">
-          <button
-            onClick={handlePreviousPage}
-            disabled={currentPage === 0}
-            className={`rounded-md px-6 py-3 focus:outline-none focus:ring-2 ${
-              currentPage === 0
-                ? 'cursor-not-allowed bg-gray-300 text-gray-500'
-                : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 focus:ring-opacity-50'
-            }`}
-          >
-            Previous
-          </button>
-          <button
-            onClick={handleNextPage}
-            disabled={!hasMore}
-            className={`rounded-md px-6 py-3 focus:outline-none focus:ring-2 ${
-              !hasMore
-                ? 'cursor-not-allowed bg-gray-300 text-gray-500'
-                : 'bg-blue-500 text-white hover:bg-blue-600 focus:ring-blue-500 focus:ring-opacity-50'
-            }`}
-          >
-            Next
-          </button>
-        </div>
-      )}
+      <PaginationControls
+        currentPage={currentPage}
+        hasMore={hasMore}
+        loading={loading}
+        onPrev={handlePreviousPage}
+        onNext={handleNextPage}
+      />
     </div>
   );
 }
